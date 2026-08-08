@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="light" data-palette="alpine-emerald">
+<html lang="en" data-theme="light" data-theme-preset="alpine-emerald">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -662,7 +662,8 @@
     }
 
     function applyPalette(name) {
-      document.documentElement.setAttribute('data-palette', name);
+      // Sets the data-theme-preset attribute on <html> — must match palette.css selectors
+      document.documentElement.setAttribute('data-theme-preset', name);
     }
 
     // Auto-register --line-gradient-v for static showcase route boards
