@@ -1,6 +1,17 @@
 /**
  * @file sw.js
- * @description SERVICE WORKER — provides offline capability for Trip Planner.
+ * @description SERVICE WORKER — provides offline capability for the Trip Planner.
+ *
+ * Caching strategy: Cache-First for all static app shell assets (HTML, CSS, JS,
+ * data files) with Stale-While-Revalidate background refresh. Network-First
+ * for external APIs (open.er-api.com, openfreemap.org tile CDN).
+ *
+ * AGENTS — IMPORTANT: Bump CACHE_NAME after ANY change to JS, CSS, HTML, or
+ * data files so returning users with a cached service worker receive the
+ * updated assets. Increment the version number (e.g. v1 → v2). Failing to
+ * do this means users may see stale code even after a deployment.
+ *
+ * @see AGENTS.md — Service Worker & PWA Rules section.
  */
 
 const CACHE_NAME = 'trip-planner-v1';

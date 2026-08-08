@@ -2,6 +2,102 @@
  * @file site-data.js
  * @description DATA SOURCE — All non-itinerary structured content for the trip.
  * Sets window.SITE_DATA for consumption by render.js and map.js.
+ *
+ * AGENTS — Top-level schema reference:
+ * ──────────────────────────────────────────────
+ * SITE_DATA = {
+ *
+ *   overview: {
+ *     cards: Array<{                 // Rendered by renderOverview() grid
+ *       id: string,                  // DOM id (e.g. "overview-pace")
+ *       icon: emoji,
+ *       title: BilingualObj,         // { en: string, zh: string }
+ *       desc: BilingualObj
+ *     }>,
+ *     routeBoard: {                  // Railway milestone board config
+ *       style: string,               // Overridden by TRIP_CONFIG.routeBoardStyle
+ *       badge: string,               // Optional header badge text
+ *       lineTitle: BilingualObj,
+ *       direction: BilingualObj      // Optional direction label
+ *     },
+ *     routeStops: Array<{            // One entry per destination stop
+ *       label: string,               // Station code prefix (e.g. "ZRH")
+ *       number: string,              // Station code number (e.g. "01")
+ *       color: string,               // CSS color hex for dot and gradient
+ *       nameEn: string,              // Primary language city name
+ *       nameZh: string,              // Secondary language city name
+ *       nameRomaji: string,          // Sub-label (romanization or subtitle)
+ *       days: BilingualObj,          // Night count badge (e.g. { en: "2 Nights" })
+ *       lat: number, lng: number     // GPS for route map plotting
+ *     }>
+ *   },
+ *
+ *   tips: Array<{                    // Rendered by renderTips()
+ *     id: string,
+ *     icon: emoji,
+ *     title: BilingualObj,
+ *     items: Array<BilingualObj | { title: BilingualObj, desc: BilingualObj }>
+ *   }>,
+ *
+ *   packing: Array<{                 // Rendered by renderPacking()
+ *     icon: emoji,
+ *     title: BilingualObj,
+ *     items: Array<BilingualObj & { id?: string }>
+ *   }>,
+ *
+ *   budget: {
+ *     items: Array<{                 // Rendered by renderBudget()
+ *       category: BilingualObj,
+ *       baseAmount: string,          // Formatted string (e.g. "CHF 800–1,200")
+ *       min: number, max: number,   // Raw base-currency numbers for conversion
+ *       notes: BilingualObj
+ *     }>,
+ *     total: {                      // Budget summary row
+ *       category, baseAmount, min, max, notes   // Same shape as items
+ *     }
+ *   },
+ *
+ *   hotels: {
+ *     quickLegs: Array<{             // Rendered by renderHotels() as pills
+ *       label: BilingualObj,
+ *       dest: string,                // Booking.com destination name
+ *       checkin: string,             // ISO date YYYY-MM-DD
+ *       checkout: string,
+ *       active: boolean
+ *     }>,
+ *     legs: Array<{                  // Curated stay cards
+ *       legNum: string,
+ *       nights: BilingualObj,
+ *       dates: string,
+ *       title: BilingualObj,
+ *       desc: BilingualObj,
+ *       dest: string,                // Booking.com destination
+ *       checkin: string, checkout: string,
+ *       tags: string[]
+ *     }>
+ *   },
+ *
+ *   transit: {
+ *     cards: Array<{                 // Rendered by renderTransit()
+ *       id: string,
+ *       icon: emoji,
+ *       title: BilingualObj,
+ *       details: BilingualObj        // Also accepts 'desc' or 'description'
+ *     }>
+ *   },
+ *
+ *   emergency: {                     // Optional; renders a banner in renderTips()
+ *     contacts: Array<{ number: string, label: BilingualObj }>
+ *   }
+ * }
+ *
+ * BilingualObj = { [primaryCode]: string, [secondaryCode]: string }
+ *   where codes match TRIP_CONFIG.languages.primary.code / secondary.code.
+ *
+ * @see data/config.js       — Language codes and feature flags.
+ * @see js/render.js         — Consuming render functions.
+ * @see data/itinerary-data.js — Day-by-day schedule (separate file).
+ * @see AGENTS.md            — Data-driven pattern rules.
  */
 
 const SITE_DATA = {

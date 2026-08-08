@@ -26,6 +26,163 @@
     /* ═══════════════════════════════════════════════════════════════
        GREETING & PORTAL HUB STYLES
        ═══════════════════════════════════════════════════════════════ */
+
+    /* ════ PROMPT MODAL ════ */
+    .prompt-modal-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(5, 10, 20, 0.82);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.25s ease;
+    }
+    .prompt-modal-overlay.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .prompt-modal {
+      position: relative;
+      background: #0D1B2A;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 24px;
+      padding: 40px;
+      max-width: 760px;
+      width: 100%;
+      max-height: 88vh;
+      overflow-y: auto;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.55);
+      transform: translateY(12px);
+      transition: transform 0.28s cubic-bezier(0.4,0,0.2,1);
+    }
+    [data-theme="light"] .prompt-modal {
+      background: #F8FAFC;
+      border-color: rgba(0,0,0,0.1);
+    }
+    .prompt-modal-overlay.open .prompt-modal {
+      transform: translateY(0);
+    }
+    .prompt-modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .prompt-modal-title {
+      font-size: 1.35rem;
+      font-weight: 800;
+      color: #F8FAFC;
+      line-height: 1.3;
+    }
+    [data-theme="light"] .prompt-modal-title {
+      color: #0F172A;
+    }
+    .prompt-modal-close {
+      flex-shrink: 0;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #94A3B8;
+      font-size: 1.1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+    [data-theme="light"] .prompt-modal-close {
+      background: #E2E8F0;
+      border-color: #CBD5E1;
+      color: #475569;
+    }
+    .prompt-modal-close:hover {
+      background: rgba(255,255,255,0.18);
+      color: #fff;
+    }
+    .prompt-how-to {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #94A3B8;
+      margin-bottom: 20px;
+      padding: 14px 18px;
+      background: rgba(16,185,129,0.08);
+      border: 1px solid rgba(16,185,129,0.2);
+      border-radius: 12px;
+    }
+    [data-theme="light"] .prompt-how-to {
+      color: #334155;
+      background: rgba(16,185,129,0.06);
+    }
+    .prompt-how-to strong { color: #10B981; }
+    .prompt-code-box {
+      position: relative;
+      background: #020818;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      padding: 20px 24px;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 0.83rem;
+      line-height: 1.65;
+      color: #CBD5E1;
+      white-space: pre-wrap;
+      word-break: break-word;
+      overflow-y: auto;
+      max-height: 380px;
+    }
+    [data-theme="light"] .prompt-code-box {
+      background: #1E293B;
+      color: #E2E8F0;
+    }
+    .prompt-copy-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 6px 14px;
+      border-radius: 8px;
+      background: rgba(16,185,129,0.15);
+      border: 1px solid rgba(16,185,129,0.3);
+      color: #10B981;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .prompt-copy-btn:hover {
+      background: rgba(16,185,129,0.28);
+    }
+    .prompt-copy-btn.copied {
+      background: rgba(16,185,129,0.4);
+      color: #fff;
+    }
+    .prompt-modal-footer {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .prompt-gh-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #64748B;
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .prompt-gh-link:hover { color: #10B981; }
+
     .portal-hero {
       position: relative;
       min-height: 85vh;
@@ -439,7 +596,7 @@
         <a href="#features"><span class="lang-en">Features</span><span class="lang-zh lang-secondary">核心特色</span></a>
         <a href="showcase.html"><span class="lang-en">Themes & Transit Showcase</span><span class="lang-zh lang-secondary">樣式展示</span></a>
         <a href="#quickstart"><span class="lang-en">Quick Start</span><span class="lang-zh lang-secondary">快速上手</span></a>
-        <a href="prompts/trip-planner-prompt.md"><span class="lang-en">AI Prompt</span><span class="lang-zh lang-secondary">AI 提示詞</span></a>
+        <a href="https://github.com/IanMaHKG/Trip_Planner/blob/main/prompts/trip-planner-prompt.md" target="_blank" rel="noopener"><span class="lang-en">AI Prompt</span><span class="lang-zh lang-secondary">AI 提示詞</span></a>
       </div>
 
       <div class="nav-actions">
@@ -555,6 +712,8 @@
         <p class="section-desc">
           <span class="lang-en">Click "Launch Live Plan" to experience each fully interactive trip planner instance in action.</span>
           <span class="lang-zh lang-secondary">點擊「立即開啟行程」體驗各行程之完整互動地圖、貨幣換算與每日時刻表。</span>
+        </p>
+      </div>
       <div class="plans-category-bar" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 28px; flex-wrap: wrap;">
         <button class="btn btn-secondary category-btn active" onclick="filterPlans('all', this)" style="padding: 8px 18px; font-size: 0.88rem; border-radius: 9999px;">
           <span class="lang-en">All 5 Plans</span><span class="lang-zh lang-secondary">全部 5 大行程</span>
@@ -569,6 +728,7 @@
           <span>🌎</span> <span class="lang-en">Americas</span><span class="lang-zh lang-secondary">美洲 (美東新英格蘭)</span>
         </button>
       </div>
+
 
       <div class="plans-grid">
         <!-- PLAN 1: Switzerland & Italy -->
@@ -608,10 +768,10 @@
               <span class="lang-en">Launch Live Plan</span>
               <span class="lang-zh lang-secondary">開啟瑞士行程</span>
             </a>
-            <a href="examples/01-switzerland-italy-13days/PROMPT.md" class="btn-prompt" title="View AI Generation Prompt">
-              <span>📄</span>
+            <button class="btn-prompt" title="View AI Generation Prompt" onclick="openPromptModal('switzerland')">
+              <span>📋</span>
               <span>Prompt</span>
-            </a>
+            </button>
           </div>
         </div>
 
@@ -652,10 +812,10 @@
               <span class="lang-en">Launch Live Plan</span>
               <span class="lang-zh lang-secondary">開啟日本行程</span>
             </a>
-            <a href="examples/02-japan-tokyo-kyoto-5days/PROMPT.md" class="btn-prompt" title="View AI Generation Prompt">
-              <span>📄</span>
+            <button class="btn-prompt" title="View AI Generation Prompt" onclick="openPromptModal('japan')">
+              <span>📋</span>
               <span>Prompt</span>
-            </a>
+            </button>
           </div>
         </div>
 
@@ -696,10 +856,10 @@
               <span class="lang-en">Launch Live Plan</span>
               <span class="lang-zh lang-secondary">開啟英國行程</span>
             </a>
-            <a href="examples/03-uk-london-scotland-10days/PROMPT.md" class="btn-prompt" title="View AI Generation Prompt">
-              <span>📄</span>
+            <button class="btn-prompt" title="View AI Generation Prompt" onclick="openPromptModal('uk')">
+              <span>📋</span>
               <span>Prompt</span>
-            </a>
+            </button>
           </div>
         </div>
 
@@ -740,10 +900,10 @@
               <span class="lang-en">Launch Live Plan</span>
               <span class="lang-zh lang-secondary">開啟香港行程</span>
             </a>
-            <a href="examples/04-hong-kong-7days/PROMPT.md" class="btn-prompt" title="View AI Generation Prompt">
-              <span>📄</span>
+            <button class="btn-prompt" title="View AI Generation Prompt" onclick="openPromptModal('hongkong')">
+              <span>📋</span>
               <span>Prompt</span>
-            </a>
+            </button>
           </div>
         </div>
 
@@ -784,10 +944,10 @@
               <span class="lang-en">Launch Live Plan</span>
               <span class="lang-zh lang-secondary">開啟美東行程</span>
             </a>
-            <a href="examples/05-us-new-england-14days/PROMPT.md" class="btn-prompt" title="View AI Generation Prompt">
-              <span>📄</span>
+            <button class="btn-prompt" title="View AI Generation Prompt" onclick="openPromptModal('newengland')">
+              <span>📋</span>
               <span>Prompt</span>
-            </a>
+            </button>
           </div>
         </div>
       </div>
@@ -822,7 +982,7 @@
             <span class="lang-zh lang-secondary">解耦三文件數據架構</span>
           </h3>
           <p class="feature-desc">
-            <span class="lang-en">All trip details are stored in <code>config.js</code>, <code>site-data.js</code>, and <code>itinerary-data.js</code>. Never edit HTML/CSS to change your trip.</span>
+            <span class="lang-en">All trip details are stored in <a href="https://github.com/IanMaHKG/Trip_Planner/blob/main/data/config.js" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px;"><code>config.js</code></a>, <a href="https://github.com/IanMaHKG/Trip_Planner/blob/main/data/site-data.js" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px;"><code>site-data.js</code></a>, and <a href="https://github.com/IanMaHKG/Trip_Planner/blob/main/data/itinerary-data.js" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px;"><code>itinerary-data.js</code></a>. Never edit HTML/CSS to change your trip.</span>
             <span class="lang-zh lang-secondary">所有行程、貨幣、地圖與文案皆收納於三個乾淨的 JS 數據檔案中，零代碼修改 HTML/CSS。</span>
           </p>
         </div>
@@ -918,8 +1078,8 @@
             <span class="lang-zh lang-secondary">Fork 本專案倉庫</span>
           </h3>
           <p class="step-desc">
-            <span class="lang-en">Click "Fork" on GitHub to create your personal copy of the Trip Planner template.</span>
-            <span class="lang-zh lang-secondary">在 GitHub 上點擊 Fork 按鈕，建立屬於您個人的行程網站倉庫。</span>
+            <span class="lang-en">Click <strong>"Fork"</strong> on the <a href="https://github.com/IanMaHKG/Trip_Planner" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">Trip Planner GitHub repo</a> to create your personal copy of the template.</span>
+            <span class="lang-zh lang-secondary">在 <a href="https://github.com/IanMaHKG/Trip_Planner" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">GitHub 倉庫</a> 上點擊 Fork 按鈕，建立屬於您個人的行程網站倉庫。</span>
           </p>
         </div>
 
@@ -930,20 +1090,20 @@
             <span class="lang-zh lang-secondary">使用 AI 生成行程數據</span>
           </h3>
           <p class="step-desc">
-            <span class="lang-en">Copy <code>prompts/trip-planner-prompt.md</code> into Claude or ChatGPT with your destination and dates.</span>
-            <span class="lang-zh lang-secondary">複製提示詞範本並填入目的地與日期，讓 AI 為您生成 3 個乾淨的 JS 數據檔案。</span>
+            <span class="lang-en">Use the <a href="https://github.com/IanMaHKG/Trip_Planner/blob/main/prompts/trip-planner-prompt.md" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px;"><code>AI Prompt template</code></a> with Claude, ChatGPT, or Antigravity — fill in your destination and dates, and the AI will generate all 3 data files directly in your forked repo.</span>
+            <span class="lang-zh lang-secondary">使用 <a href="https://github.com/IanMaHKG/Trip_Planner/blob/main/prompts/trip-planner-prompt.md" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">AI 提示詞範本</a>，填入目的地與日期，讓 AI 直接在倉庫中生成 3 個乾淨的 JS 數據檔案。</span>
           </p>
         </div>
 
         <div class="step-box">
           <div class="step-number">3</div>
           <h3 class="step-title">
-            <span class="lang-en">Deploy to GitHub Pages</span>
+            <span class="lang-en">Publish to GitHub Pages</span>
             <span class="lang-zh lang-secondary">一鍵發布至 GitHub Pages</span>
           </h3>
           <p class="step-desc">
-            <span class="lang-en">Paste the 3 files into <code>data/</code> and push. Your live website is instantly available worldwide!</span>
-            <span class="lang-zh lang-secondary">將生成的文件貼入 <code>data/</code> 目錄並提交，GitHub Actions 將自動完成發布！</span>
+            <span class="lang-en">Commit the AI-generated files and enable GitHub Pages from <a href="https://github.com/IanMaHKG/Trip_Planner/settings/pages" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">Settings → Pages</a>. Your live itinerary site is instantly available worldwide!</span>
+            <span class="lang-zh lang-secondary">提交 AI 生成的數據檔案，並在 <a href="https://github.com/IanMaHKG/Trip_Planner/settings/pages" target="_blank" rel="noopener" style="color:inherit;text-decoration:underline;text-underline-offset:2px;">Settings → Pages</a> 啟用 GitHub Pages，您的旅遊網站即時上線！</span>
           </p>
         </div>
       </div>
@@ -971,7 +1131,7 @@
           <a href="#navbar"><span class="lang-en">Back to Top ↑</span><span class="lang-zh lang-secondary">返回頂部 ↑</span></a>
           <a href="#plans"><span class="lang-en">Example Plans</span><span class="lang-zh lang-secondary">精選行程</span></a>
           <a href="showcase.html"><span class="lang-en">Style Showcase</span><span class="lang-zh lang-secondary">樣式展示</span></a>
-          <a href="prompts/trip-planner-prompt.md"><span class="lang-en">AI Prompt</span><span class="lang-zh lang-secondary">提示詞範本</span></a>
+          <a href="https://github.com/IanMaHKG/Trip_Planner/blob/main/prompts/trip-planner-prompt.md" target="_blank" rel="noopener"><span class="lang-en">AI Prompt</span><span class="lang-zh lang-secondary">提示詞範本</span></a>
         </div>
       </div>
 
@@ -1043,6 +1203,252 @@
         setPortalLanguage(savedLang);
       }
     });
+
+    /* ════════════════════════════════════════════
+       PROMPT MODAL SYSTEM
+       ════════════════════════════════════════════ */
+    const PROMPT_DATA = {
+      switzerland: {
+        title: '🏔️ AI Prompt: Switzerland & Northern Italy (13 Days)',
+        ghUrl: 'https://github.com/IanMaHKG/Trip_Planner/blob/main/examples/01-switzerland-italy-13days/PROMPT.md',
+        ghLabel: 'View on GitHub',
+        prompt: `You are an expert travel concierge and front-end data architect. I have forked the **Trip Planner** GitHub Pages template repository and want you to generate the 3 data files for my customized trip:
+1. \`data/config.js\`
+2. \`data/site-data.js\`
+3. \`data/itinerary-data.js\`
+
+Here are the details for my trip:
+--------------------------------------------------
+- **Destination(s):** Switzerland (Zurich, Lucerne, Interlaken, Zermatt) & Northern Italy (Lake Como, Milan)
+- **Trip Dates & Duration:** September 10 to September 22, 2026 (13 Days)
+- **Travel Party:** Family of 3 Adults (Ian as lead planner/driver, Parent A, Parent B)
+- **Country of Residence / Passports:** United Kingdom & Hong Kong (British Citizen, BN(O), HKSAR, Portuguese passports held)
+- **Driving & Transit:**
+  - Swiss segment: Panoramic scenic rail (GoldenPass & SBB)
+  - Italian Lakes segment: Rental Midsize Station Wagon / SUV (Volkswagen Passat Variant / BMW 3 Touring)
+- **Currency:**
+  - Destination Base Currency: EUR (€) & CHF
+  - Home / Conversion Currencies: USD ($), GBP (£), HKD (HK$), EUR (€)
+  - Default Active Target: USD
+- **Languages:**
+  - Primary: English (\`en\`)
+  - Secondary: Traditional Chinese (\`zh\` / 繁體中文)
+- **Style & Palette Theme:** "alpine-emerald" — Mode: "light" default with Dark Mode toggle
+- **Railway & Transit Milestone Board Style:** "swiss-train" (🇨🇭 SBB CFF FFS Swiss Federal Railways precision)
+- **Special Interests / Pace:** Relaxed alpine pace tailored for parents. Highlights: Jungfraujoch, Matterhorn Glacier Paradise, Lake Como Bellagio ferry, Milan Duomo rooftop.
+--------------------------------------------------
+
+### Output Requirements:
+Generate complete, valid ES6 JavaScript files defining:
+1. \`window.TRIP_CONFIG\` in \`config.js\`
+2. \`window.SITE_DATA\` in \`site-data.js\`
+3. \`window.ITINERARY_DATA\` in \`itinerary-data.js\` (complete 13-day itinerary with morning/afternoon/evening blocks, bilingual titles, GPS coordinates)`
+      },
+      japan: {
+        title: '🇯🇵 AI Prompt: Japan Golden Route Express (5 Days)',
+        ghUrl: 'https://github.com/IanMaHKG/Trip_Planner/blob/main/examples/02-japan-tokyo-kyoto-5days/PROMPT.md',
+        ghLabel: 'View on GitHub',
+        prompt: `You are an expert travel concierge and front-end data architect. I have forked the **Trip Planner** GitHub Pages template repository and want you to generate the 3 data files for my customized trip:
+1. \`data/config.js\`
+2. \`data/site-data.js\`
+3. \`data/itinerary-data.js\`
+
+Here are the details for my trip:
+--------------------------------------------------
+- **Destination(s):** Japan — Tokyo (Shinjuku/Shibuya), Hakone (Fuji), Kyoto, Osaka (Dotonbori)
+- **Trip Dates & Duration:** 5 Days
+- **Travel Party:** Couple (2 Adults)
+- **Country of Residence / Passports:** Hong Kong (HKSAR / BN(O))
+- **Driving & Transit:** JR Shinkansen Bullet Train + local metro
+- **Currency:**
+  - Destination Base Currency: JPY (¥)
+  - Home / Conversion Currencies: HKD, USD, GBP
+- **Languages:** Primary: English (\`en\`), Secondary: Traditional Chinese (\`zh\`)
+- **Style & Palette Theme:** "sakura-rose" — Mode: "dark" default
+- **Railway & Transit Milestone Board Style:** "jr-rail" (🇯🇵 JR Japan Railways Station Sign 駅名標 style)
+- **Special Interests / Pace:** Shibuya Sky observation deck, Hakone hot springs, Fushimi Inari torii gates, Dotonbori street food.
+--------------------------------------------------
+
+### Output Requirements:
+Generate complete, valid ES6 JavaScript files defining:
+1. \`window.TRIP_CONFIG\` in \`config.js\`
+2. \`window.SITE_DATA\` in \`site-data.js\`
+3. \`window.ITINERARY_DATA\` in \`itinerary-data.js\` (complete 5-day itinerary with bilingual titles and GPS coordinates)`
+      },
+      uk: {
+        title: '🇬🇧 AI Prompt: Great Britain Heritage Tour (10 Days)',
+        ghUrl: 'https://github.com/IanMaHKG/Trip_Planner/blob/main/examples/03-uk-london-scotland-10days/PROMPT.md',
+        ghLabel: 'View on GitHub',
+        prompt: `You are an expert travel concierge and front-end data architect. I have forked the **Trip Planner** GitHub Pages template repository and want you to generate the 3 data files for my customized trip:
+1. \`data/config.js\`
+2. \`data/site-data.js\`
+3. \`data/itinerary-data.js\`
+
+Here are the details for my trip:
+--------------------------------------------------
+- **Destination(s):** Great Britain — London, Windsor, Bath & Cotswolds, York, Edinburgh
+- **Trip Dates & Duration:** 10 Days
+- **Travel Party:** Family of 4 (2 Adults, 2 Children)
+- **Country of Residence / Passports:** Hong Kong (HKSAR)
+- **Driving & Transit:** London Tube + National Rail intercity + rental car for Cotswolds
+- **Currency:**
+  - Destination Base Currency: GBP (£)
+  - Home / Conversion Currencies: HKD, USD, EUR
+- **Languages:** Primary: English (\`en\`), Secondary: Traditional Chinese (\`zh\`)
+- **Style & Palette Theme:** "midnight-navy" — Mode: "dark" default
+- **Railway & Transit Milestone Board Style:** "london-underground" (🇬🇧 TfL London Tube & Roundel Harry Beck style)
+- **Special Interests / Pace:** British Museum, Fortnum & Mason afternoon tea, Roman Baths, Castle Combe, York Shambles, Edinburgh Castle.
+--------------------------------------------------
+
+### Output Requirements:
+Generate complete, valid ES6 JavaScript files defining:
+1. \`window.TRIP_CONFIG\` in \`config.js\`
+2. \`window.SITE_DATA\` in \`site-data.js\`
+3. \`window.ITINERARY_DATA\` in \`itinerary-data.js\` (complete 10-day itinerary with bilingual titles and GPS coordinates)`
+      },
+      hongkong: {
+        title: '🇭🇰 AI Prompt: Hong Kong Horizon & Islands (7 Days)',
+        ghUrl: 'https://github.com/IanMaHKG/Trip_Planner/blob/main/examples/04-hong-kong-7days/PROMPT.md',
+        ghLabel: 'View on GitHub',
+        prompt: `You are an expert travel concierge and front-end data architect. I have forked the **Trip Planner** GitHub Pages template repository and want you to generate the 3 data files for my customized trip:
+1. \`data/config.js\`
+2. \`data/site-data.js\`
+3. \`data/itinerary-data.js\`
+
+Here are the details for my trip:
+--------------------------------------------------
+- **Destination(s):** Hong Kong — Central, Victoria Peak, Ngong Ping Big Buddha, Tai O, Sai Kung UNESCO Geopark
+- **Trip Dates & Duration:** 7 Days
+- **Travel Party:** Couple (2 Adults)
+- **Country of Residence / Passports:** United Kingdom (British Citizen)
+- **Driving & Transit:** Hong Kong MTR + Star Ferry + Ngong Ping 360 Cable Car + local buses
+- **Currency:**
+  - Destination Base Currency: HKD (HK$)
+  - Home / Conversion Currencies: GBP, USD, EUR
+- **Languages:** Primary: English (\`en\`), Secondary: Traditional Chinese (\`zh\`)
+- **Style & Palette Theme:** "cyber-dark" — Mode: "dark" default
+- **Railway & Transit Milestone Board Style:** "hong-kong-mtr" (🇭🇰 Hong Kong MTR dual-language line style)
+- **Special Interests / Pace:** Star Ferry harbour cruise, Peak Tram, Crystal Cabin cable car, Tai O fishing village, Sai Kung seafood, dim sum breakfast culture.
+--------------------------------------------------
+
+### Output Requirements:
+Generate complete, valid ES6 JavaScript files defining:
+1. \`window.TRIP_CONFIG\` in \`config.js\`
+2. \`window.SITE_DATA\` in \`site-data.js\`
+3. \`window.ITINERARY_DATA\` in \`itinerary-data.js\` (complete 7-day itinerary with bilingual titles and GPS coordinates)`
+      },
+      newengland: {
+        title: '🇺🇸 AI Prompt: New England Autumn Roadtrip (14 Days)',
+        ghUrl: 'https://github.com/IanMaHKG/Trip_Planner/blob/main/examples/05-us-new-england-14days/PROMPT.md',
+        ghLabel: 'View on GitHub',
+        prompt: `You are an expert travel concierge and front-end data architect. I have forked the **Trip Planner** GitHub Pages template repository and want you to generate the 3 data files for my customized trip:
+1. \`data/config.js\`
+2. \`data/site-data.js\`
+3. \`data/itinerary-data.js\`
+
+Here are the details for my trip:
+--------------------------------------------------
+- **Destination(s):** USA New England — Boston → Kancamagus Highway (NH) → Stowe (VT) → Acadia National Park (ME) → New York City
+- **Trip Dates & Duration:** 14 Days (October peak fall foliage)
+- **Travel Party:** Couple (2 Adults)
+- **Country of Residence / Passports:** Hong Kong (HKSAR / BN(O)) — ESTA Visa Waiver
+- **Driving & Transit:** Full-Size SUV road trip + NYC Subway MTA
+- **Currency:**
+  - Destination Base Currency: USD ($)
+  - Home / Conversion Currencies: HKD, GBP, EUR
+- **Languages:** Primary: English (\`en\`), Secondary: Traditional Chinese (\`zh\`)
+- **Style & Palette Theme:** "sunset-terracotta" — Mode: "light" default
+- **Railway & Transit Milestone Board Style:** "new-york-subway" (🇺🇸 NYC MTA Subway black band & colored bullets)
+- **Special Interests / Pace:** Kancamagus Highway foliage drive, Vermont maple country, Acadia sunrise hike, fresh Maine lobster, Broadway show, Central Park, Brooklyn Bridge.
+--------------------------------------------------
+
+### Output Requirements:
+Generate complete, valid ES6 JavaScript files defining:
+1. \`window.TRIP_CONFIG\` in \`config.js\`
+2. \`window.SITE_DATA\` in \`site-data.js\`
+3. \`window.ITINERARY_DATA\` in \`itinerary-data.js\` (complete 14-day itinerary with bilingual titles and GPS coordinates)`
+      }
+    };
+
+    function openPromptModal(key) {
+      const data = PROMPT_DATA[key];
+      if (!data) return;
+      const overlay = document.getElementById('prompt-modal-overlay');
+      const title  = document.getElementById('prompt-modal-title');
+      const code   = document.getElementById('prompt-code-content');
+      const ghLink = document.getElementById('prompt-gh-link');
+      title.textContent = data.title;
+      code.textContent  = data.prompt;
+      ghLink.href  = data.ghUrl;
+      ghLink.querySelector('span')  && (ghLink.querySelector('span').textContent = data.ghLabel);
+      overlay.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closePromptModal() {
+      document.getElementById('prompt-modal-overlay').classList.remove('open');
+      document.body.style.overflow = '';
+    }
+
+    function copyPromptText() {
+      const text = document.getElementById('prompt-code-content').textContent;
+      navigator.clipboard.writeText(text).then(() => {
+        const btn = document.getElementById('prompt-copy-btn');
+        btn.textContent = '✓ Copied!';
+        btn.classList.add('copied');
+        setTimeout(() => {
+          btn.textContent = '📋 Copy Prompt';
+          btn.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    // Close modal on overlay click
+    document.addEventListener('DOMContentLoaded', () => {
+      const overlay = document.getElementById('prompt-modal-overlay');
+      if (overlay) {
+        overlay.addEventListener('click', (e) => {
+          if (e.target === overlay) closePromptModal();
+        });
+      }
+      // Close on Escape key
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') closePromptModal();
+      });
+    });
   </script>
+
+  <!-- ═══════════════════════════════════════════════════
+       PROMPT MODAL OVERLAY
+       ═══════════════════════════════════════════════════ -->
+  <div class="prompt-modal-overlay" id="prompt-modal-overlay" role="dialog" aria-modal="true" aria-labelledby="prompt-modal-title">
+    <div class="prompt-modal">
+      <div class="prompt-modal-header">
+        <div class="prompt-modal-title" id="prompt-modal-title"></div>
+        <button class="prompt-modal-close" onclick="closePromptModal()" aria-label="Close prompt modal">&times;</button>
+      </div>
+
+      <div class="prompt-how-to">
+        <strong>How to use:</strong> Copy the prompt below and paste it into <strong>Claude, ChatGPT, Antigravity, or GitHub Copilot</strong>. The AI will generate all 3 data files directly in your forked repo.
+      </div>
+
+      <div class="prompt-code-box" style="position:relative;">
+        <button class="prompt-copy-btn" id="prompt-copy-btn" onclick="copyPromptText()">📋 Copy Prompt</button>
+        <pre id="prompt-code-content" style="margin:0;padding:0;background:none;border:none;font-family:inherit;font-size:inherit;color:inherit;white-space:pre-wrap;word-break:break-word;"></pre>
+      </div>
+
+      <div class="prompt-modal-footer">
+        <a class="prompt-gh-link" id="prompt-gh-link" href="#" target="_blank" rel="noopener">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+          <span>View full prompt on GitHub</span>
+        </a>
+        <button class="btn-launch" style="flex:0;padding:10px 22px;font-size:0.9rem;" onclick="closePromptModal()">
+          Done
+        </button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
+

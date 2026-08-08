@@ -58,6 +58,8 @@ Click the **Fork** button at the top right of this repository to create your own
 
 ```text
 Trip_Planner/
+├── .agents/
+│   └── AGENTS.md               # AI agent rules, architecture constraints & verification checklist
 ├── .github/
 │   └── workflows/
 │       └── deploy.yml          # Automated GitHub Pages CI/CD workflow
@@ -97,6 +99,11 @@ Trip_Planner/
 ├── sw.js                       # Service worker for offline asset caching
 └── README.md                   # Project documentation & user guide
 ```
+
+> **🤖 For AI Agents & Copilots:** Before editing any file, read [`.agents/AGENTS.md`](.agents/AGENTS.md).
+> It contains architecture constraints, data-driven pattern rules, CSS token rules, transit style
+> extension guides, PII rules, and a verification checklist. Agents that skip it risk breaking
+> language switching, theme presets, or the config-driven data architecture.
 
 ---
 

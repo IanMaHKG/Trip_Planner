@@ -2,7 +2,7 @@
 <html lang="en" data-theme="light" data-palette="alpine-emerald">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
   <title>Trip Planner — Design System & Style Showcase</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -145,6 +145,43 @@
       border-radius: 4px;
       color: var(--brand-accent);
       font-weight: 700;
+    }
+
+    /* ── Showcase Mobile Overrides ── */
+    @media (max-width: 768px) {
+      .showcase-page {
+        padding: 20px 14px 60px;
+      }
+      .showcase-header {
+        padding: 22px 16px;
+        margin-bottom: 28px;
+      }
+      .showcase-header h1 {
+        font-size: 1.45rem;
+      }
+      .showcase-toolbar {
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .showcase-toolbar .btn {
+        text-align: center;
+        justify-content: center;
+      }
+      .showcase-section-title {
+        font-size: 1.25rem;
+        margin: 32px 0 14px;
+      }
+      .theme-grid {
+        grid-template-columns: 1fr !important;
+      }
+      .railway-card {
+        padding: 16px 12px;
+      }
+      .railway-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
     }
   </style>
 </head>
@@ -627,6 +664,23 @@
     function applyPalette(name) {
       document.documentElement.setAttribute('data-palette', name);
     }
+
+    // Auto-register --line-gradient-v for static showcase route boards
+    // Converts each bar's 90deg inline gradient → 180deg and sets it as a CSS
+    // custom property on the parent .route-stops-list so vertical mode works.
+    document.addEventListener('DOMContentLoaded', () => {
+      document.querySelectorAll('.route-line-bar').forEach(bar => {
+        const bg = bar.style.background || bar.style.backgroundImage || '';
+        if (!bg) return;
+        // Swap gradient direction from 90deg to 180deg
+        const verticalBg = bg.replace(/linear-gradient\(90deg/g, 'linear-gradient(180deg');
+        const list = bar.closest('.route-stops-list');
+        if (list) {
+          list.style.setProperty('--line-gradient-v', verticalBg);
+        }
+      });
+    });
   </script>
 </body>
 </html>
+

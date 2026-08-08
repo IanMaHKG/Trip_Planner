@@ -1,27 +1,57 @@
 /**
  * @file ui.js
  * @description UI INTERACTIONS & CONTROLLER MODULE — Trip Planner.
+ *
  * Controls language switching, dark/light theme toggle, theme presets,
- * accordion behaviors, sticky navigation, particle effects, and hotel search.
+ * accordion behaviors, sticky navigation, scroll-reveal, particle effects,
+ * and hotel search form integration.
+ *
+ * All language codes, theme preset keys, and feature flags are read from
+ * window.TRIP_CONFIG (data/config.js). This file must NOT hardcode any
+ * language codes, destination names, or trip-specific strings.
+ *
+ * Key behaviors:
+ *   - Language switcher: rendered dynamically from TRIP_CONFIG.languages.
+ *     Hidden automatically in single-language mode (secondary: null).
+ *   - Theme: preset applied via data-theme-preset attribute on <html>;
+ *     dark/light toggle stored in localStorage as 'user-theme'.
+ *   - Day accordion: lazy-initializes per-day mini maps via map.js.
+ *   - Region filters: derived from ITINERARY_DATA day.region fields.
+ *
+ * @see data/config.js       — Language codes, theme preset, feature flags.
+ * @see js/render.js         — renderBilingualText() for bilingual span output.
+ * @see js/map.js            — initDayMiniMap() called on accordion open.
+ * @see AGENTS.md            — Architecture and data-driven pattern rules.
+ *
+ * AGENTS: Do not hardcode language codes (e.g. 'en', 'zh') in this file
+ * except as default fallbacks when TRIP_CONFIG is unavailable. All language
+ * logic must read from TRIP_CONFIG.languages.
  */
 
 /* ═══════════════════════════════════════════════════
    1. LANGUAGE SWITCHER (Always Visible & Instant)
    ═══════════════════════════════════════════════════ */
+/**
+ * Initializes the language state on page load.
+ * Reads the saved preference from localStorage (or falls back to the default
+ * defined in TRIP_CONFIG.languages.default), then renders the language toggle
+ * buttons dynamically from config. In single-language mode (secondary: null)
+ * the entire switcher element is hidden.
+ */
 function initLanguage() {
   const config = window.TRIP_CONFIG;
-  const primaryLang = (config && config.languages && config.languages.primary) ? config.languages.primary.code : 'en';
-  const secondaryLang = (config && config.languages && config.languages.secondary) ? config.languages.secondary.code : 'zh';
-  const defaultLang = (config && config.languages && config.languages.default) ? config.languages.default : 'en';
+  const primaryLang   = (config && config.languages && config.languages.primary)   ? config.languages.primary.code   : 'en';
+  const secondaryLang = (config && config.languages && config.languages.secondary) ? config.languages.secondary.code : null;
+  const defaultLang   = (config && config.languages && config.languages.default)   ? config.languages.default         : 'en';
 
   const savedLang = localStorage.getItem('user-lang') || defaultLang;
   setLanguage(savedLang);
 
-  // Render language toggle buttons dynamically
+  // Render language toggle buttons dynamically from config
   const switcher = document.querySelector('.lang-switcher');
   if (switcher && config && config.languages) {
     if (!config.languages.secondary) {
-      // Single language mode: hide language switcher
+      // Single-language mode: no switcher needed
       switcher.style.display = 'none';
       return;
     }
@@ -47,14 +77,32 @@ function initLanguage() {
   }
 }
 
+/**
+ * Sets the active display language, persists it to localStorage, and
+ * updates the body class list so base.css visibility rules apply.
+ *
+ * Class strategy:
+ *   - Always adds 'lang-primary' or 'lang-secondary' (semantic, for base.css).
+ *   - Also adds 'lang-{code}' (specific, for targeted CSS rules).
+ *   - Dynamically removes ALL existing lang-* classes first, so any language
+ *     code a fork might use (lang-fr, lang-de, etc.) is correctly cleared.
+ *
+ * Dispatches a 'langchange' CustomEvent so map.js can update popup labels.
+ *
+ * AGENTS: Do not add hardcoded language codes to the removal list below.
+ * The dynamic classList scan handles all codes automatically.
+ *
+ * @param {string} lang - Language code to activate (e.g. 'en', 'zh', 'fr').
+ */
 function setLanguage(lang) {
   const config = window.TRIP_CONFIG;
   const primaryCode = (config && config.languages && config.languages.primary) ? config.languages.primary.code : 'en';
 
   localStorage.setItem('user-lang', lang);
 
-  // Reset classes
-  document.body.classList.remove('lang-primary', 'lang-secondary', 'lang-en', 'lang-zh', 'lang-zh-hk');
+  // Dynamically remove ALL lang-* classes (handles any language code, not just en/zh)
+  const toRemove = Array.from(document.body.classList).filter(cls => cls.startsWith('lang-'));
+  document.body.classList.remove(...toRemove, 'lang-primary', 'lang-secondary');
 
   if (lang === primaryCode) {
     document.body.classList.add('lang-primary', `lang-${primaryCode}`);
@@ -67,35 +115,63 @@ function setLanguage(lang) {
 
 /* ═══════════════════════════════════════════════════
    2. THEME CONTROLLER & 7 PRESETS
-   ═══════════════════════════════════════════════════ */
+   ═══════════════════════════════════════════════════
+   Applies the palette preset (data-theme-preset on <html>) from config.js
+   and toggles dark/light mode (data-theme). Both are persisted in localStorage.
+   Dispatches a 'themechange' CustomEvent consumed by map.js to swap tile styles.
+
+   AGENTS — adding a new theme preset:
+     1. Define it in css/palette.css following the existing :root[data-theme-preset] pattern.
+     2. Include BOTH light mode and dark mode variable sets.
+     3. Register its key in the data/config.js theme.preset comment block.
+     4. Add it to showcase.html and update README.md.
+     NEVER rename or remove an existing preset key — forks depend on them.
+   ======================================================= */
+/**
+ * Initializes the color theme on page load.
+ * Applies the palette preset from TRIP_CONFIG.theme.preset as a
+ * data-theme-preset attribute on <html>, then restores the saved
+ * dark/light mode from localStorage (falling back to defaultTheme).
+ * Binds click handlers on any .theme-toggle or #theme-toggle-btn elements.
+ */
 function initTheme() {
-  const config = window.TRIP_CONFIG;
-  const preset = (config && config.theme && config.theme.preset) ? config.theme.preset : 'midnight-navy';
+  const config       = window.TRIP_CONFIG;
+  const preset       = (config && config.theme && config.theme.preset)       ? config.theme.preset       : 'midnight-navy';
   const defaultTheme = (config && config.theme && config.theme.defaultTheme) ? config.theme.defaultTheme : 'light';
 
-  // Apply Theme Preset
+  // Apply palette preset (CSS vars keyed off [data-theme-preset] in palette.css)
   document.documentElement.setAttribute('data-theme-preset', preset);
 
-  // Apply Dark/Light Mode
+  // Restore saved dark/light preference
   const savedTheme = localStorage.getItem('user-theme') || defaultTheme;
   applyTheme(savedTheme);
 
-  // Theme Toggle Button
+  // Bind theme toggle buttons (moon/sun icon in nav)
   const toggleBtns = document.querySelectorAll('.theme-toggle, #theme-toggle-btn');
   toggleBtns.forEach(toggleBtn => {
     toggleBtn.addEventListener('click', () => {
       const current = document.documentElement.getAttribute('data-theme') || 'light';
-      const next = current === 'dark' ? 'light' : 'dark';
+      const next    = current === 'dark' ? 'light' : 'dark';
       applyTheme(next);
     });
   });
 }
 
+/**
+ * Applies a dark/light theme mode.
+ * Sets data-theme on <html>, persists to localStorage, dispatches a
+ * 'themechange' event so map.js can swap OpenFreeMap tile styles
+ * (Positron for light, Fiord for dark). Uses .theme-transitioning to
+ * prevent color flash during the CSS transition.
+ *
+ * @param {'light'|'dark'} theme - The theme mode to activate.
+ */
 function applyTheme(theme) {
   document.body.classList.add('theme-transitioning');
   document.documentElement.setAttribute('data-theme', theme);
   localStorage.setItem('user-theme', theme);
 
+  // map.js listens to this event to swap OpenFreeMap tile styles
   window.dispatchEvent(new CustomEvent('themechange', { detail: { theme } }));
 
   setTimeout(() => {
@@ -106,6 +182,16 @@ function applyTheme(theme) {
 /* ═══════════════════════════════════════════════════
    3. ITINERARY ACCORDION & REGION FILTER TABS
    ═══════════════════════════════════════════════════ */
+/**
+ * Toggles the open/closed state of a day accordion card.
+ * On first open, lazily initializes the per-day mini map via map.js
+ * (150ms delay lets the CSS transition complete before MapLibre renders).
+ *
+ * Called inline from the onclick attribute on each .day-header div,
+ * injected by render.js → renderItinerary().
+ *
+ * @param {string} dayId - The id attribute of the .day-card element.
+ */
 function toggleDayAccordion(dayId) {
   const card = document.getElementById(dayId);
   if (!card) return;
@@ -113,20 +199,33 @@ function toggleDayAccordion(dayId) {
   const isOpen = card.classList.contains('open');
   card.classList.toggle('open', !isOpen);
 
+  // Lazy-init the mini map on first expand (avoids rendering off-screen maps)
   if (!isOpen && typeof initDayMiniMap === 'function') {
-    // Lazy initialize minimap upon first expand
-    setTimeout(() => {
-      initDayMiniMap(dayId);
-    }, 150);
+    setTimeout(() => { initDayMiniMap(dayId); }, 150);
   }
 }
 
+/**
+ * Builds the region filter tab strip above the itinerary timeline.
+ * Derives the region set dynamically from ITINERARY_DATA[].region fields.
+ * The regionLabels dictionary below provides human-readable bilingual names
+ * for the 5 bundled example plans; new forks can add entries or rely on the
+ * auto-capitalize fallback for unlisted region slugs.
+ *
+ * AGENTS: The regionLabels object below is EXAMPLE DATA from the 5 bundled
+ * trip plans. It is NOT trip configuration — do not treat it as a source of
+ * truth for the active fork. If a region slug is missing from this list, the
+ * code auto-generates a capitalized label from the slug (e.g. 'my-city' → 'My City').
+ * To add labels for a new example plan, append entries following the existing pattern.
+ */
 function initDayFilters() {
   const itinerary = window.ITINERARY_DATA || [];
   const filtersContainer = document.getElementById('day-filters-container') || document.getElementById('day-filters');
   if (!filtersContainer || itinerary.length === 0) return;
 
-  // Comprehensive Region display labels dictionary
+  // ── Region display label dictionary ──
+  // Maps region slug → { en, zh } bilingual label.
+  // Covers all 5 bundled example plans. Unlisted slugs are auto-capitalized.
   const regionLabels = {
     'all': { en: `All Days (${itinerary.length} Days)`, zh: `全部行程（${itinerary.length}天）` },
     // 01 Switzerland & Italy
@@ -210,7 +309,11 @@ function initDayFilters() {
 
 /* ═══════════════════════════════════════════════════
    4. STICKY NAVIGATION & SCROLL SPY
-   ═══════════════════════════════════════════════════ */
+   ======================================================= */
+/**
+ * Initializes sticky nav shadow on scroll, mobile hamburger toggle,
+ * and IntersectionObserver-based scroll-reveal animations (.reveal elements).
+ */
 function initNavigation() {
   const navbar = document.querySelector('.nav-bar');
   const toggle = document.querySelector('.nav-toggle') || document.getElementById('nav-toggle-btn');
@@ -250,7 +353,13 @@ function initNavigation() {
 
 /* ═══════════════════════════════════════════════════
    5. HERO PARTICLES GENERATOR
-   ═══════════════════════════════════════════════════ */
+   ======================================================= */
+/**
+ * Generates 24 floating particle elements inside .hero-particles and appends
+ * them to the DOM. Each particle gets a random size, horizontal start position,
+ * animation duration, and delay for a natural floating effect.
+ * The animation itself is defined in sections.css (@keyframes floatUp).
+ */
 function initHeroParticles() {
   const container = document.querySelector('.hero-particles');
   if (!container) return;
@@ -271,7 +380,13 @@ function initHeroParticles() {
 
 /* ═══════════════════════════════════════════════════
    6. HOTEL SEARCH FORM HANDLER (Booking.com Direct)
-   ═══════════════════════════════════════════════════ */
+   ======================================================= */
+/**
+ * Binds the hotel search form and Quick Leg pill interactions.
+ * - Clicking a .quick-leg-pill pre-fills the destination/date inputs.
+ * - Submitting the #hotel-search-form opens Booking.com with pre-filled params.
+ * Note: Initial form values are set by render.js → renderHotels(), not here.
+ */
 function initHotelSearch() {
   // Quick Leg Pills
   const container = document.getElementById('hotel-quick-legs-container');

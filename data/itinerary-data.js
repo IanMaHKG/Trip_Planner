@@ -2,6 +2,73 @@
  * @file itinerary-data.js
  * @description DATA SOURCE — Day-by-Day schedule for the entire journey.
  * Sets window.ITINERARY_DATA for consumption by render.js and map.js.
+ *
+ * AGENTS — Day object schema reference:
+ * ──────────────────────────────────────────────
+ * ITINERARY_DATA = Array<DayObject>
+ *
+ * DayObject = {
+ *   id:     string,                // REQUIRED. DOM id (e.g. "day-1").
+ *   dayNum: string,                // REQUIRED. Numeric label (e.g. "01", "02").
+ *   date:   string,                // REQUIRED. Display date (e.g. "Sep 10").
+ *   region: string,                // REQUIRED. Slug for region filter tabs
+ *                                  //   (e.g. "zurich-lucerne"). Used as
+ *                                  //   data-region attr on the day card.
+ *   title:  BilingualObj,          // REQUIRED. Day headline.
+ *
+ *   tags: Array<{                  // Optional. Displayed as colored pills.
+ *     type:  string,               //   CSS class suffix: city|nature|culture|pace
+ *     text:  BilingualObj | string //   Pill label
+ *     en?:   string,               //   Legacy shorthand (use text instead)
+ *     zh?:   string
+ *   }>,
+ *
+ *   blocks: Array<{                // REQUIRED. Time slots for the day.
+ *     time: BilingualObj,          //   e.g. { en: "🌅 Morning", zh: "🌅 早上" }
+ *     activity: {
+ *       title:  BilingualObj,      // REQUIRED.
+ *       desc:   BilingualObj,      // REQUIRED.
+ *       meal?: {                   // Optional. Displayed below the description.
+ *         icon: emoji,
+ *         en:   string,            // May contain safe inline HTML (<strong>, <em>)
+ *         zh:   string
+ *       },
+ *       locations?: Array<{        // Optional. Plotted on day mini-map by map.js.
+ *         lat: number,
+ *         lng: number,
+ *         label: BilingualObj
+ *       }>
+ *     },
+ *     location?: {                 // Optional. Shown as a meta pill below desc.
+ *       name: BilingualObj
+ *     },
+ *     transport?: {                // Optional. Shown as a meta pill below desc.
+ *       icon: emoji,
+ *       text: BilingualObj
+ *     }
+ *   }>,
+ *
+ *   tip?: BilingualObj             // Optional. "Pro Tip" callout at day bottom.
+ * }
+ *
+ * BilingualObj = { [primaryCode]: string, [secondaryCode]: string }
+ *   where codes match TRIP_CONFIG.languages.primary.code / secondary.code.
+ *
+ * AGENTS rules:
+ *   • Every day MUST have a unique id, dayNum, date, and at least one block.
+ *   • Day 1 (index 0) is auto-expanded; all others start collapsed.
+ *   • The region slug must match one of the entries in SITE_DATA.overview.routeStops
+ *     (or be a new valid slug — the filter tab auto-generates a label for it).
+ *   • meal.en / meal.zh may contain safe HTML (<strong>, <em>) for emphasis.
+ *     Never inject <script>, event attributes, or external links there.
+ *   • locations[] coordinates are plotted as-is by map.js with no validation;
+ *     ensure they are valid WGS-84 decimal degrees (lat: −90–90, lng: −180–180).
+ *
+ * @see data/config.js   — Language codes for BilingualObj keys.
+ * @see data/site-data.js — Non-itinerary content (overview, tips, budget, hotels).
+ * @see js/render.js     — renderItinerary() consumes this array.
+ * @see js/map.js        — initDayMiniMap() consumes locations[] arrays.
+ * @see AGENTS.md        — Data-driven pattern rules.
  */
 
 const ITINERARY_DATA = [

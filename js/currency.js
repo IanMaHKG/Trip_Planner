@@ -1,8 +1,27 @@
 /**
  * @file currency.js
  * @description UNIVERSAL MULTI-CURRENCY CONVERTER — Trip Planner.
- * Fetches real-time exchange rates from open.er-api.com and converts
- * budget amounts into any configured party currencies.
+ *
+ * Fetches real-time exchange rates from open.er-api.com (base → all targets)
+ * and converts budget amounts into any configured party currency.
+ * Falls back to pre-configured rates in TRIP_CONFIG.currency.targets[].fallbackRate
+ * when the API is offline or returns an error.
+ *
+ * Configuration source: TRIP_CONFIG.currency (data/config.js)
+ *   .base.code      — ISO 4217 base currency code (e.g. 'EUR', 'JPY').
+ *   .targets[]      — Array of conversion currencies with fallback rates.
+ *   .defaultTarget  — Pre-selected currency in the switcher UI.
+ *
+ * DOM integration:
+ *   - Populates .currency-switcher buttons from config.targets.
+ *   - Sets data-curr body class for CSS-driven currency-specific display.
+ *   - Updates all .converted-val elements (data-min / data-max attributes)
+ *     with formatted converted values. Managed by updateConvertedBudgets().
+ *   - Updates #budget-converted-col-title with the active currency name.
+ *
+ * @see data/config.js — TRIP_CONFIG.currency (base, targets, defaultTarget).
+ * @see js/render.js   — renderBudget() injects .converted-val elements.
+ * @see AGENTS.md      — Architecture rules.
  */
 
 let LIVE_RATES = {};

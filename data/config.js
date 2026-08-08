@@ -2,10 +2,40 @@
  * @file config.js
  * @description MASTER CONFIGURATION — Trip Planner template.
  *
- * This file is the single configuration hub for the entire application.
- * When customizing for a new trip (or using an AI copilot prompt), modifying
- * this file automatically adapts the UI, languages, currencies, party profiles,
- * and visual theme.
+ * ╔════════════════════════════════════════════════════════════╗
+ * ║  SINGLE SOURCE OF TRUTH — AGENTS READ THIS FIRST          ║
+ * ╚════════════════════════════════════════════════════════════╝
+ *
+ * This is the ONLY file you need to edit to customize the app for a new trip.
+ * All other JS files (render.js, ui.js, map.js, currency.js) read from this
+ * object at runtime. Do NOT duplicate these values anywhere else.
+ *
+ * Architecture rules:
+ *   • Any text, label, or string that appears in the UI must trace back to
+ *     this file, site-data.js, or itinerary-data.js. Never hardcode in HTML/JS.
+ *   • Feature flags (features.show*): set to false to hide a section entirely.
+ *     The renderer checks these before calling each renderXxx() function.
+ *   • Language codes must be valid BCP-47 language subtag codes (e.g. 'en',
+ *     'zh', 'fr', 'ja'). They are used as CSS class names by ui.js and
+ *     as keys in multilingual data objects throughout site-data.js and
+ *     itinerary-data.js.
+ *   • Theme preset key: must match one of the 7 presets defined in
+ *     css/palette.css. See palette.css for the full list.
+ *   • Currency codes: must be valid ISO 4217 codes. The base code must match
+ *     the values used in site-data.js budget.items[].min / .max fields.
+ *   • Party members: use role descriptions, NOT real names. PII (real names,
+ *     home address) must never appear in any data file.
+ *
+ * After editing this file:
+ *   • Bump CACHE_NAME in sw.js to clear the service worker cache.
+ *   • Verify the app in both light and dark modes.
+ *   • Test language switching if secondary language code was changed.
+ *
+ * @see data/site-data.js      — Trip content (overview, tips, budget, hotels).
+ * @see data/itinerary-data.js — Day-by-day schedule.
+ * @see js/render.js           — Reads this config to gate and render sections.
+ * @see js/ui.js               — Reads language + theme settings.
+ * @see AGENTS.md              — Full architecture and data-driven pattern rules.
  */
 
 const TRIP_CONFIG = {

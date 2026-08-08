@@ -1,6 +1,30 @@
-/* ═══════════════════════════════════════════════════
-   TRIP PLANNER — Components & UI Elements
-   ═══════════════════════════════════════════════════ */
+/* =======================================================
+   components.css — REUSABLE UI COMPONENTS
+   Trip Planner template.
+
+   Contains self-contained, reusable component styles:
+   • Navigation bar (.nav-bar, .nav-container, .nav-links, .lang-switcher,
+     .theme-toggle, .curr-btn).
+   • Hero badges (.badge).
+   • Cards (.card) — base card shell used by overview, hotels, transit cards.
+   • Tags & pills (.tag, .tag-city, .tag-nature, .tag-culture, .tag-pace,
+     .quick-leg-pill, .curr-btn).
+   • Buttons (.btn-primary, .btn-secondary).
+   • Accordion controls (.day-card, .day-header, .day-chevron).
+   • Transit board station dot variants (per data-transit-style attribute).
+
+   AGENTS:
+   • All color values must use CSS custom properties from palette.css.
+   • Do not add section-specific layout styles here; use sections.css.
+   • Transit board styles (swiss-train, jr-rail, etc.) are selected via
+     [data-transit-style] on the container rendered by render.js → renderOverview().
+     NEVER rename or remove an existing transit style selector.
+
+   @see css/palette.css — All color and spacing tokens.
+   @see css/sections.css — Section-specific layout styles.
+   @see js/render.js     — Injects HTML that uses these component classes.
+   @see AGENTS.md        — Architecture rules.
+   ======================================================= */
 
 /* ── Navigation Bar ── */
 .nav-bar {

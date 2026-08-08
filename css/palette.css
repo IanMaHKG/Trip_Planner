@@ -1,7 +1,39 @@
-/* ═══════════════════════════════════════════════════
-   TRIP PLANNER — Master Design System & Theme Engine
-   Includes 7 Luxury Theme Presets with Full Dark/Light Mode.
-   ═══════════════════════════════════════════════════ */
+/* =======================================================
+   palette.css — MASTER DESIGN SYSTEM & THEME ENGINE
+   Trip Planner template.
+
+   Contains all CSS custom properties (tokens) organized into:
+     1. Default palette (:root) — Midnight Navy (applied when no preset is set).
+     2. Seven luxury theme presets keyed off [data-theme-preset] on <html>.
+     3. Dark mode overrides keyed off [data-theme="dark"] on <html>.
+
+   Architecture rules for agents:
+   ─────────────────────────────────────────────────
+   • NEVER hardcode color values, spacing, or font sizes anywhere other
+     than this file. All other CSS files MUST use var(--token-name).
+
+   • ADDING A NEW THEME PRESET:
+     1. Add a :root[data-theme-preset="my-preset"] { } block here,
+        following the exact same variable names as existing presets.
+     2. Add a [data-theme-preset="my-preset"][data-theme="dark"] { } block
+        for dark mode overrides. Both light AND dark sets are required.
+     3. Register the preset key in data/config.js comment block
+        (TRIP_CONFIG.theme.preset option list).
+     4. Add the preset to showcase.html and update README.md.
+     A preset is NOT complete until it appears in both showcase.html and README.
+
+   • NEVER rename or remove an existing preset key
+     (midnight-navy, nordic-aurora, mediterranean-warm, sakura-rose,
+      alpine-emerald, cyber-dark, sunset-terracotta).
+     Existing forks hardcode these values in their config.js.
+
+   • After any change here: verify all 7 presets in showcase.html
+     (both light and dark modes) before considering the change complete.
+
+   @see data/config.js — TRIP_CONFIG.theme.preset (active preset key).
+   @see showcase.html  — Live interactive preview of all 7 presets.
+   @see AGENTS.md      — Theme & Styling Rules section.
+   ======================================================= */
 
 :root {
   /* ══════════════════════════════════════════════════

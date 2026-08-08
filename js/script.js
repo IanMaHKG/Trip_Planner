@@ -1,8 +1,36 @@
 /**
  * @file script.js
  * @description APPLICATION BOOTSTRAP — Trip Planner template.
- * Orchestrates initialization of all modules, registers Service Worker for PWA,
- * and sets up global handlers.
+ *
+ * This is the entry point. It:
+ *   1. Registers the Service Worker (sw.js) for PWA/offline support.
+ *   2. Waits for DOMContentLoaded, then calls each module's init function
+ *      in dependency order.
+ *
+ * Initialization order (matters — do not reorder without reason):
+ *   1. initLanguage()       — must run first to set body lang classes before render.
+ *   2. initTheme()          — applies palette preset and dark/light mode.
+ *   3. renderAll()          — injects all section HTML from data files.
+ *   4. initCurrencySelector()— populates budget conversion after renderBudget().
+ *   5. initDayFilters()     — builds region tabs after renderItinerary().
+ *   6. initNavigation()     — sets up scroll spy and hamburger menu.
+ *   7. initHeroParticles()  — cosmetic, safe to run last.
+ *   8. initHotelSearch()    — binds hotel form after renderHotels().
+ *   9. initRouteMap()       — delayed 200ms for MapLibre container sizing.
+ *  10. initDayMiniMap()     — auto-opens Day 1 map if card is pre-opened.
+ *
+ * Each init call uses a typeof guard so missing modules fail silently
+ * (e.g., map.js excluded) rather than crashing the whole app.
+ *
+ * AGENTS: Wrap new init calls in `if (typeof initXxx === 'function')` guards.
+ * Do not add trip-specific logic here — use data/config.js feature flags instead.
+ *
+ * @see js/ui.js       — initLanguage(), initTheme(), initNavigation().
+ * @see js/render.js   — renderAll().
+ * @see js/currency.js — initCurrencySelector().
+ * @see js/map.js      — initRouteMap(), initDayMiniMap().
+ * @see sw.js          — Service Worker (bump CACHE_NAME after code changes).
+ * @see AGENTS.md      — Architecture rules.
  */
 
 // Register Service Worker for Offline / PWA Support

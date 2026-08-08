@@ -1,8 +1,32 @@
 /**
  * @file map.js
- * @description GLOBAL MAP MODULE — renders interactive maps using MapLibre GL JS + OpenFreeMap.
- * Supports automatic bounding box fitting for any coordinates worldwide and
- * smooth theme synchronization (Positron Light ↔ Fiord Dark).
+ * @description GLOBAL MAP MODULE — renders interactive vector maps via MapLibre GL JS
+ * using free OpenFreeMap tiles (no API key required).
+ *
+ * Two map types:
+ *   1. Overview Route Map (#route-map) — plots all route stops from
+ *      SITE_DATA.overview.routeStops[] with a polyline and numbered markers.
+ *      Auto-fits bounding box to any GPS coordinates worldwide.
+ *   2. Per-Day Mini Maps (#minimap-{dayId}) — lazily initialized when a day
+ *      accordion is opened. Plots activity locations from
+ *      ITINERARY_DATA[].blocks[].activity.locations[].
+ *
+ * Theme integration:
+ *   - Listens to 'themechange' CustomEvent (dispatched by ui.js) and swaps
+ *     map tile styles: Positron (light) ↔ Fiord (dark).
+ *
+ * Language integration:
+ *   - Listens to 'langchange' CustomEvent (dispatched by ui.js) and updates
+ *     all open marker popup labels to the new active language.
+ *
+ * AGENTS: Map marker colors use inline hex strings (not CSS custom properties)
+ * because MapLibre GL elements are SVG/Canvas and do not read CSS vars.
+ * This is an acceptable exception to the CSS custom properties rule.
+ *
+ * @see data/site-data.js       — SITE_DATA.overview.routeStops[] for route map.
+ * @see data/itinerary-data.js  — ITINERARY_DATA[].blocks[].activity.locations[].
+ * @see js/ui.js                — Dispatches 'themechange' and 'langchange' events.
+ * @see AGENTS.md               — Architecture rules.
  */
 
 const STYLE_LIGHT = 'https://tiles.openfreemap.org/styles/positron';

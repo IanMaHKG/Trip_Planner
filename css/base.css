@@ -1,6 +1,39 @@
-/* ═══════════════════════════════════════════════════
-   TRIP PLANNER — Base Styles & Resets
-   ═══════════════════════════════════════════════════ */
+/* =======================================================
+   base.css — RESETS, TYPOGRAPHY & LAYOUT
+   Trip Planner template.
+
+   Provides:
+   • Universal CSS reset (box-sizing, margin, padding).
+   • Root font size and body typography via CSS custom properties from palette.css.
+   • Multilingual visibility rules (see below).
+   • Layout containers (.container, .section).
+   • Section heading styles.
+   • Scroll-reveal animation (.reveal / .reveal.active).
+   • Theme transition suppression class (.theme-transitioning).
+
+   MULTILINGUAL VISIBILITY SYSTEM (for agents):
+   ─────────────────────────────────────────────────
+   render.js → renderBilingualText() emits paired <span> elements:
+     <span class="lang-primary lang-{code}">...</span>
+     <span class="lang-secondary lang-{code}">...</span>
+
+   ui.js → setLanguage() adds one of these classes to <body>:
+     .lang-primary   = active language is the primary (e.g. English)
+     .lang-secondary = active language is the secondary (e.g. Chinese)
+
+   The rules below use these semantic classes to show/hide content:
+     body.lang-primary  — hide .lang-secondary spans, show .lang-primary.
+     body.lang-secondary — hide .lang-primary spans, show .lang-secondary.
+
+   This design works for ANY language pair configured in TRIP_CONFIG.languages
+   (English+Chinese, French+Spanish, Japanese+English, etc.) without changes
+   to this file.
+
+   @see js/render.js   — renderBilingualText() for span output.
+   @see js/ui.js       — setLanguage() for body class management.
+   @see data/config.js — TRIP_CONFIG.languages for primary/secondary codes.
+   @see AGENTS.md      — Language Style Rules section.
+   ======================================================= */
 
 *, *::before, *::after {
   box-sizing: border-box;

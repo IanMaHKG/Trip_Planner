@@ -1,6 +1,35 @@
-/* ═══════════════════════════════════════════════════
-   TRIP PLANNER — Sections Styles
-   ═══════════════════════════════════════════════════ */
+/* =======================================================
+   sections.css — PAGE SECTION LAYOUTS
+   Trip Planner template.
+
+   Contains layout and visual styles specific to each page section.
+   Organized in the same top-to-bottom order as the rendered page:
+     1. Hero (#hero)
+     2. Overview Cards & Route Milestone Board (#overview, .route-board-container)
+     3. Map (#map-section)
+     4. Tips (.tips-grid)
+     5. Itinerary / Day Timeline (.day-card, .day-body, .time-slot)
+     6. Packing Checklist (.packing-category-card)
+     7. Budget Table (.budget-table)
+     8. Hotels (.hotel-leg-card, .hotel-search-form)
+     9. Transit Cards (.transit-card)
+
+   AGENTS:
+   • All color and spacing values must use CSS custom properties from palette.css.
+   • Route Milestone Board styles are keyed off [data-transit-style] attribute
+     (set in render.js → renderOverview()). Do not hardcode style-specific colors.
+   • New sections go at the bottom. Add a numbered comment header matching
+     the pattern above, and update this file-level comment to list the section.
+   • Grid layout guideline: avoid orphaning a single item in the last row
+     of any card grid. Prefer explicit grid-template-columns over auto-fit
+     for grids with a fixed known item count.
+
+   @see css/palette.css   — All color and spacing tokens.
+   @see css/components.css — Reusable component styles.
+   @see css/responsive.css — Responsive breakpoint overrides.
+   @see js/render.js       — Injects HTML that these styles target.
+   @see AGENTS.md          — Architecture and grid layout rules.
+   ======================================================= */
 
 /* ═══════════════════════════════════════════════════
    1. HERO
