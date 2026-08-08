@@ -1,0 +1,12 @@
+# _config.yml — GitHub Pages / Jekyll site metadata
+#
+# GitHub Pages processes this file for metadata when deployed as a GitHub Page.
+# This template is a 100% static HTML/CSS/JS web application that runs
+# out of the box with zero build steps or dependencies.
+#
+title: Trip Planner — Universal Travel Itinerary Template
+description: >
+  A modern, modular, interactive travel planner template for any destination worldwide.
+  Supports multilingual display, live currency conversion, interactive MapLibre GL JS maps,
+  accommodations search, packing checklists, and customizable theme palettes.
+theme: minima

@@ -1,0 +1,253 @@
+/* ═══════════════════════════════════════════════════
+   TRIP PLANNER — Master Design System & Theme Engine
+   Includes 7 Luxury Theme Presets with Full Dark/Light Mode.
+   ═══════════════════════════════════════════════════ */
+
+:root {
+  /* ══════════════════════════════════════════════════
+     DEFAULT PALETTE: MIDNIGHT NAVY & GOLD (Aviation Luxury)
+     ══════════════════════════════════════════════════ */
+  --brand-primary: #01295C;       /* Midnight Navy */
+  --brand-secondary: #075AAA;     /* Azure Blue */
+  --brand-accent: #EB2226;        /* Crimson Red */
+  --brand-gold: #C9A96E;          /* First Class Gold */
+  --brand-gold-light: #E2C992;    /* Light Gold */
+
+  /* ── Backgrounds (Light Mode) ── */
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F8FAFC;
+  --bg-card: #FFFFFF;
+  --bg-card-hover: #F1F5F9;
+  --bg-nav: #01295C;
+  --bg-footer: #01295C;
+  --bg-input: #FFFFFF;
+
+  /* ── Text (Light Mode) ── */
+  --text-primary: #0F172A;
+  --text-secondary: #475569;
+  --text-muted: #64748B;
+  --text-on-dark: #FFFFFF;
+  --text-on-dark-2: rgba(255, 255, 255, 0.75);
+
+  /* ── Borders & Dividers ── */
+  --border-light: #E2E8F0;
+  --border-mid: #CBD5E1;
+  --border-nav: rgba(255, 255, 255, 0.14);
+
+  /* ── Semantic Accents ── */
+  --accent-primary: #075AAA;
+  --accent-highlight: #EB2226;
+  --accent-gold: #C9A96E;
+  --accent-teal: #0D9488;
+  --accent-sky: #0284C7;
+  --accent-success: #16A34A;
+  --accent-warning: #D97706;
+
+  /* ── Map Route Line Colors ── */
+  --route-drive: #0284C7;
+  --route-train: #DC2626;
+  --route-flight: #8B5CF6;
+  --route-ferry: #0D9488;
+  --route-walk: #F59E0B;
+  --route-local: #C9A96E;
+
+  /* ── Tags & Badges ── */
+  --tag-city-bg: rgba(235, 34, 38, 0.08);
+  --tag-city-color: #C42026;
+  --tag-nature-bg: rgba(13, 148, 136, 0.10);
+  --tag-nature-color: #0F766E;
+  --tag-culture-bg: rgba(201, 169, 110, 0.14);
+  --tag-culture-color: #8A6A2E;
+  --tag-pace-bg: rgba(7, 90, 170, 0.09);
+  --tag-pace-color: #075AAA;
+  --tag-transport-bg: rgba(1, 41, 92, 0.08);
+  --tag-transport-color: #01295C;
+  --tag-special-bg: rgba(235, 34, 38, 0.09);
+  --tag-special-color: #C42026;
+
+  /* ── Gradients ── */
+  --gradient-hero: linear-gradient(150deg, #00183A 0%, #01295C 40%, #075AAA 100%);
+  --gradient-brand: linear-gradient(135deg, #075AAA, #01295C);
+  --gradient-accent: linear-gradient(135deg, #EB2226, #C4002F);
+  --gradient-gold: linear-gradient(135deg, #C9A96E, #E2C992);
+  --gradient-card: linear-gradient(180deg, rgba(255, 255, 255, 0.85) 0%, rgba(255, 255, 255, 0.65) 100%);
+
+  /* ── Shadows & Elevation ── */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
+  --shadow-card: 0 1px 3px rgba(0, 0, 0, 0.06), 0 6px 20px rgba(0, 0, 0, 0.04);
+  --shadow-card-hover: 0 8px 30px rgba(1, 41, 92, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
+  --shadow-nav: 0 4px 20px rgba(0, 0, 0, 0.15);
+  --shadow-btn: 0 4px 14px rgba(7, 90, 170, 0.30);
+  --shadow-accent: 0 4px 14px rgba(235, 34, 38, 0.30);
+
+  /* ── Radii ── */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-pill: 9999px;
+
+  /* ── Typography & Transitions ── */
+  --font-primary: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-heading: 'Inter', system-ui, sans-serif;
+  --transition-fast: 0.18s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-smooth: 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-bounce: 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+/* ═══════════════════════════════════════════════════
+   PRESET 2: NORDIC AURORA (Teal, Cyan & Obsidian)
+   ═══════════════════════════════════════════════════ */
+[data-theme-preset="nordic-aurora"] {
+  --brand-primary: #0F172A;
+  --brand-secondary: #0D9488;
+  --brand-accent: #06B6D4;
+  --brand-gold: #38BDF8;
+  --brand-gold-light: #7DD3FC;
+  --bg-nav: #0B1329;
+  --bg-footer: #0B1329;
+  --accent-primary: #0D9488;
+  --accent-highlight: #06B6D4;
+  --gradient-hero: linear-gradient(150deg, #020617 0%, #0F172A 45%, #115E59 100%);
+  --gradient-brand: linear-gradient(135deg, #0D9488, #0F766E);
+  --gradient-accent: linear-gradient(135deg, #06B6D4, #0891B2);
+  --tag-city-bg: rgba(6, 182, 212, 0.10);
+  --tag-city-color: #0891B2;
+}
+
+/* ═══════════════════════════════════════════════════
+   PRESET 3: MEDITERRANEAN WARM (Terracotta, Coral & Deep Sea)
+   ═══════════════════════════════════════════════════ */
+[data-theme-preset="mediterranean-warm"] {
+  --brand-primary: #1E293B;
+  --brand-secondary: #E06D53;
+  --brand-accent: #EA580C;
+  --brand-gold: #F59E0B;
+  --brand-gold-light: #FDE68A;
+  --bg-nav: #182234;
+  --bg-footer: #182234;
+  --accent-primary: #E06D53;
+  --accent-highlight: #EA580C;
+  --gradient-hero: linear-gradient(150deg, #0F172A 0%, #1E293B 40%, #9A3412 100%);
+  --gradient-brand: linear-gradient(135deg, #E06D53, #C2410C);
+  --gradient-accent: linear-gradient(135deg, #F97316, #EA580C);
+  --tag-city-bg: rgba(234, 88, 12, 0.10);
+  --tag-city-color: #C2410C;
+}
+
+/* ═══════════════════════════════════════════════════
+   PRESET 4: SAKURA ROSE (Plum, Blossom Pink & Rose Gold)
+   ═══════════════════════════════════════════════════ */
+[data-theme-preset="sakura-rose"] {
+  --brand-primary: #2D1537;
+  --brand-secondary: #D946EF;
+  --brand-accent: #F43F5E;
+  --brand-gold: #FB7185;
+  --brand-gold-light: #FECDD3;
+  --bg-nav: #240E2E;
+  --bg-footer: #240E2E;
+  --accent-primary: #C026D3;
+  --accent-highlight: #F43F5E;
+  --gradient-hero: linear-gradient(150deg, #180920 0%, #2D1537 45%, #9D174D 100%);
+  --gradient-brand: linear-gradient(135deg, #D946EF, #A21CAF);
+  --gradient-accent: linear-gradient(135deg, #F43F5E, #E11D48);
+  --tag-city-bg: rgba(244, 63, 94, 0.10);
+  --tag-city-color: #E11D48;
+}
+
+/* ═══════════════════════════════════════════════════
+   PRESET 5: ALPINE EMERALD (Swiss Pine, Glacial Blue & Gold)
+   ═══════════════════════════════════════════════════ */
+[data-theme-preset="alpine-emerald"] {
+  --brand-primary: #064E3B;
+  --brand-secondary: #059669;
+  --brand-accent: #0284C7;
+  --brand-gold: #D97706;
+  --brand-gold-light: #FDE68A;
+  --bg-nav: #04382A;
+  --bg-footer: #04382A;
+  --accent-primary: #059669;
+  --accent-highlight: #0284C7;
+  --gradient-hero: linear-gradient(150deg, #022C22 0%, #064E3B 45%, #0369A1 100%);
+  --gradient-brand: linear-gradient(135deg, #059669, #047857);
+  --gradient-accent: linear-gradient(135deg, #0284C7, #0369A1);
+  --tag-city-bg: rgba(5, 150, 105, 0.10);
+  --tag-city-color: #047857;
+}
+
+/* ═══════════════════════════════════════════════════
+   PRESET 6: CYBER DARK (Obsidian, Electric Violet & Neon Cyan)
+   ═══════════════════════════════════════════════════ */
+[data-theme-preset="cyber-dark"] {
+  --brand-primary: #09090B;
+  --brand-secondary: #8B5CF6;
+  --brand-accent: #06B6D4;
+  --brand-gold: #F43F5E;
+  --brand-gold-light: #FDA4AF;
+  --bg-nav: #050507;
+  --bg-footer: #050507;
+  --accent-primary: #8B5CF6;
+  --accent-highlight: #06B6D4;
+  --gradient-hero: linear-gradient(150deg, #000000 0%, #09090B 45%, #4C1D95 100%);
+  --gradient-brand: linear-gradient(135deg, #8B5CF6, #6D28D9);
+  --gradient-accent: linear-gradient(135deg, #06B6D4, #0891B2);
+  --tag-city-bg: rgba(139, 92, 246, 0.12);
+  --tag-city-color: #7C3AED;
+}
+
+/* ═══════════════════════════════════════════════════
+   PRESET 7: SUNSET TERRACOTTA (Sedona Rust & Ochre)
+   ═══════════════════════════════════════════════════ */
+[data-theme-preset="sunset-terracotta"] {
+  --brand-primary: #431407;
+  --brand-secondary: #C2410C;
+  --brand-accent: #D97706;
+  --brand-gold: #EAB308;
+  --brand-gold-light: #FEF08A;
+  --bg-nav: #2C0B03;
+  --bg-footer: #2C0B03;
+  --accent-primary: #C2410C;
+  --accent-highlight: #D97706;
+  --gradient-hero: linear-gradient(150deg, #1C0601 0%, #431407 45%, #9A3412 100%);
+  --gradient-brand: linear-gradient(135deg, #C2410C, #9A3412);
+  --gradient-accent: linear-gradient(135deg, #D97706, #B45309);
+  --tag-city-bg: rgba(194, 65, 12, 0.12);
+  --tag-city-color: #9A3412;
+}
+
+/* ═══════════════════════════════════════════════════
+   DARK MODE PALETTE OVERRIDES (Universal across all presets)
+   ═══════════════════════════════════════════════════ */
+[data-theme="dark"] {
+  --bg-primary: #0F172A;
+  --bg-secondary: #1E293B;
+  --bg-card: #1E293B;
+  --bg-card-hover: #273549;
+  --bg-input: #0F172A;
+
+  --text-primary: #F8FAFC;
+  --text-secondary: #CBD5E1;
+  --text-muted: #94A3B8;
+
+  --border-light: rgba(255, 255, 255, 0.08);
+  --border-mid: rgba(255, 255, 255, 0.16);
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+  --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.35);
+  --shadow-card-hover: 0 8px 30px rgba(0, 0, 0, 0.5);
+
+  --gradient-card: linear-gradient(180deg, rgba(30, 41, 59, 0.85) 0%, rgba(30, 41, 59, 0.65) 100%);
+
+  --tag-city-bg: rgba(239, 68, 68, 0.20);
+  --tag-city-color: #FCA5A5;
+  --tag-nature-bg: rgba(13, 148, 136, 0.22);
+  --tag-nature-color: #5EEAD4;
+  --tag-culture-bg: rgba(201, 169, 110, 0.22);
+  --tag-culture-color: #FDE68A;
+  --tag-pace-bg: rgba(56, 189, 248, 0.18);
+  --tag-pace-color: #7DD3FC;
+  --tag-transport-bg: rgba(255, 255, 255, 0.12);
+  --tag-transport-color: #E2E8F0;
+  --tag-special-bg: rgba(239, 68, 68, 0.22);
+  --tag-special-color: #FCA5A5;
+}

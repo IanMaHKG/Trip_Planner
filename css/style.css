@@ -1,0 +1,10 @@
+/* ═══════════════════════════════════════════════════
+   TRIP PLANNER — Master Stylesheet
+   Imports all modular stylesheets in architectural dependency order.
+   ═══════════════════════════════════════════════════ */
+
+@import 'palette.css';
+@import 'base.css';
+@import 'components.css';
+@import 'sections.css';
+@import 'responsive.css';

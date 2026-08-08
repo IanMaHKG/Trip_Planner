@@ -1,0 +1,209 @@
+/* ═══════════════════════════════════════════════════
+   TRIP PLANNER — Responsive Media Queries & Print
+   ═══════════════════════════════════════════════════ */
+
+/* ── Tablet / Compact Desktop (< 1140px) ── */
+@media (max-width: 1140px) {
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-center {
+    display: none;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--bg-nav);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    flex-direction: column;
+    padding: 16px 24px 24px;
+    gap: 8px;
+    border-bottom: 1px solid var(--border-nav);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45);
+    display: none;
+    z-index: 999;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links a {
+    width: 100%;
+    padding: 12px 16px;
+    font-size: 0.95rem;
+    border-radius: var(--radius-sm, 8px);
+  }
+}
+
+/* ── Tablet Breakpoint (< 1024px) ── */
+@media (max-width: 1024px) {
+  .container {
+    padding: 0 24px;
+  }
+
+  .section {
+    padding: 56px 0;
+  }
+
+  .nav-container,
+  .nav-inner {
+    padding: 0 20px;
+  }
+
+  .time-slot {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .time-label-wrap {
+    width: 100%;
+  }
+
+  .map-container {
+    height: 420px;
+  }
+}
+
+/* ── Mobile Breakpoint (< 768px) ── */
+@media (max-width: 768px) {
+  .container {
+    padding: 0 18px;
+  }
+
+  .section {
+    padding: 44px 0;
+  }
+
+  .section-title {
+    font-size: 1.7rem;
+  }
+
+  .section-subtitle {
+    font-size: 0.95rem;
+    margin-bottom: 28px;
+  }
+
+  /* Hero */
+  #hero {
+    min-height: 80vh;
+    padding: 100px 16px 60px;
+  }
+
+  .hero-badges {
+    gap: 8px;
+  }
+
+  .hero-cta {
+    width: 100%;
+    justify-content: center;
+  }
+
+  /* Accordion Day Header */
+  .day-header {
+    padding: 16px 18px;
+    flex-wrap: wrap;
+  }
+
+  .day-header-right {
+    width: 100%;
+    justify-content: space-between;
+    margin-top: 8px;
+  }
+
+  .day-body {
+    padding: 0 18px 20px;
+  }
+
+  .map-container {
+    height: 340px;
+  }
+
+  /* Hotel form */
+  .hotel-search-card {
+    padding: 20px;
+  }
+
+  .hotel-search-header {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  /* Footer */
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 18px;
+  }
+
+  .footer-links {
+    justify-content: center;
+  }
+}
+
+/* ── Compact Mobile Breakpoint (< 640px) ── */
+@media (max-width: 640px) {
+  .nav-container,
+  .nav-inner {
+    padding: 0 16px;
+    height: 56px;
+    gap: 8px;
+  }
+
+  .nav-brand {
+    font-size: 0.95rem;
+  }
+
+  .nav-hub-badge span:not(:first-child) {
+    display: none;
+  }
+
+  .nav-hub-badge {
+    padding: 6px 8px;
+  }
+
+  .nav-links {
+    top: 56px;
+  }
+}
+
+/* ── Print Stylesheet ── */
+@media print {
+  .nav-bar,
+  .hero-cta,
+  .scroll-indicator,
+  .day-filters,
+  .currency-switcher-container,
+  .hotel-search-card,
+  .theme-toggle,
+  .lang-switcher,
+  .day-chevron {
+    display: none !important;
+  }
+
+  body {
+    background: #FFFFFF !important;
+    color: #000000 !important;
+  }
+
+  .day-card {
+    break-inside: avoid;
+    border: 1px solid #CCC !important;
+    margin-bottom: 20px;
+  }
+
+  .day-body {
+    display: block !important;
+  }
+
+  .card {
+    break-inside: avoid;
+    box-shadow: none !important;
+    border: 1px solid #DDD !important;
+  }
+}

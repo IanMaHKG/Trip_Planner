@@ -1,0 +1,137 @@
+/* ═══════════════════════════════════════════════════
+   TRIP PLANNER — Base Styles & Resets
+   ═══════════════════════════════════════════════════ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+}
+
+body {
+  font-family: var(--font-primary);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.7;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: background-color var(--transition-smooth), color var(--transition-smooth);
+}
+
+/* ── Multilingual Display Rules ── */
+/* When English is active: show .lang-en, hide .lang-zh */
+body.lang-en .lang-zh,
+body.lang-en .lang-secondary {
+  display: none !important;
+}
+
+/* When Chinese is active: show .lang-zh, hide .lang-en */
+body.lang-zh .lang-en,
+body.lang-zh-hk .lang-en,
+body.lang-secondary .lang-en,
+body:not(.lang-en) .lang-en {
+  display: none !important;
+}
+
+/* When single language mode, secondary is omitted */
+.single-language .lang-switcher {
+  display: none !important;
+}
+
+a {
+  color: var(--accent-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--brand-secondary);
+  text-decoration: underline;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+input, select, textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+/* ── Layout Containers ── */
+.container {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.section {
+  padding: 72px 0;
+  position: relative;
+  background: var(--bg-primary);
+}
+
+.section-dark {
+  background: var(--bg-secondary);
+}
+
+/* ── Section Titles & Subtitles ── */
+.section-title {
+  font-family: var(--font-heading);
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+  letter-spacing: -0.025em;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-title.light {
+  color: var(--text-primary);
+}
+
+.section-subtitle {
+  font-size: 1.05rem;
+  color: var(--text-secondary);
+  margin-bottom: 40px;
+  max-width: 800px;
+  line-height: 1.6;
+}
+
+.section-subtitle.light {
+  color: var(--text-muted);
+}
+
+/* ── Scroll Reveal Animations ── */
+.reveal {
+  opacity: 0;
+  transform: translateY(24px);
+  transition: opacity 0.5s cubic-bezier(0.4, 0, 0.2, 1), transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Theme transitioning class to prevent flash */
+.theme-transitioning,
+.theme-transitioning * {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease !important;
+}

@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark" data-theme-preset="alpine-emerald">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#064E3B">
+  <meta name="description" content="Trip Planner — Modern, modular, multi-lingual travel itinerary template for GitHub Pages with 5 pre-built production plans.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <title>Trip Planner · Luxury Open-Source Travel Itinerary Engine</title>
+
+  <!-- Favicon & PWA Manifest -->
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="manifest" href="manifest.json">
+
+  <!-- Modern Typography (Google Fonts: Inter) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+  <!-- Master Design System & Styles -->
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    /* ═══════════════════════════════════════════════════════════════
+       GREETING & PORTAL HUB STYLES
+       ═══════════════════════════════════════════════════════════════ */
+    .portal-hero {
+      position: relative;
+      min-height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 140px 24px 80px;
+      background: radial-gradient(circle at 50% 20%, rgba(6, 78, 59, 0.4) 0%, rgba(10, 15, 29, 0.95) 80%);
+      overflow: hidden;
+    }
+    [data-theme="light"] .portal-hero {
+      background: radial-gradient(circle at 50% 10%, rgba(16, 185, 129, 0.15) 0%, rgba(248, 250, 252, 1) 75%);
+    }
+
+    .portal-hero-content {
+      position: relative;
+      z-index: 10;
+      max-width: 960px;
+      margin: 0 auto;
+    }
+
+    .portal-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 18px;
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.3);
+      border-radius: 9999px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--color-primary-text, #10B981);
+      margin-bottom: 24px;
+      backdrop-filter: blur(8px);
+    }
+    [data-theme="light"] .portal-badge {
+      color: #065F46;
+      background: rgba(16, 185, 129, 0.1);
+      border-color: rgba(16, 185, 129, 0.25);
+    }
+
+    .portal-title {
+      font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+      font-weight: 900;
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, #ffffff 30%, #94A3B8 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    [data-theme="light"] .portal-title {
+      background: linear-gradient(135deg, #0F172A 30%, #334155 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .portal-subtitle {
+      font-size: clamp(1.05rem, 2vw, 1.35rem);
+      line-height: 1.6;
+      color: #94A3B8;
+      max-width: 780px;
+      margin: 0 auto 36px;
+    }
+    [data-theme="light"] .portal-subtitle {
+      color: #475569;
+    }
+
+    .portal-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      margin-bottom: 50px;
+    }
+
+    .portal-stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      max-width: 880px;
+      margin: 0 auto;
+      padding: 20px 28px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      backdrop-filter: blur(16px);
+    }
+    [data-theme="light"] .portal-stats-bar {
+      background: rgba(255, 255, 255, 0.85);
+      border-color: rgba(0, 0, 0, 0.08);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    }
+
+    .portal-stat-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .portal-stat-num {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--color-primary-text, #10B981);
+    }
+    .portal-stat-label {
+      font-size: 0.82rem;
+      color: #64748B;
+      font-weight: 500;
+      margin-top: 2px;
+    }
+
+    /* ════ PLANS GRID ════ */
+    .plans-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 28px;
+      margin-top: 40px;
+    }
+
+    .plan-card {
+      position: relative;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 24px;
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+    }
+    [data-theme="light"] .plan-card {
+      background: #ffffff;
+      border-color: rgba(0, 0, 0, 0.08);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+    }
+    .plan-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--card-accent, #10B981);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+    }
+    [data-theme="light"] .plan-card:hover {
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+    }
+
+    .plan-card-banner {
+      height: 6px;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: var(--card-gradient, linear-gradient(90deg, #10B981, #064E3B));
+    }
+
+    .plan-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    .plan-flag-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .plan-icon {
+      font-size: 2.2rem;
+      line-height: 1;
+    }
+    .plan-title {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: #F8FAFC;
+    }
+    [data-theme="light"] .plan-title {
+      color: #0F172A;
+    }
+    .plan-duration-badge {
+      font-size: 0.8rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 9999px;
+      background: rgba(255, 255, 255, 0.08);
+      color: #CBD5E1;
+      white-space: nowrap;
+    }
+    [data-theme="light"] .plan-duration-badge {
+      background: #F1F5F9;
+      color: #475569;
+    }
+
+    .plan-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .plan-tag {
+      font-size: 0.76rem;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #94A3B8;
+    }
+    [data-theme="light"] .plan-tag {
+      background: #F8FAFC;
+      border-color: #E2E8F0;
+      color: #64748B;
+    }
+
+    .plan-route-box {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px dashed rgba(255, 255, 255, 0.12);
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      font-size: 0.86rem;
+      color: #CBD5E1;
+      line-height: 1.5;
+    }
+    [data-theme="light"] .plan-route-box {
+      background: #F8FAFC;
+      border-color: #CBD5E1;
+      color: #334155;
+    }
+
+    .plan-desc {
+      font-size: 0.92rem;
+      line-height: 1.6;
+      color: #94A3B8;
+      margin-bottom: 24px;
+      flex-grow: 1;
+    }
+    [data-theme="light"] .plan-desc {
+      color: #64748B;
+    }
+
+    .plan-footer-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: auto;
+    }
+    .btn-launch {
+      flex: 1;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 12px 20px;
+      border-radius: 14px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
+      background: var(--card-accent, #10B981);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    }
+    .btn-launch:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      filter: brightness(1.1);
+    }
+    .btn-prompt {
+      padding: 12px 14px;
+      border-radius: 14px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #94A3B8;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      text-decoration: none;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    [data-theme="light"] .btn-prompt {
+      background: #F1F5F9;
+      border-color: #CBD5E1;
+      color: #475569;
+    }
+    .btn-prompt:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.12);
+    }
+    [data-theme="light"] .btn-prompt:hover {
+      background: #E2E8F0;
+      color: #0F172A;
+    }
+
+    /* ════ FEATURES SECTION ════ */
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 24px;
+      margin-top: 40px;
+    }
+    .feature-box {
+      background: rgba(15, 23, 42, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      border-radius: 20px;
+      padding: 28px;
+      backdrop-filter: blur(8px);
+      transition: transform 0.2s ease;
+    }
+    [data-theme="light"] .feature-box {
+      background: #ffffff;
+      border-color: rgba(0, 0, 0, 0.06);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    }
+    .feature-box:hover {
+      transform: translateY(-4px);
+    }
+    .feature-icon {
+      font-size: 2.2rem;
+      margin-bottom: 16px;
+      display: inline-block;
+    }
+    .feature-title {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #F8FAFC;
+    }
+    [data-theme="light"] .feature-title {
+      color: #0F172A;
+    }
+    .feature-desc {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      color: #94A3B8;
+    }
+    [data-theme="light"] .feature-desc {
+      color: #64748B;
+    }
+
+    /* ════ QUICKSTART STEPS ════ */
+    .steps-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 24px;
+      margin-top: 40px;
+    }
+    .step-box {
+      position: relative;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      padding: 32px 24px;
+      text-align: center;
+    }
+    [data-theme="light"] .step-box {
+      background: #ffffff;
+      border-color: rgba(0, 0, 0, 0.08);
+    }
+    .step-number {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--color-primary, #10B981);
+      color: #ffffff;
+      font-size: 1.2rem;
+      font-weight: 800;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+    }
+    .step-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #F8FAFC;
+    }
+    [data-theme="light"] .step-title {
+      color: #0F172A;
+    }
+    .step-desc {
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: #94A3B8;
+    }
+    [data-theme="light"] .step-desc {
+      color: #64748B;
+    }
+  </style>
+</head>
+<body class="lang-primary lang-en">
+
+  <!-- ═══════════════════════════════════════════════════
+       NAVIGATION BAR
+       ═══════════════════════════════════════════════════ -->
+  <nav class="nav-bar" id="navbar">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo">
+        <span>🧭</span>
+        <span class="lang-en">Trip Planner Hub</span>
+        <span class="lang-zh lang-secondary">行程規劃導航中心</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="#plans"><span class="lang-en">5 Pre-Built Plans</span><span class="lang-zh lang-secondary">5 大精選行程</span></a>
+        <a href="#features"><span class="lang-en">Features</span><span class="lang-zh lang-secondary">核心特色</span></a>
+        <a href="showcase.html"><span class="lang-en">Themes & Transit Showcase</span><span class="lang-zh lang-secondary">樣式展示</span></a>
+        <a href="#quickstart"><span class="lang-en">Quick Start</span><span class="lang-zh lang-secondary">快速上手</span></a>
+        <a href="prompts/trip-planner-prompt.md"><span class="lang-en">AI Prompt</span><span class="lang-zh lang-secondary">AI 提示詞</span></a>
+      </div>
+
+      <div class="nav-actions">
+        <!-- Always-Visible Language Switcher -->
+        <div class="lang-switcher" title="Toggle Language">
+          <button class="lang-btn active" data-lang="en" onclick="setPortalLanguage('en')">EN</button>
+          <button class="lang-btn" data-lang="zh" onclick="setPortalLanguage('zh')">繁中</button>
+        </div>
+
+        <!-- Dark / Light Mode Toggle -->
+        <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle Dark/Light Mode" title="Toggle Dark/Light Mode" onclick="togglePortalTheme()"></button>
+
+        <!-- Mobile Menu Toggle -->
+        <button class="nav-toggle" id="nav-toggle-btn" aria-label="Toggle navigation menu" onclick="toggleMobileNav()">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ═══════════════════════════════════════════════════
+       PORTAL HERO SECTION
+       ═══════════════════════════════════════════════════ -->
+  <header class="portal-hero">
+    <div class="hero-particles"></div>
+    <div class="portal-hero-content">
+      <div class="portal-badge">
+        <span>✨</span>
+        <span class="lang-en">AI-Powered Travel Concierge · Open-Source GitHub Pages Template</span>
+        <span class="lang-zh lang-secondary">AI 智能行程策劃 · 開源 GitHub Pages 旅遊網站範本</span>
+      </div>
+
+      <h1 class="portal-title">
+        <span class="lang-en">Create, Customize & Share Luxury Web Itineraries.</span>
+        <span class="lang-zh lang-secondary">幾分鐘內打造並發布奢華旅遊指南網頁。</span>
+      </h1>
+
+      <p class="portal-subtitle">
+        <span class="lang-en">
+          A modular, bilingual travel planning engine. Featuring global vector maps, live multi-currency converter, 7 luxury themes, offline PWA support, and iconic railway milestone route boards.
+        </span>
+        <span class="lang-zh lang-secondary">
+          完全解耦的數據架構、互動式向量地圖、即時匯率換算、7 套奢華主題與 5 款標誌性鐵道里程碑樣式。
+        </span>
+      </p>
+
+      <div class="portal-actions">
+        <a href="#plans" class="btn btn-primary">
+          <span>🗺️</span>
+          <span class="lang-en">Explore 5 Pre-Built Itineraries</span>
+          <span class="lang-zh lang-secondary">瀏覽 5 大預設行程</span>
+        </a>
+        <a href="showcase.html" class="btn btn-secondary">
+          <span>🎨</span>
+          <span class="lang-en">Themes & Railway Showcase</span>
+          <span class="lang-zh lang-secondary">主題與鐵道樣式展示</span>
+        </a>
+        <a href="https://github.com" class="btn btn-secondary" target="_blank" rel="noopener">
+          <span>⭐️</span>
+          <span class="lang-en">Fork on GitHub</span>
+          <span class="lang-zh lang-secondary">在 GitHub 上 Fork</span>
+        </a>
+      </div>
+
+      <!-- Stats Bar -->
+      <div class="portal-stats-bar">
+        <div class="portal-stat-item">
+          <div class="portal-stat-num">5</div>
+          <div class="portal-stat-label">
+            <span class="lang-en">Live Example Plans</span>
+            <span class="lang-zh lang-secondary">完整實例行程</span>
+          </div>
+        </div>
+        <div class="portal-stat-item">
+          <div class="portal-stat-num">7</div>
+          <div class="portal-stat-label">
+            <span class="lang-en">Luxury Color Themes</span>
+            <span class="lang-zh lang-secondary">奢華色彩主題</span>
+          </div>
+        </div>
+        <div class="portal-stat-item">
+          <div class="portal-stat-num">5</div>
+          <div class="portal-stat-label">
+            <span class="lang-en">Railway Board Styles</span>
+            <span class="lang-zh lang-secondary">經典鐵道里程碑</span>
+          </div>
+        </div>
+        <div class="portal-stat-item">
+          <div class="portal-stat-num">100%</div>
+          <div class="portal-stat-label">
+            <span class="lang-en">Offline PWA Ready</span>
+            <span class="lang-zh lang-secondary">離線支援</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════════════════════════
+       1. 5 PRE-BUILT ITINERARIES SHOWCASE
+       ═══════════════════════════════════════════════════ -->
+  <section id="plans" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">
+          <span class="lang-en">Itinerary Gallery</span>
+          <span class="lang-zh lang-secondary">精選行程庫</span>
+        </div>
+        <h2 class="section-title">
+          <span class="lang-en">5 Production-Ready Travel Itineraries</span>
+          <span class="lang-zh lang-secondary">5 大即開即用完整旅遊指南</span>
+        </h2>
+        <p class="section-desc">
+          <span class="lang-en">Click "Launch Live Plan" to experience each fully interactive trip planner instance in action.</span>
+          <span class="lang-zh lang-secondary">點擊「立即開啟行程」體驗各行程之完整互動地圖、貨幣換算與每日時刻表。</span>
+        </p>
+      </div>
+
+      <div class="plans-grid">
+        <!-- PLAN 1: Switzerland & Italy -->
+        <div class="plan-card" style="--card-accent: #059669; --card-gradient: linear-gradient(90deg, #10B981, #064E3B);">
+          <div class="plan-card-banner"></div>
+          <div class="plan-header">
+            <div class="plan-flag-title">
+              <span class="plan-icon">🇨🇭</span>
+              <div>
+                <h3 class="plan-title">
+                  <span class="lang-en">Switzerland & Northern Italy</span>
+                  <span class="lang-zh lang-secondary">瑞士阿爾卑斯與北意大利</span>
+                </h3>
+              </div>
+            </div>
+            <span class="plan-duration-badge">13 Days</span>
+          </div>
+
+          <div class="plan-tags">
+            <span class="plan-tag">🌲 alpine-emerald</span>
+            <span class="plan-tag">🚆 Swiss Train (SBB)</span>
+            <span class="plan-tag">💶 EUR / CHF</span>
+          </div>
+
+          <div class="plan-route-box">
+            <strong>Route:</strong> Zurich → Lucerne → Interlaken → Zermatt → Lake Como → Milan
+          </div>
+
+          <p class="plan-desc">
+            <span class="lang-en">Grand alpine tour featuring Jungfraujoch, Matterhorn Glacier Paradise, Lake Como villas, and Milan Duomo.</span>
+            <span class="lang-zh lang-secondary">瑞士全景高山鐵道、少女峰頂峰、馬特洪峰冰川天堂、科莫湖別墅與米蘭大教堂。</span>
+          </p>
+
+          <div class="plan-footer-actions">
+            <a href="examples/01-switzerland-italy-13days/index.html" class="btn-launch">
+              <span>🚀</span>
+              <span class="lang-en">Launch Live Plan</span>
+              <span class="lang-zh lang-secondary">開啟瑞士行程</span>
+            </a>
+            <a href="examples/01-switzerland-italy-13days/PROMPT.md" class="btn-prompt" title="View AI Generation Prompt">
+              <span>📄</span>
+              <span>Prompt</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- PLAN 2: Japan Golden Route -->
+        <div class="plan-card" style="--card-accent: #BE123C; --card-gradient: linear-gradient(90deg, #F43F5E, #9F1239);">
+          <div class="plan-card-banner"></div>
+          <div class="plan-header">
+            <div class="plan-flag-title">
+              <span class="plan-icon">🇯🇵</span>
+              <div>
+                <h3 class="plan-title">
+                  <span class="lang-en">Japan Golden Route Express</span>
+                  <span class="lang-zh lang-secondary">日本黃金路線五日極速遊</span>
+                </h3>
+              </div>
+            </div>
+            <span class="plan-duration-badge">5 Days</span>
+          </div>
+
+          <div class="plan-tags">
+            <span class="plan-tag">🌸 sakura-rose</span>
+            <span class="plan-tag">🚅 JR Rail (駅名標)</span>
+            <span class="plan-tag">💴 JPY (¥)</span>
+          </div>
+
+          <div class="plan-route-box">
+            <strong>Route:</strong> Tokyo (Shinjuku) → Hakone (Fuji Onsen) → Kyoto → Osaka (Dotonbori)
+          </div>
+
+          <p class="plan-desc">
+            <span class="lang-en">Shinkansen bullet train journey through Shibuya Sky, Hakone hot springs, Fushimi Inari torii gates, and Dotonbori.</span>
+            <span class="lang-zh lang-secondary">新幹線貫通東京澀谷、箱根溫泉富士山、京都伏見稻荷千本鳥居與大阪道頓堀美食。</span>
+          </p>
+
+          <div class="plan-footer-actions">
+            <a href="examples/02-japan-tokyo-kyoto-5days/index.html" class="btn-launch">
+              <span>🚀</span>
+              <span class="lang-en">Launch Live Plan</span>
+              <span class="lang-zh lang-secondary">開啟日本行程</span>
+            </a>
+            <a href="examples/02-japan-tokyo-kyoto-5days/PROMPT.md" class="btn-prompt" title="View AI Generation Prompt">
+              <span>📄</span>
+              <span>Prompt</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- PLAN 3: UK & Scotland -->
+        <div class="plan-card" style="--card-accent: #0019A8; --card-gradient: linear-gradient(90deg, #1D4ED8, #0019A8);">
+          <div class="plan-card-banner"></div>
+          <div class="plan-header">
+            <div class="plan-flag-title">
+              <span class="plan-icon">🇬🇧</span>
+              <div>
+                <h3 class="plan-title">
+                  <span class="lang-en">Great Britain Heritage Tour</span>
+                  <span class="lang-zh lang-secondary">大不列顛古堡與歷史莊園</span>
+                </h3>
+              </div>
+            </div>
+            <span class="plan-duration-badge">10 Days</span>
+          </div>
+
+          <div class="plan-tags">
+            <span class="plan-tag">⚓ midnight-navy</span>
+            <span class="plan-tag">🚇 London Underground</span>
+            <span class="plan-tag">💷 GBP (£)</span>
+          </div>
+
+          <div class="plan-route-box">
+            <strong>Route:</strong> London (Tube) → Windsor → Bath & Cotswolds → York → Edinburgh
+          </div>
+
+          <p class="plan-desc">
+            <span class="lang-en">British Museum, Fortnum & Mason afternoon tea, Roman Baths, Castle Combe, York Shambles, and Edinburgh Castle.</span>
+            <span class="lang-zh lang-secondary">倫敦地鐵、大英博物館、皇家下午茶、羅馬浴場、科茲窩石屋村、約克肉鋪街與愛丁堡城堡。</span>
+          </p>
+
+          <div class="plan-footer-actions">
+            <a href="examples/03-uk-london-scotland-10days/index.html" class="btn-launch">
+              <span>🚀</span>
+              <span class="lang-en">Launch Live Plan</span>
+              <span class="lang-zh lang-secondary">開啟英國行程</span>
+            </a>
+            <a href="examples/03-uk-london-scotland-10days/PROMPT.md" class="btn-prompt" title="View AI Generation Prompt">
+              <span>📄</span>
+              <span>Prompt</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- PLAN 4: Hong Kong Explorer -->
+        <div class="plan-card" style="--card-accent: #8B5CF6; --card-gradient: linear-gradient(90deg, #8B5CF6, #06B6D4);">
+          <div class="plan-card-banner"></div>
+          <div class="plan-header">
+            <div class="plan-flag-title">
+              <span class="plan-icon">🇭🇰</span>
+              <div>
+                <h3 class="plan-title">
+                  <span class="lang-en">Hong Kong Horizon & Islands</span>
+                  <span class="lang-zh lang-secondary">香港都會天際線與地質海島</span>
+                </h3>
+              </div>
+            </div>
+            <span class="plan-duration-badge">7 Days</span>
+          </div>
+
+          <div class="plan-tags">
+            <span class="plan-tag">🔮 cyber-dark</span>
+            <span class="plan-tag">🚇 Hong Kong MTR</span>
+            <span class="plan-tag">💳 HKD (HK$)</span>
+          </div>
+
+          <div class="plan-route-box">
+            <strong>Route:</strong> Central → Victoria Peak → Big Buddha → Sai Kung UNESCO Geopark
+          </div>
+
+          <p class="plan-desc">
+            <span class="lang-en">Star Ferry harbour cruise, Peak Tram, Ngong Ping 360 Crystal Cable Car, Tai O fishing village, and Sai Kung seafood.</span>
+            <span class="lang-zh lang-secondary">天星小輪維港夜景、山頂纜車、昂坪水晶纜車大佛、大澳棚屋與西貢六角火山岩柱海鮮盛宴。</span>
+          </p>
+
+          <div class="plan-footer-actions">
+            <a href="examples/04-hong-kong-7days/index.html" class="btn-launch">
+              <span>🚀</span>
+              <span class="lang-en">Launch Live Plan</span>
+              <span class="lang-zh lang-secondary">開啟香港行程</span>
+            </a>
+            <a href="examples/04-hong-kong-7days/PROMPT.md" class="btn-prompt" title="View AI Generation Prompt">
+              <span>📄</span>
+              <span>Prompt</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- PLAN 5: US New England Fall -->
+        <div class="plan-card" style="--card-accent: #C2410C; --card-gradient: linear-gradient(90deg, #EA580C, #B45309);">
+          <div class="plan-card-banner"></div>
+          <div class="plan-header">
+            <div class="plan-flag-title">
+              <span class="plan-icon">🇺🇸</span>
+              <div>
+                <h3 class="plan-title">
+                  <span class="lang-en">New England Autumn Roadtrip</span>
+                  <span class="lang-zh lang-secondary">美東新英格蘭賞楓與紐約</span>
+                </h3>
+              </div>
+            </div>
+            <span class="plan-duration-badge">14 Days</span>
+          </div>
+
+          <div class="plan-tags">
+            <span class="plan-tag">🍁 sunset-terracotta</span>
+            <span class="plan-tag">🚇 NYC Subway (MTA)</span>
+            <span class="plan-tag">💵 USD ($)</span>
+          </div>
+
+          <div class="plan-route-box">
+            <strong>Route:</strong> Boston → Kancamagus (NH) → Stowe (VT) → Acadia (ME) → NYC
+          </div>
+
+          <p class="plan-desc">
+            <span class="lang-en">Full-Size SUV roadtrip through Kancamagus Highway, Vermont maple country, Acadia sunrise, fresh Maine lobster, and NYC Broadway.</span>
+            <span class="lang-zh lang-secondary">全驅 SUV 穿越白山賞楓公路、佛蒙特楓糖莊園、阿卡迪亞國家公園日出、緬因活龍蝦與紐約百老匯。</span>
+          </p>
+
+          <div class="plan-footer-actions">
+            <a href="examples/05-us-new-england-14days/index.html" class="btn-launch">
+              <span>🚀</span>
+              <span class="lang-en">Launch Live Plan</span>
+              <span class="lang-zh lang-secondary">開啟美東行程</span>
+            </a>
+            <a href="examples/05-us-new-england-14days/PROMPT.md" class="btn-prompt" title="View AI Generation Prompt">
+              <span>📄</span>
+              <span>Prompt</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════
+       2. CORE FEATURES ARCHITECTURE
+       ═══════════════════════════════════════════════════ -->
+  <section id="features" class="section section-alt">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">
+          <span class="lang-en">Architecture</span>
+          <span class="lang-zh lang-secondary">技術亮點</span>
+        </div>
+        <h2 class="section-title">
+          <span class="lang-en">Engineered for Travel Enthusiasts</span>
+          <span class="lang-zh lang-secondary">專為旅行愛好者打造的先進功能</span>
+        </h2>
+        <p class="section-desc">
+          <span class="lang-en">A clean, zero-build static web framework optimized for instantaneous GitHub Pages deployment.</span>
+          <span class="lang-zh lang-secondary">無需任何編譯或構建步驟，純原生現代化前端架構，無縫部署至 GitHub Pages。</span>
+        </p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-box">
+          <span class="feature-icon">🧩</span>
+          <h3 class="feature-title">
+            <span class="lang-en">Decoupled 3-File Architecture</span>
+            <span class="lang-zh lang-secondary">解耦三文件數據架構</span>
+          </h3>
+          <p class="feature-desc">
+            <span class="lang-en">All trip details are stored in <code>config.js</code>, <code>site-data.js</code>, and <code>itinerary-data.js</code>. Never edit HTML/CSS to change your trip.</span>
+            <span class="lang-zh lang-secondary">所有行程、貨幣、地圖與文案皆收納於三個乾淨的 JS 數據檔案中，零代碼修改 HTML/CSS。</span>
+          </p>
+        </div>
+
+        <div class="feature-box">
+          <span class="feature-icon">🎨</span>
+          <h3 class="feature-title">
+            <span class="lang-en">7 Luxury Theme Presets</span>
+            <span class="lang-zh lang-secondary">7 款奢華色彩主題</span>
+          </h3>
+          <p class="feature-desc">
+            <span class="lang-en">Tailored color palettes including Alpine Emerald, Sakura Rose, Midnight Navy, Cyber Dark, and Sunset Terracotta with full Light/Dark mode.</span>
+            <span class="lang-zh lang-secondary">精心配搭之高階色彩系統，包含阿爾卑斯綠、櫻花粉、午夜藍、賽博黑與日落赤陶，支援暗黑模式。</span>
+          </p>
+        </div>
+
+        <div class="feature-box">
+          <span class="feature-icon">🚆</span>
+          <h3 class="feature-title">
+            <span class="lang-en">5 Transit Milestone Boards</span>
+            <span class="lang-zh lang-secondary">5 大經典鐵路里程碑</span>
+          </h3>
+          <p class="feature-desc">
+            <span class="lang-en">Configurable railway milestone headers: Swiss SBB CFF FFS, Japanese JR Station Sign, London TfL Tube, Hong Kong MTR, and NYC MTA Subway.</span>
+            <span class="lang-zh lang-secondary">可切換瑞士國鐵 SBB、日本 JR 駅名標、倫敦地鐵 Roundel、香港港鐵及紐約地鐵風格之路線看板。</span>
+          </p>
+        </div>
+
+        <div class="feature-box">
+          <span class="feature-icon">🗺️</span>
+          <h3 class="feature-title">
+            <span class="lang-en">Global Vector Maps</span>
+            <span class="lang-zh lang-secondary">全球向量互動地圖</span>
+          </h3>
+          <p class="feature-desc">
+            <span class="lang-en">Powered by MapLibre GL JS + OpenFreeMap tiles. Automatically calculates global bounding boxes for any coordinates.</span>
+            <span class="lang-zh lang-secondary">採用 MapLibre GL JS 與 OpenFreeMap 向量圖磚，自動縮放全景視角，支援自定義地標圖釘。</span>
+          </p>
+        </div>
+
+        <div class="feature-box">
+          <span class="feature-icon">💱</span>
+          <h3 class="feature-title">
+            <span class="lang-en">Live Currency Converter</span>
+            <span class="lang-zh lang-secondary">即時匯率換算引擎</span>
+          </h3>
+          <p class="feature-desc">
+            <span class="lang-en">Real-time exchange rate engine powered by Open Exchange Rates API with automatic offline fallbacks.</span>
+            <span class="lang-zh lang-secondary">整合即時匯率 API，一鍵動態切換港幣、美金、英鎊、歐元與日圓，並配備離線備用匯率。</span>
+          </p>
+        </div>
+
+        <div class="feature-box">
+          <span class="feature-icon">📱</span>
+          <h3 class="feature-title">
+            <span class="lang-en">PWA & Offline Ready</span>
+            <span class="lang-zh lang-secondary">PWA 離線快取支援</span>
+          </h3>
+          <p class="feature-desc">
+            <span class="lang-en">Equipped with Service Worker caching and web manifest so you can access your travel itinerary even without mobile signal.</span>
+            <span class="lang-zh lang-secondary">內建 Service Worker 自動快取所有資源，旅途中即使進入高山或無訊號隧道仍可流暢查閱行程。</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════
+       3. 3-STEP QUICK START
+       ═══════════════════════════════════════════════════ -->
+  <section id="quickstart" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-badge">
+          <span class="lang-en">Get Started</span>
+          <span class="lang-zh lang-secondary">快速入門</span>
+        </div>
+        <h2 class="section-title">
+          <span class="lang-en">How to Build Your Own Trip in 3 Steps</span>
+          <span class="lang-zh lang-secondary">只需 3 步即可生成專屬旅遊指南</span>
+        </h2>
+        <p class="section-desc">
+          <span class="lang-en">Leverage modern AI Copilots to draft your entire trip plan in seconds.</span>
+          <span class="lang-zh lang-secondary">使用 Claude, ChatGPT 或 Copilot 配合範本提示詞，輕鬆產出高品質旅遊網站。</span>
+        </p>
+      </div>
+
+      <div class="steps-container">
+        <div class="step-box">
+          <div class="step-number">1</div>
+          <h3 class="step-title">
+            <span class="lang-en">Fork Repository</span>
+            <span class="lang-zh lang-secondary">Fork 本專案倉庫</span>
+          </h3>
+          <p class="step-desc">
+            <span class="lang-en">Click "Fork" on GitHub to create your personal copy of the Trip Planner template.</span>
+            <span class="lang-zh lang-secondary">在 GitHub 上點擊 Fork 按鈕，建立屬於您個人的行程網站倉庫。</span>
+          </p>
+        </div>
+
+        <div class="step-box">
+          <div class="step-number">2</div>
+          <h3 class="step-title">
+            <span class="lang-en">Prompt AI Copilot</span>
+            <span class="lang-zh lang-secondary">使用 AI 生成行程數據</span>
+          </h3>
+          <p class="step-desc">
+            <span class="lang-en">Copy <code>prompts/trip-planner-prompt.md</code> into Claude or ChatGPT with your destination and dates.</span>
+            <span class="lang-zh lang-secondary">複製提示詞範本並填入目的地與日期，讓 AI 為您生成 3 個乾淨的 JS 數據檔案。</span>
+          </p>
+        </div>
+
+        <div class="step-box">
+          <div class="step-number">3</div>
+          <h3 class="step-title">
+            <span class="lang-en">Deploy to GitHub Pages</span>
+            <span class="lang-zh lang-secondary">一鍵發布至 GitHub Pages</span>
+          </h3>
+          <p class="step-desc">
+            <span class="lang-en">Paste the 3 files into <code>data/</code> and push. Your live website is instantly available worldwide!</span>
+            <span class="lang-zh lang-secondary">將生成的文件貼入 <code>data/</code> 目錄並提交，GitHub Actions 將自動完成發布！</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════ -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <div class="footer-logo">
+            <span>🧭</span>
+            <span>Trip Planner</span>
+          </div>
+          <p class="footer-tagline">
+            <span class="lang-en">Open-source luxury travel planning framework for GitHub Pages.</span>
+            <span class="lang-zh lang-secondary">開源、現代化、多語言 GitHub Pages 旅遊行程範本。</span>
+          </p>
+        </div>
+
+        <div class="footer-links">
+          <a href="#navbar"><span class="lang-en">Back to Top ↑</span><span class="lang-zh lang-secondary">返回頂部 ↑</span></a>
+          <a href="#plans"><span class="lang-en">Example Plans</span><span class="lang-zh lang-secondary">精選行程</span></a>
+          <a href="showcase.html"><span class="lang-en">Style Showcase</span><span class="lang-zh lang-secondary">樣式展示</span></a>
+          <a href="prompts/trip-planner-prompt.md"><span class="lang-en">AI Prompt</span><span class="lang-zh lang-secondary">提示詞範本</span></a>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>© 2026 Trip Planner. MIT Licensed Open Source Project.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ═══════════════════════════════════════════════════
+       PORTAL SCRIPTS
+       ═══════════════════════════════════════════════════ -->
+  <script>
+    // Language Toggle Handler for Greeting Portal
+    function setPortalLanguage(lang) {
+      const body = document.body;
+      const buttons = document.querySelectorAll('.lang-switcher .lang-btn');
+      
+      buttons.forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
+      });
+
+      if (lang === 'zh') {
+        body.classList.remove('lang-en');
+        body.classList.add('lang-zh');
+      } else {
+        body.classList.remove('lang-zh');
+        body.classList.add('lang-en');
+      }
+      localStorage.setItem('trip_planner_lang', lang);
+    }
+
+    // Theme Toggle Handler for Greeting Portal
+    function togglePortalTheme() {
+      const html = document.documentElement;
+      const current = html.getAttribute('data-theme') || 'dark';
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('trip_planner_theme', next);
+    }
+
+    // Mobile Nav Toggle
+    function toggleMobileNav() {
+      const navLinks = document.querySelector('.nav-links');
+      if (navLinks) navLinks.classList.toggle('open');
+    }
+
+    // Initialize Preferences
+    document.addEventListener('DOMContentLoaded', () => {
+      const savedTheme = localStorage.getItem('trip_planner_theme');
+      if (savedTheme) {
+        document.documentElement.setAttribute('data-theme', savedTheme);
+      }
+      const savedLang = localStorage.getItem('trip_planner_lang');
+      if (savedLang) {
+        setPortalLanguage(savedLang);
+      }
+    });
+  </script>
+</body>
+</html>

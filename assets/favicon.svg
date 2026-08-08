@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100%" height="100%">
+  <defs>
+    <linearGradient id="compassGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0284C7" />
+      <stop offset="100%" stop-color="#0F172A" />
+    </linearGradient>
+    <linearGradient id="needleNorth" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#EF4444" />
+      <stop offset="100%" stop-color="#DC2626" />
+    </linearGradient>
+    <linearGradient id="needleSouth" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#E2E8F0" />
+      <stop offset="100%" stop-color="#94A3B8" />
+    </linearGradient>
+  </defs>
+  <!-- Outer circle ring -->
+  <circle cx="50" cy="50" r="46" fill="url(#compassGrad)" stroke="#38BDF8" stroke-width="2.5" />
+  <!-- Inner ring -->
+  <circle cx="50" cy="50" r="36" fill="none" stroke="rgba(255,255,255,0.2)" stroke-width="1.5" stroke-dasharray="3 3" />
+  <!-- Cardinal points markers -->
+  <circle cx="50" cy="18" r="2" fill="#38BDF8" />
+  <circle cx="82" cy="50" r="2" fill="#38BDF8" />
+  <circle cx="50" cy="82" r="2" fill="#38BDF8" />
+  <circle cx="18" cy="50" r="2" fill="#38BDF8" />
+  <!-- Compass Needle (Rotated) -->
+  <polygon points="50,15 57,50 50,47" fill="url(#needleNorth)" />
+  <polygon points="50,15 43,50 50,47" fill="#F87171" />
+  <polygon points="50,85 57,50 50,53" fill="url(#needleSouth)" />
+  <polygon points="50,85 43,50 50,53" fill="#CBD5E1" />
+  <!-- Center pivot pin -->
+  <circle cx="50" cy="50" r="4.5" fill="#FFFFFF" stroke="#0F172A" stroke-width="2" />
+</svg>

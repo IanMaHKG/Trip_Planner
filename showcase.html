@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-palette="alpine-emerald">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Trip Planner — Design System & Style Showcase</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .showcase-page {
+      padding: 40px 24px 80px;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    .showcase-header {
+      text-align: center;
+      margin-bottom: 48px;
+      padding: 32px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-sm);
+    }
+    .showcase-header h1 {
+      font-size: 2.2rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin-bottom: 8px;
+    }
+    .showcase-header p {
+      color: var(--text-secondary);
+      font-size: 1.05rem;
+    }
+    .showcase-toolbar {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 20px;
+    }
+    .showcase-section-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      margin: 48px 0 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .showcase-section-desc {
+      color: var(--text-secondary);
+      margin-bottom: 24px;
+      font-size: 0.95rem;
+    }
+    .theme-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 20px;
+      margin-bottom: 48px;
+    }
+    .theme-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-lg);
+      padding: 20px;
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .theme-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .theme-card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+    .theme-vibe-tag {
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: var(--radius-pill);
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+    }
+    .theme-swatches {
+      display: flex;
+      gap: 8px;
+      height: 36px;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .theme-swatch {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: #FFFFFF;
+      text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+    }
+    .theme-preview-box {
+      border-radius: 8px;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .railway-showcase-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+    }
+    .railway-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-light);
+      border-radius: var(--radius-xl);
+      padding: 24px;
+      box-shadow: var(--shadow-sm);
+    }
+    .railway-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-light);
+    }
+    .railway-title {
+      font-size: 1.2rem;
+      font-weight: 800;
+      color: var(--text-primary);
+    }
+    .railway-code-tag {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      padding: 3px 8px;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-mid);
+      border-radius: 4px;
+      color: var(--brand-accent);
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="showcase-page">
+
+    <!-- Header -->
+    <header class="showcase-header">
+      <span class="badge badge-accent" style="margin-bottom: 12px; display: inline-block;">🎨 Design System Visual Showcase</span>
+      <h1>Trip Planner — Theme Presets & Railway Styles</h1>
+      <p>A live interactive preview of all 7 luxury theme palettes and all 5 iconic railway route milestone boards.</p>
+      
+      <div class="showcase-toolbar">
+        <button class="btn btn-secondary btn-sm" onclick="toggleThemeMode()">🌓 Toggle Dark / Light Mode</button>
+        <a href="index.html" class="btn btn-primary btn-sm">⬅️ Back to Main Trip Website</a>
+      </div>
+    </header>
+
+    <!-- SECTION 1: 5 RAILWAY STYLES -->
+    <h2 class="showcase-section-title">🚆 5 Railway Milestone Styles</h2>
+    <p class="showcase-section-desc">Each style transforms the journey milestone board into an authentic transit map. Configure in <code>data/config.js</code> under <code>routeBoardStyle</code>.</p>
+
+    <div class="railway-showcase-stack">
+
+      <!-- 1. Swiss Train -->
+      <div class="railway-card">
+        <div class="railway-meta">
+          <div class="railway-title">1. 🇨🇭 Swiss Train — SBB CFF FFS Precision</div>
+          <span class="railway-code-tag">routeBoardStyle: "swiss-train"</span>
+        </div>
+
+        <div class="route-board-container" data-transit-style="swiss-train">
+          <div class="route-board-header">
+            <div class="route-branding">
+              <span class="route-type-badge transit-badge">🇨🇭 SBB · CFF · FFS</span>
+              <h3 class="route-line-title">Alpine & Lakes Scenic Route · Autumn 2026</h3>
+            </div>
+            <div class="route-direction">
+              Bound for Milan <span class="arrow">➔</span>
+            </div>
+          </div>
+
+          <div class="route-track-wrap" style="--stops-count: 6;">
+            <div class="route-stops-list" style="--stops-count: 6;">
+              <div class="route-line-bar" style="background: linear-gradient(90deg, #075AAA 0%, #0098A6 20%, #2E7D32 40%, #C2185B 60%, #E65100 80%, #6A1B9A 100%);"></div>
+              
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #075AAA;"><span class="code-prefix">ZRH</span><span class="code-num">01</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #075AAA;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">蘇黎世</div><div class="stop-name-romaji">Zürich</div><div class="stop-days-badge">第 1–2 天 · Days 1–2</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #0098A6;"><span class="code-prefix">LUC</span><span class="code-num">02</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #0098A6;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">琉森</div><div class="stop-name-romaji">Luzern</div><div class="stop-days-badge">第 2–4 天 · Days 2–4</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #2E7D32;"><span class="code-prefix">INT</span><span class="code-num">03</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #2E7D32;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">因特拉肯</div><div class="stop-name-romaji">Interlaken</div><div class="stop-days-badge">第 4–7 天 · Days 4–7</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #C2185B;"><span class="code-prefix">ZMT</span><span class="code-num">04</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #C2185B;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">策馬特</div><div class="stop-name-romaji">Zermatt</div><div class="stop-days-badge">第 7–9 天 · Days 7–9</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #E65100;"><span class="code-prefix">CMO</span><span class="code-num">05</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #E65100;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">科莫湖</div><div class="stop-name-romaji">Lake Como</div><div class="stop-days-badge">第 9–11 天 · Days 9–11</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #6A1B9A;"><span class="code-prefix">MIL</span><span class="code-num">06</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #6A1B9A;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">米蘭</div><div class="stop-name-romaji">Milano</div><div class="stop-days-badge">第 11–13 天 · Days 11–13</div></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. JR Rail -->
+      <div class="railway-card">
+        <div class="railway-meta">
+          <div class="railway-title">2. 🇯🇵 JR Rail — Japan Railways Station Sign (駅名標)</div>
+          <span class="railway-code-tag">routeBoardStyle: "jr-rail"</span>
+        </div>
+
+        <div class="route-board-container" data-transit-style="jr-rail">
+          <div class="route-board-header">
+            <div class="route-branding">
+              <span class="route-type-badge transit-badge">🇯🇵 JR · LINE</span>
+              <h3 class="route-line-title">東海道・山陽アルプス景觀線 · Tokaido Alpine Line</h3>
+            </div>
+            <div class="route-direction">
+              Bound for Osaka 方面 <span class="arrow">➔</span>
+            </div>
+          </div>
+
+          <div class="route-track-wrap" style="--stops-count: 6;">
+            <div class="route-stops-list" style="--stops-count: 6;">
+              <div class="route-line-bar" style="background: linear-gradient(90deg, #008000 0%, #0098A6 20%, #E60012 40%, #F39800 60%, #9B59B6 80%, #0072BC 100%);"></div>
+              
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #008000;"><span class="code-prefix">TYO</span><span class="code-num">01</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #008000;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">東京</div><div class="stop-name-romaji">Tokyo</div><div class="stop-days-badge">第 1–3 天 · Days 1–3</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #0098A6;"><span class="code-prefix">HKN</span><span class="code-num">02</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #0098A6;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">箱根</div><div class="stop-name-romaji">Hakone</div><div class="stop-days-badge">第 3–5 天 · Days 3–5</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #E60012;"><span class="code-prefix">NGO</span><span class="code-num">03</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #E60012;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">名古屋</div><div class="stop-name-romaji">Nagoya</div><div class="stop-days-badge">第 5–6 天 · Days 5–6</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #F39800;"><span class="code-prefix">KTO</span><span class="code-num">04</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #F39800;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">京都</div><div class="stop-name-romaji">Kyoto</div><div class="stop-days-badge">第 6–9 天 · Days 6–9</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #9B59B6;"><span class="code-prefix">NRA</span><span class="code-num">05</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #9B59B6;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">奈良</div><div class="stop-name-romaji">Nara</div><div class="stop-days-badge">第 9–10 天 · Days 9–10</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #0072BC;"><span class="code-prefix">OSA</span><span class="code-num">06</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #0072BC;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">大阪</div><div class="stop-name-romaji">Osaka</div><div class="stop-days-badge">第 10–13 天 · Days 10–13</div></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. London Underground -->
+      <div class="railway-card">
+        <div class="railway-meta">
+          <div class="railway-title">3. 🇬🇧 London Underground — TfL Harry Beck Tube (London & UK Heritage)</div>
+          <span class="railway-code-tag">routeBoardStyle: "london-underground"</span>
+        </div>
+
+        <div class="route-board-container" data-transit-style="london-underground">
+          <div class="route-board-header">
+            <div class="route-branding">
+              <span class="route-type-badge transit-badge">🔴 UNDERGROUND</span>
+              <h3 class="route-line-title">Piccadilly & Western Heritage Trail</h3>
+            </div>
+            <div class="route-direction">
+              Westbound to Oxford <span class="arrow">➔</span>
+            </div>
+          </div>
+
+          <div class="route-track-wrap" style="--stops-count: 6;">
+            <div class="route-stops-list" style="--stops-count: 6;">
+              <div class="route-line-bar" style="background: linear-gradient(90deg, #0019A8 0%, #0098A6 20%, #E32017 40%, #00782A 60%, #FFA300 80%, #70589B 100%);"></div>
+              
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #0019A8;"><span class="code-prefix">LHR</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #0019A8;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">Heathrow</div><div class="stop-name-romaji">Terminal 5</div><div class="stop-days-badge">Zone 6 · Day 1</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #0098A6;"><span class="code-prefix">KXX</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #0098A6;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">King's Cross</div><div class="stop-name-romaji">St Pancras</div><div class="stop-days-badge">Zone 1 · Days 1–3</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #E32017;"><span class="code-prefix">WAT</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #E32017;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">Waterloo</div><div class="stop-name-romaji">South Bank</div><div class="stop-days-badge">Zone 1 · Days 3–5</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #00782A;"><span class="code-prefix">WIN</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #00782A;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">Windsor</div><div class="stop-name-romaji">Eton Central</div><div class="stop-days-badge">Zone 4 · Days 5–6</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #FFA300;"><span class="code-prefix">BAT</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #FFA300;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">Bath Spa</div><div class="stop-name-romaji">Roman Baths</div><div class="stop-days-badge">Zone 7 · Days 6–8</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #70589B;"><span class="code-prefix">OXF</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #70589B;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">Oxford</div><div class="stop-name-romaji">City Centre</div><div class="stop-days-badge">Zone 8 · Days 8–10</div></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 4. Hong Kong MTR -->
+      <div class="railway-card">
+        <div class="railway-meta">
+          <div class="railway-title">4. 🇭🇰 Hong Kong MTR — Bilingual Line Map (Hong Kong Island & Lantau)</div>
+          <span class="railway-code-tag">routeBoardStyle: "hong-kong-mtr"</span>
+        </div>
+
+        <div class="route-board-container" data-transit-style="hong-kong-mtr">
+          <div class="route-board-header">
+            <div class="route-branding">
+              <span class="route-type-badge transit-badge">Ж MTR</span>
+              <h3 class="route-line-title">機場快綫・港島・大嶼山精華線 · Airport & Island Scenic Line</h3>
+            </div>
+            <div class="route-direction">
+              往 柴灣 / 西貢 To Chai Wan & Sai Kung <span class="arrow">➔</span>
+            </div>
+          </div>
+
+          <div class="route-track-wrap" style="--stops-count: 6;">
+            <div class="route-stops-list" style="--stops-count: 6;">
+              <div class="route-line-bar" style="background: linear-gradient(90deg, #008080 0%, #E60012 20%, #0072BC 40%, #F58220 60%, #532E63 80%, #70589B 100%);"></div>
+              
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #008080;"><span class="code-prefix">AIR</span><span class="code-num">01</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #008080;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">機場</div><div class="stop-name-romaji">Airport</div><div class="stop-days-badge">第 1 天 · Day 1</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #E60012;"><span class="code-prefix">TSY</span><span class="code-num">02</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #E60012;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">青衣</div><div class="stop-name-romaji">Tsing Yi</div><div class="stop-days-badge">第 1–2 天 · Days 1–2</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #0072BC;"><span class="code-prefix">HOK</span><span class="code-num">03</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #0072BC;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">中環・香港</div><div class="stop-name-romaji">Central & IFC</div><div class="stop-days-badge">第 2–4 天 · Days 2–4</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #F58220;"><span class="code-prefix">ADM</span><span class="code-num">04</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #F58220;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">金鐘・山頂</div><div class="stop-name-romaji">Admiralty & Peak</div><div class="stop-days-badge">第 4–6 天 · Days 4–6</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #532E63;"><span class="code-prefix">CWB</span><span class="code-num">05</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #532E63;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">銅鑼灣</div><div class="stop-name-romaji">Causeway Bay</div><div class="stop-days-badge">第 6–8 天 · Days 6–8</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #70589B;"><span class="code-prefix">SKG</span><span class="code-num">06</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #70589B;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">西貢</div><div class="stop-name-romaji">Sai Kung Geopark</div><div class="stop-days-badge">第 8–10 天 · Days 8–10</div></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. NYC Subway & New England -->
+      <div class="railway-card">
+        <div class="railway-meta">
+          <div class="railway-title">5. 🇺🇸 NYC Subway & MTA — New York & New England Corridor</div>
+          <span class="railway-code-tag">routeBoardStyle: "new-york-subway"</span>
+        </div>
+
+        <div class="route-board-container" data-transit-style="new-york-subway">
+          <div class="route-board-header">
+            <div class="route-branding">
+              <span class="route-type-badge transit-badge">MTA SUBWAY</span>
+              <h3 class="route-line-title">NEW YORK TO NEW ENGLAND CORRIDOR</h3>
+            </div>
+            <div class="route-direction">
+              Northbound to Boston <span class="arrow">➔</span>
+            </div>
+          </div>
+
+          <div class="route-track-wrap" style="--stops-count: 6;">
+            <div class="route-stops-list" style="--stops-count: 6;">
+              <div class="route-line-bar" style="background: linear-gradient(90deg, #0039A6 0%, #EE352E 20%, #FF6319 40%, #00933C 60%, #B933AD 80%, #6CBE45 100%);"></div>
+              
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #0039A6;"><span class="code-prefix">A</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #0039A6;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">JFK AIRPORT</div><div class="stop-name-romaji">Jamaica Terminal</div><div class="stop-days-badge">DAYS 1–2</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #EE352E;"><span class="code-prefix">1</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #EE352E;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">TIMES SQUARE</div><div class="stop-name-romaji">Manhattan Midtown</div><div class="stop-days-badge">DAYS 2–4</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #FF6319;"><span class="code-prefix">4</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #FF6319;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">GRAND CENTRAL</div><div class="stop-name-romaji">Summit Vanderbilt</div><div class="stop-days-badge">DAYS 4–6</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #00933C;"><span class="code-prefix">N</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #00933C;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">NEW HAVEN</div><div class="stop-name-romaji">Yale University, CT</div><div class="stop-days-badge">DAYS 6–8</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #B933AD;"><span class="code-prefix">P</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #B933AD;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">PROVIDENCE</div><div class="stop-name-romaji">Rhode Island Capital</div><div class="stop-days-badge">DAYS 8–10</div></div>
+              </div>
+
+              <div class="route-stop-item">
+                <div class="route-stop-top"><div class="stop-code-badge" style="--code-color: #6CBE45;"><span class="code-prefix">B</span></div></div>
+                <div class="route-stop-dot-wrap"><div class="stop-dot" style="--dot-color: #6CBE45;"><span class="dot-inner-core"></span></div></div>
+                <div class="route-stop-bottom"><div class="stop-name-native">BOSTON</div><div class="stop-name-romaji">Back Bay & Freedom Trail</div><div class="stop-days-badge">DAYS 10–13</div></div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- SECTION 2: 7 THEME PRESETS -->
+    <h2 class="showcase-section-title">🎨 7 Luxury Theme Presets</h2>
+    <p class="showcase-section-desc">Click any palette card to preview it live across the entire page, or configure in <code>data/config.js</code> under <code>theme.preset</code>.</p>
+
+    <div class="theme-grid">
+
+      <!-- 1. midnight-navy -->
+      <div class="theme-card" onclick="applyPalette('midnight-navy')" style="cursor: pointer;">
+        <div class="theme-card-header">
+          <div class="theme-card-title">1. Midnight Navy (Default)</div>
+          <span class="theme-vibe-tag">✈️ Luxury City</span>
+        </div>
+        <div class="theme-swatches">
+          <div class="theme-swatch" style="background: #0B2545;">#0B2545</div>
+          <div class="theme-swatch" style="background: #134074;">#134074</div>
+          <div class="theme-swatch" style="background: #C9A227; color: #111;">#C9A227</div>
+        </div>
+        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+          <strong>Palette:</strong> British Airways Midnight Navy, Royal Azure & First-Class Gold.
+        </div>
+        <button class="btn btn-primary btn-sm" style="margin-top: 4px;">Select Midnight Navy</button>
+      </div>
+
+      <!-- 2. nordic-aurora -->
+      <div class="theme-card" onclick="applyPalette('nordic-aurora')" style="cursor: pointer;">
+        <div class="theme-card-header">
+          <div class="theme-card-title">2. Nordic Aurora</div>
+          <span class="theme-vibe-tag">🌌 Glaciers & Aurora</span>
+        </div>
+        <div class="theme-swatches">
+          <div class="theme-swatch" style="background: #0F2A38;">#0F2A38</div>
+          <div class="theme-swatch" style="background: #0D9488;">#0D9488</div>
+          <div class="theme-swatch" style="background: #06B6D4;">#06B6D4</div>
+        </div>
+        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+          <strong>Palette:</strong> Deep Fjord Slate, Northern Lights Aurora Teal & Glacial Cyan.
+        </div>
+        <button class="btn btn-primary btn-sm" style="margin-top: 4px;">Select Nordic Aurora</button>
+      </div>
+
+      <!-- 3. mediterranean-warm -->
+      <div class="theme-card" onclick="applyPalette('mediterranean-warm')" style="cursor: pointer;">
+        <div class="theme-card-header">
+          <div class="theme-card-title">3. Mediterranean Warm</div>
+          <span class="theme-vibe-tag">☀️ Coastal Sun</span>
+        </div>
+        <div class="theme-swatches">
+          <div class="theme-swatch" style="background: #7C2D12;">#7C2D12</div>
+          <div class="theme-swatch" style="background: #C2410C;">#C2410C</div>
+          <div class="theme-swatch" style="background: #F97316;">#F97316</div>
+        </div>
+        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+          <strong>Palette:</strong> Terracotta Clay, Amalfi Sunset Coral & Aegean Sea Blue.
+        </div>
+        <button class="btn btn-primary btn-sm" style="margin-top: 4px;">Select Mediterranean</button>
+      </div>
+
+      <!-- 4. sakura-rose -->
+      <div class="theme-card" onclick="applyPalette('sakura-rose')" style="cursor: pointer;">
+        <div class="theme-card-header">
+          <div class="theme-card-title">4. Sakura Rose</div>
+          <span class="theme-vibe-tag">🌸 Spring Romance</span>
+        </div>
+        <div class="theme-swatches">
+          <div class="theme-swatch" style="background: #4A154B;">#4A154B</div>
+          <div class="theme-swatch" style="background: #9D174D;">#9D174D</div>
+          <div class="theme-swatch" style="background: #DB2777;">#DB2777</div>
+        </div>
+        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+          <strong>Palette:</strong> Imperial Kyoto Plum, Cherry Blossom Pink & Soft Rose Gold.
+        </div>
+        <button class="btn btn-primary btn-sm" style="margin-top: 4px;">Select Sakura Rose</button>
+      </div>
+
+      <!-- 5. alpine-emerald -->
+      <div class="theme-card" onclick="applyPalette('alpine-emerald')" style="cursor: pointer;">
+        <div class="theme-card-header">
+          <div class="theme-card-title">5. Alpine Emerald (Active)</div>
+          <span class="theme-vibe-tag">🏔️ Peaks & Lakes</span>
+        </div>
+        <div class="theme-swatches">
+          <div class="theme-swatch" style="background: #064E3B;">#064E3B</div>
+          <div class="theme-swatch" style="background: #0D9488;">#0D9488</div>
+          <div class="theme-swatch" style="background: #D97706;">#D97706</div>
+        </div>
+        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+          <strong>Palette:</strong> Swiss Pine Emerald, Glacial Mountain Teal & Alpine Gold.
+        </div>
+        <button class="btn btn-primary btn-sm" style="margin-top: 4px;">Select Alpine Emerald</button>
+      </div>
+
+      <!-- 6. cyber-dark -->
+      <div class="theme-card" onclick="applyPalette('cyber-dark')" style="cursor: pointer;">
+        <div class="theme-card-header">
+          <div class="theme-card-title">6. Cyber Dark</div>
+          <span class="theme-vibe-tag">⚡ Neon Shibuya</span>
+        </div>
+        <div class="theme-swatches">
+          <div class="theme-swatch" style="background: #312E81;">#312E81</div>
+          <div class="theme-swatch" style="background: #7C3AED;">#7C3AED</div>
+          <div class="theme-swatch" style="background: #06B6D4;">#06B6D4</div>
+        </div>
+        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+          <strong>Palette:</strong> Deep Obsidian Indigo, Electric Violet & Neon Cyber Glow.
+        </div>
+        <button class="btn btn-primary btn-sm" style="margin-top: 4px;">Select Cyber Dark</button>
+      </div>
+
+      <!-- 7. sunset-terracotta -->
+      <div class="theme-card" onclick="applyPalette('sunset-terracotta')" style="cursor: pointer;">
+        <div class="theme-card-header">
+          <div class="theme-card-title">7. Sunset Terracotta</div>
+          <span class="theme-vibe-tag">🏜️ Desert Canyons</span>
+        </div>
+        <div class="theme-swatches">
+          <div class="theme-swatch" style="background: #78350F;">#78350F</div>
+          <div class="theme-swatch" style="background: #B45309;">#B45309</div>
+          <div class="theme-swatch" style="background: #D97706;">#D97706</div>
+        </div>
+        <div style="font-size: 0.85rem; color: var(--text-secondary);">
+          <strong>Palette:</strong> Sedona Red Clay, Sunset Ochre & Warm Desert Sand.
+        </div>
+        <button class="btn btn-primary btn-sm" style="margin-top: 4px;">Select Terracotta</button>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    function toggleThemeMode() {
+      const html = document.documentElement;
+      const cur = html.getAttribute('data-theme') || 'light';
+      const next = cur === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+    }
+
+    function applyPalette(name) {
+      document.documentElement.setAttribute('data-palette', name);
+    }
+  </script>
+</body>
+</html>
