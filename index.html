@@ -497,10 +497,10 @@
           <span class="lang-en">Themes & Railway Showcase</span>
           <span class="lang-zh lang-secondary">主題與鐵道樣式展示</span>
         </a>
-        <a href="https://github.com" class="btn btn-secondary" target="_blank" rel="noopener">
+        <a href="https://github.com/IanMaHKG/Trip_Planner" class="btn btn-secondary" target="_blank" rel="noopener">
           <span>⭐️</span>
-          <span class="lang-en">Fork on GitHub</span>
-          <span class="lang-zh lang-secondary">在 GitHub 上 Fork</span>
+          <span class="lang-en">Star on GitHub</span>
+          <span class="lang-zh lang-secondary">在 GitHub 上 Star</span>
         </a>
       </div>
 
@@ -555,12 +555,24 @@
         <p class="section-desc">
           <span class="lang-en">Click "Launch Live Plan" to experience each fully interactive trip planner instance in action.</span>
           <span class="lang-zh lang-secondary">點擊「立即開啟行程」體驗各行程之完整互動地圖、貨幣換算與每日時刻表。</span>
-        </p>
+      <div class="plans-category-bar" style="display: flex; justify-content: center; gap: 10px; margin-bottom: 28px; flex-wrap: wrap;">
+        <button class="btn btn-secondary category-btn active" onclick="filterPlans('all', this)" style="padding: 8px 18px; font-size: 0.88rem; border-radius: 9999px;">
+          <span class="lang-en">All 5 Plans</span><span class="lang-zh lang-secondary">全部 5 大行程</span>
+        </button>
+        <button class="btn btn-secondary category-btn" onclick="filterPlans('europe', this)" style="padding: 8px 18px; font-size: 0.88rem; border-radius: 9999px;">
+          <span>🇪🇺</span> <span class="lang-en">Europe</span><span class="lang-zh lang-secondary">歐洲 (瑞士 / 英國)</span>
+        </button>
+        <button class="btn btn-secondary category-btn" onclick="filterPlans('asia', this)" style="padding: 8px 18px; font-size: 0.88rem; border-radius: 9999px;">
+          <span>🌏</span> <span class="lang-en">Asia</span><span class="lang-zh lang-secondary">亞洲 (日本 / 香港)</span>
+        </button>
+        <button class="btn btn-secondary category-btn" onclick="filterPlans('americas', this)" style="padding: 8px 18px; font-size: 0.88rem; border-radius: 9999px;">
+          <span>🌎</span> <span class="lang-en">Americas</span><span class="lang-zh lang-secondary">美洲 (美東新英格蘭)</span>
+        </button>
       </div>
 
       <div class="plans-grid">
         <!-- PLAN 1: Switzerland & Italy -->
-        <div class="plan-card" style="--card-accent: #059669; --card-gradient: linear-gradient(90deg, #10B981, #064E3B);">
+        <div class="plan-card" data-category="europe" style="--card-accent: #059669; --card-gradient: linear-gradient(90deg, #10B981, #064E3B);">
           <div class="plan-card-banner"></div>
           <div class="plan-header">
             <div class="plan-flag-title">
@@ -604,7 +616,7 @@
         </div>
 
         <!-- PLAN 2: Japan Golden Route -->
-        <div class="plan-card" style="--card-accent: #BE123C; --card-gradient: linear-gradient(90deg, #F43F5E, #9F1239);">
+        <div class="plan-card" data-category="asia" style="--card-accent: #BE123C; --card-gradient: linear-gradient(90deg, #F43F5E, #9F1239);">
           <div class="plan-card-banner"></div>
           <div class="plan-header">
             <div class="plan-flag-title">
@@ -648,7 +660,7 @@
         </div>
 
         <!-- PLAN 3: UK & Scotland -->
-        <div class="plan-card" style="--card-accent: #0019A8; --card-gradient: linear-gradient(90deg, #1D4ED8, #0019A8);">
+        <div class="plan-card" data-category="europe" style="--card-accent: #0019A8; --card-gradient: linear-gradient(90deg, #1D4ED8, #0019A8);">
           <div class="plan-card-banner"></div>
           <div class="plan-header">
             <div class="plan-flag-title">
@@ -692,7 +704,7 @@
         </div>
 
         <!-- PLAN 4: Hong Kong Explorer -->
-        <div class="plan-card" style="--card-accent: #8B5CF6; --card-gradient: linear-gradient(90deg, #8B5CF6, #06B6D4);">
+        <div class="plan-card" data-category="asia" style="--card-accent: #8B5CF6; --card-gradient: linear-gradient(90deg, #8B5CF6, #06B6D4);">
           <div class="plan-card-banner"></div>
           <div class="plan-header">
             <div class="plan-flag-title">
@@ -736,7 +748,7 @@
         </div>
 
         <!-- PLAN 5: US New England Fall -->
-        <div class="plan-card" style="--card-accent: #C2410C; --card-gradient: linear-gradient(90deg, #EA580C, #B45309);">
+        <div class="plan-card" data-category="americas" style="--card-accent: #C2410C; --card-gradient: linear-gradient(90deg, #EA580C, #B45309);">
           <div class="plan-card-banner"></div>
           <div class="plan-header">
             <div class="plan-flag-title">
@@ -973,6 +985,19 @@
        PORTAL SCRIPTS
        ═══════════════════════════════════════════════════ -->
   <script>
+    // Category Filter Handler for Plans Gallery
+    function filterPlans(category, btn) {
+      document.querySelectorAll('.plans-category-bar .category-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.plans-grid .plan-card').forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
     // Language Toggle Handler for Greeting Portal
     function setPortalLanguage(lang) {
       const body = document.body;

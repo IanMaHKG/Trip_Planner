@@ -1,12 +1,14 @@
 # 🧭 Trip Planner — Universal Travel Itinerary & Handbook Template
 
-[![GitHub Pages Deployment](https://img.shields.io/badge/Deploy-GitHub%20Pages-blue?logo=github)](https://pages.github.com/)
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-GitHub%20Pages-brightgreen?logo=github)](https://ianmahkg.github.io/Trip_Planner/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Multi-Language](https://img.shields.io/badge/i18n-Bilingual%20%7C%20Single-emerald)](https://github.com/)
+[![Multi-Language](https://img.shields.io/badge/i18n-Bilingual%20%7C%20Single-emerald)](https://ianmahkg.github.io/Trip_Planner/)
 [![MapLibre](https://img.shields.io/badge/Maps-MapLibre%20GL%20%2B%20OpenFreeMap-purple)](https://maplibre.org/)
 [![PWA Ready](https://img.shields.io/badge/PWA-Offline%20Ready-orange)](https://developer.mozilla.org/en-US/docs/Web/Progressive_web_apps)
 
 **Trip Planner** is a state-of-the-art, fully responsive, modular travel planner and interactive itinerary handbook designed for **GitHub Pages**.
+
+🔗 **Live Portal Hub:** [https://ianmahkg.github.io/Trip_Planner/](https://ianmahkg.github.io/Trip_Planner/)
 
 It is engineered to work seamlessly for **any destination worldwide**, in **any language combination**, for **any travel party size**, using **any currency**, and styled with **7 luxury color palettes**.
 
@@ -100,15 +102,15 @@ Trip_Planner/
 
 ## 🗺️ 5 Production-Ready Example Plans
 
-Explore the [`examples/`](examples/) folder for 5 complete, ready-to-use trip plans. Each example folder includes full `config.js`, `site-data.js`, `itinerary-data.js`, and its matching `PROMPT.md`:
+Explore the 5 complete, ready-to-use live trip plans hosted on GitHub Pages:
 
-| # | Plan | Highlights | Duration | Theme | Railway Style |
-|---|---|---|---|---|---|
-| **1** | [🇨🇭 🇮🇹 Switzerland & Italy](examples/01-switzerland-italy-13days/) | Zurich, Lucerne, Interlaken, Zermatt, Como, Milan | 13 Days | `alpine-emerald` | `swiss-train` |
-| **2** | [🇯🇵 Japan Golden Route](examples/02-japan-tokyo-kyoto-5days/) | Tokyo, Hakone Onsen, Kyoto Momiji, Osaka Dotonbori | 5 Days | `sakura-rose` | `jr-rail` |
-| **3** | [🇬🇧 UK & Scotland Tour](examples/03-uk-london-scotland-10days/) | London Tube, Windsor, Bath & Cotswolds, York, Edinburgh | 10 Days | `midnight-navy` | `london-underground` |
-| **4** | [🇭🇰 Hong Kong Explorer](examples/04-hong-kong-7days/) | Victoria Peak, Star Ferry, Big Buddha, Sai Kung Geopark | 7 Days | `cyber-dark` | `hong-kong-mtr` |
-| **5** | [🇺🇸 US New England Fall](examples/05-us-new-england-14days/) | Boston, Kancamagus (NH), Vermont, Acadia (ME), NYC | 14 Days | `sunset-terracotta` | `new-york-subway` |
+| # | Plan | Highlights | Duration | Theme | Railway Style | Live Link |
+|---|---|---|---|---|---|---|
+| **1** | [🇨🇭 🇮🇹 Switzerland & Italy](examples/01-switzerland-italy-13days/) | Zurich, Lucerne, Interlaken, Zermatt, Como, Milan | 13 Days | `alpine-emerald` | `swiss-train` | [🚀 Launch Demo](https://ianmahkg.github.io/Trip_Planner/examples/01-switzerland-italy-13days/index.html) |
+| **2** | [🇯🇵 Japan Golden Route](examples/02-japan-tokyo-kyoto-5days/) | Tokyo, Hakone Onsen, Kyoto Momiji, Osaka Dotonbori | 5 Days | `sakura-rose` | `jr-rail` | [🚀 Launch Demo](https://ianmahkg.github.io/Trip_Planner/examples/02-japan-tokyo-kyoto-5days/index.html) |
+| **3** | [🇬🇧 UK & Scotland Tour](examples/03-uk-london-scotland-10days/) | London Tube, Windsor, Bath & Cotswolds, York, Edinburgh | 10 Days | `midnight-navy` | `london-underground` | [🚀 Launch Demo](https://ianmahkg.github.io/Trip_Planner/examples/03-uk-london-scotland-10days/index.html) |
+| **4** | [🇭🇰 Hong Kong Explorer](examples/04-hong-kong-7days/) | Victoria Peak, Star Ferry, Big Buddha, Sai Kung Geopark | 7 Days | `cyber-dark` | `hong-kong-mtr` | [🚀 Launch Demo](https://ianmahkg.github.io/Trip_Planner/examples/04-hong-kong-7days/index.html) |
+| **5** | [🇺🇸 US New England Fall](examples/05-us-new-england-14days/) | Boston, Kancamagus (NH), Vermont, Acadia (ME), NYC | 14 Days | `sunset-terracotta` | `new-york-subway` | [🚀 Launch Demo](https://ianmahkg.github.io/Trip_Planner/examples/05-us-new-england-14days/index.html) |
 
 *To test or deploy any example, simply copy the 3 `.js` files from the example folder into `data/` and refresh `index.html`!*
 
