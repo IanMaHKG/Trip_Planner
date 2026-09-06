@@ -14,7 +14,7 @@
  * @see AGENTS.md — Service Worker & PWA Rules section.
  */
 
-const CACHE_NAME = 'trip-planner-v1';
+const CACHE_NAME = 'trip-planner-v2';
 const STATIC_ASSETS = [
   './',
   './index.html',
@@ -56,7 +56,7 @@ self.addEventListener('activate', (event) => {
   );
 });
 
-/* ── Fetch: Cache-First for static assets, Network-First for API/Tiles ── */
+/* ── Fetch: Network-First for local assets (instant updates), cache fallback for offline ── */
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
 
@@ -68,24 +68,15 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // Local assets: Network-First ensures fresh code on every visit, fallback to cache when offline
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      if (cachedResponse) {
-        // Fetch fresh copy in background (Stale-While-Revalidate)
-        fetch(event.request).then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            caches.open(CACHE_NAME).then((cache) => cache.put(event.request, networkResponse));
-          }
-        }).catch(() => {/* Offline */});
-        return cachedResponse;
+    fetch(event.request).then((networkResponse) => {
+      if (networkResponse && networkResponse.status === 200 && event.request.method === 'GET') {
+        const responseClone = networkResponse.clone();
+        caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseClone));
       }
-      return fetch(event.request).then((networkResponse) => {
-        if (networkResponse && networkResponse.status === 200 && event.request.method === 'GET') {
-          const responseClone = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => cache.put(event.request, responseClone));
-        }
-        return networkResponse;
-      });
-    })
+      return networkResponse;
+    }).catch(() => caches.match(event.request))
   );
 });
+

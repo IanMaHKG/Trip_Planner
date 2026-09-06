@@ -22,13 +22,21 @@ The repository is built from the ground up to pair with **AI Copilots** (*Claude
 | :--- | :--- |
 | 🌍 **Universal & Modular** | Fully decoupled architecture. Zero hardcoded destinations — customize everything via 3 clean data files. |
 | 🎨 **7 Luxury Theme Presets** | Built-in presets (*Midnight Navy, Nordic Aurora, Mediterranean Warm, Sakura Rose, Alpine Emerald, Cyber Dark, Sunset Terracotta*) + full Dark/Light mode. |
-| 🌐 **Instant i18n Switching** | Always-visible language switcher supporting bilingual (e.g., English + Traditional Chinese) or single-language modes. |
+| 🌐 **Multi-Lingual Parity (i18n)** | Always-visible language switcher supporting bilingual or trilingual (Primary, Secondary, and Tertiary e.g. English, Traditional Chinese, Simplified Chinese) modes. |
+| ✈️ **Confirmed Flight Cards** | Beautiful flight cards with airline badge, flight number, departure/arrival terminals, baggage allowances, and direct ground connection links. |
+| 🍽️ **Food & Gastronomy Map** | Interactive MapLibre GL dining map with category filter pills (*Street Food, Historic, Waterfront, Brewery, Coffee*), dish specialties, and card-to-map cross-highlighting. |
+| 🌦️ **Live Weather Widget** | Integrated Open-Meteo live forecast widget displaying temperature, wind, humidity, precipitation, and seasonal packing advisories. |
+| 🚨 **Essentials & Emergency Support** | 24/7 direct-dial emergency hotlines, consular protection, and destination phrases with Web Speech API audio TTS pronunciation. |
+| 🚕 **Driver Taxi Flashcard** | Mobile-friendly driver destination modal showing local-language hotel and airport addresses with one-tap copy and Google Maps navigation. |
+| 📅 **RFC 5545 iCalendar Export** | One-click `.ics` calendar export with 24-hour alarm reminders for every day's scheduled activities. |
+| 📊 **Dynamic Reading Progress** | Glassmorphic scroll-depth progress bar, active "Today" pill, and 5-thumb-target mobile bottom navigation. |
 | 💱 **Live Multi-Currency Converter** | Real-time exchange rate engine powered by Open Exchange Rates API with automatic offline fallbacks. |
-| 🗺️ **Global Vector Maps** | Powered by MapLibre GL JS + OpenFreeMap tiles. Automatically calculates bounding box for any GPS points globally. Syncs with Dark Mode. |
+| 🗺️ **Lazy-Loaded Vector Maps** | Powered by MapLibre GL JS + OpenFreeMap tiles. Loaded dynamically via `IntersectionObserver` when scrolled into view. |
 | 🚆 **5 Railway Milestone Styles** | Choose from iconic transit styles: *Swiss Train (SBB), JR Rail (Japan 駅名標), London Underground (TfL), Hong Kong MTR, NYC Subway (MTA)* pre-defined via configuration. |
-| 🧳 **Interactive Packing Checklist** | Interactive checkboxes with state persistence in `localStorage`. |
+| 🧳 **Interactive Packing Checklist** | Categorized checklist with real-time percentage progress bar and persistent browser `localStorage`. |
 | 🏨 **Booking.com Hotel Finder** | Quick-leg destination pills with pre-filled check-in, check-out, and traveler party sizes. |
-| 📱 **PWA & Offline Ready** | Built-in Service Worker and web app manifest for offline access on mobile devices during travel. |
+| 📱 **Network-First PWA** | Service Worker with Network-First strategy ensuring instant updates on deployment while providing offline caching during travel. |
+| 🧪 **CDP Runtime Verification** | Turnkey automated test suite running in headless Microsoft Edge via Chrome DevTools Protocol to guarantee zero JS crashes and zero horizontal overflow. |
 | 🚀 **Zero-Config Deployment** | Includes automated GitHub Actions workflow for instant deployment to GitHub Pages upon push. |
 
 ---
@@ -43,8 +51,8 @@ Click the **Fork** button at the top right of this repository to create your own
 2. Copy the prompt into **Claude**, **GitHub Copilot**, **Antigravity**, or **ChatGPT**.
 3. Fill in your trip details (destination, dates, party, budget, preferred theme preset, languages).
 4. Replace the 3 files in your repository with the generated code:
-   - `data/config.js` (Master configuration, party, theme, currency)
-   - `data/site-data.js` (Overview cards, tips, packing list, budget, hotels)
+   - `data/config.js` (Master configuration, party, theme, currency, feature flags)
+   - `data/site-data.js` (Overview cards, flights, food, essentials, tips, packing list, budget, hotels)
    - `data/itinerary-data.js` (Day-by-day timeline, activities, meal recommendations, mini-maps)
 
 ### Step 3: Enable GitHub Pages
@@ -67,14 +75,14 @@ Trip_Planner/
 │   └── favicon.svg             # Universal travel compass icon
 ├── css/
 │   ├── palette.css             # Design tokens & 7 luxury theme presets
-│   ├── base.css                # Typography, resets & layout containers
-│   ├── components.css          # Navigation, buttons, badges, accordions
-│   ├── sections.css            # Hero, overview, map, timeline, budget, hotels
-│   ├── responsive.css          # Breakpoints (Mobile, Tablet, Desktop) & Print
+│   ├── base.css                # Typography, resets & layout containers (zero horizontal overflow)
+│   ├── components.css          # Navigation, buttons, badges, accordions, modals, audio TTS
+│   ├── sections.css            # Hero, overview, flights, map, food, timeline, essentials, budget, hotels
+│   ├── responsive.css          # Breakpoints (Mobile, Tablet, Desktop) & Print rules
 │   └── style.css               # Master stylesheet import loader
 ├── data/
-│   ├── config.js               # Master trip config, languages, party, theme, currency
-│   ├── site-data.js            # Structured overview, tips, packing, budget, hotels
+│   ├── config.js               # Master trip config, languages, party, theme, currency, feature flags
+│   ├── site-data.js            # Structured overview, flights, food, essentials, tips, packing, budget, hotels
 │   └── itinerary-data.js       # Day-by-day schedule with GPS points & meals
 ├── examples/
 │   ├── README.md               # Quick-switch guide for all 5 example plans
@@ -85,18 +93,20 @@ Trip_Planner/
 │   └── 05-us-new-england-14days/    # 🇺🇸 US New England Autumn Roadtrip (14 Days)
 ├── js/
 │   ├── currency.js             # Live exchange rate fetcher & currency converter
-│   ├── map.js                  # MapLibre GL JS vector map renderer & mini-maps
-│   ├── render.js               # Core DOM render engine with bilingual injection
-│   ├── ui.js                   # Language switch, dark mode, filters, accordions
-│   └── script.js               # Application bootstrap & Service Worker registration
+│   ├── map.js                  # MapLibre GL lazy loader, route map & interactive food map
+│   ├── render.js               # Core DOM render engine with multi-lingual injection & guarded renders
+│   ├── ui.js                   # Language switch, dark mode, swipe gestures, TTS audio, .ics export
+│   └── script.js               # Application bootstrap & Network-First Service Worker registration
 ├── prompts/
 │   └── trip-planner-prompt.md  # Copy-paste AI Copilot prompt template
+├── tests/
+│   └── pre_deployment_check.py # Automated Headless Edge + CDP runtime verification suite
 ├── _config.yml                 # Jekyll configuration (bypasses Jekyll build)
 ├── .gitignore                  # Git ignore rules
 ├── index.html                  # Semantic HTML shell & UI mount points
 ├── manifest.json               # Progressive Web App manifest
 ├── showcase.html               # Live interactive showcase of all themes & transit styles
-├── sw.js                       # Service worker for offline asset caching
+├── sw.js                       # Service worker with Network-First strategy
 └── README.md                   # Project documentation & user guide
 ```
 
@@ -307,6 +317,33 @@ languages: {
   default: "en"
 }
 ```
+
+---
+
+## 🧪 Automated Pre-Deployment Verification
+
+Trip Planner includes an automated runtime verification suite using **Headless Microsoft Edge** and the **Chrome DevTools Protocol (CDP)** located at `tests/pre_deployment_check.py`.
+
+The suite automatically:
+1. Verifies `sw.js` cache versioning (`trip-planner-v2`) and Network-First caching strategy.
+2. Auto-spawns and health-checks a background HTTP server on port 8000.
+3. Launches Headless Edge in isolated test profile with devtools protocol port 9222.
+4. Validates **Portal Hub Mode** (`http://localhost:8000/index.html`):
+   - Zero uncaught JavaScript exceptions (`Runtime.exceptionThrown`).
+   - Zero console errors.
+   - All 5 pre-built plan cards rendered.
+   - Zero horizontal overflow (`scrollWidth <= clientWidth`).
+5. Validates **Plan Mode** (`examples/01-switzerland-italy-13days/index.html`):
+   - Zero uncaught JavaScript exceptions.
+   - Zero console errors.
+   - All 13 day cards, overview cards, milestone board, packing items, budget rows, hotels, and transit rendered.
+   - Zero horizontal overflow across all responsive viewports.
+
+### Running the Test Suite
+```bash
+python tests/pre_deployment_check.py
+```
+If any component fails to render, or if a single JavaScript runtime exception or horizontal scrollbar is detected, the script exits with code `1` and prints the exact offending element or stack trace.
 
 ---
 

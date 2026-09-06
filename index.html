@@ -22,10 +22,38 @@
   <!-- Master Design System & Styles -->
   <link rel="stylesheet" href="css/style.css">
 
+  <!-- MapLibre GL CSS (deferred: media=print → all swap so it does not block render) -->
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css"
+        media="print" onload="this.media='all'">
+  <noscript><link rel="stylesheet" href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css"></noscript>
+
   <style>
     /* ═══════════════════════════════════════════════════════════════
        GREETING & PORTAL HUB STYLES
        ═══════════════════════════════════════════════════════════════ */
+
+    /* ════ PLAN MODE — View Swap ════
+       #trip-onepager is hidden at HTML parse time (display:none inline).
+       script.js removes the inline style, then adds .plan-visible to
+       trigger the CSS fade-in after a rAF so the transition fires. */
+    #trip-onepager {
+      opacity: 0;
+      transition: opacity 0.45s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    #trip-onepager.plan-visible {
+      opacity: 1;
+    }
+
+    /* In plan mode, swap the nav links to itinerary section links */
+    body.plan-mode .nav-links a[data-hub-link] {
+      display: none;
+    }
+    body.plan-mode .nav-links a[data-plan-link] {
+      display: inline-flex;
+    }
+    .nav-links a[data-plan-link] {
+      display: none; /* hidden in hub mode */
+    }
 
     /* ════ PROMPT MODAL ════ */
     .prompt-modal-overlay {
@@ -587,16 +615,29 @@
     <div class="nav-inner">
       <a href="#" class="nav-logo">
         <span>🧭</span>
-        <span class="lang-en">Trip Planner Hub</span>
-        <span class="lang-zh lang-secondary">行程規劃導航中心</span>
+        <span class="lang-primary lang-en">Trip Planner</span>
+        <span class="lang-secondary lang-zh">行程規劃中心</span>
+        <span class="lang-tertiary lang-zh-cn">行程规划中心</span>
       </a>
 
       <div class="nav-links">
-        <a href="#plans"><span class="lang-en">5 Pre-Built Plans</span><span class="lang-zh lang-secondary">5 大精選行程</span></a>
-        <a href="#features"><span class="lang-en">Features</span><span class="lang-zh lang-secondary">核心特色</span></a>
-        <a href="showcase.html"><span class="lang-en">Themes & Transit Showcase</span><span class="lang-zh lang-secondary">樣式展示</span></a>
-        <a href="#quickstart"><span class="lang-en">Quick Start</span><span class="lang-zh lang-secondary">快速上手</span></a>
-        <a href="https://github.com/IanMaHKG/Trip_Planner/blob/main/prompts/trip-planner-prompt.md" target="_blank" rel="noopener"><span class="lang-en">AI Prompt</span><span class="lang-zh lang-secondary">AI 提示詞</span></a>
+        <a href="#plans" data-hub-link><span class="lang-primary lang-en">5 Pre-Built Plans</span><span class="lang-secondary lang-zh">5 大精選行程</span><span class="lang-tertiary lang-zh-cn">5 大精选行程</span></a>
+        <a href="#features" data-hub-link><span class="lang-primary lang-en">Features</span><span class="lang-secondary lang-zh">核心特色</span><span class="lang-tertiary lang-zh-cn">核心特色</span></a>
+        <a href="showcase.html" data-hub-link><span class="lang-primary lang-en">Themes & Transit Showcase</span><span class="lang-secondary lang-zh">樣式展示</span><span class="lang-tertiary lang-zh-cn">样式展示</span></a>
+        <a href="#quickstart" data-hub-link><span class="lang-primary lang-en">Quick Start</span><span class="lang-secondary lang-zh">快速上手</span><span class="lang-tertiary lang-zh-cn">快速上手</span></a>
+        <a href="https://github.com/IanMaHKG/Trip_Planner/blob/main/prompts/trip-planner-prompt.md" target="_blank" rel="noopener" data-hub-link><span class="lang-primary lang-en">AI Prompt</span><span class="lang-secondary lang-zh">AI 提示詞</span><span class="lang-tertiary lang-zh-cn">AI 提示词</span></a>
+        <!-- Plan-mode nav links (hidden in hub mode, revealed in plan-mode via CSS) -->
+        <a href="#overview" data-plan-link><span class="lang-primary lang-en">Overview</span><span class="lang-secondary lang-zh">行程概覽</span><span class="lang-tertiary lang-zh-cn">行程概览</span></a>
+        <a href="#flights" data-plan-link><span class="lang-primary lang-en">Flights</span><span class="lang-secondary lang-zh">航班資訊</span><span class="lang-tertiary lang-zh-cn">航班信息</span></a>
+        <a href="#map" data-plan-link><span class="lang-primary lang-en">Route Map</span><span class="lang-secondary lang-zh">路線地圖</span><span class="lang-tertiary lang-zh-cn">路线地图</span></a>
+        <a href="#tips" data-plan-link><span class="lang-primary lang-en">Tips</span><span class="lang-secondary lang-zh">實用貼士</span><span class="lang-tertiary lang-zh-cn">实用贴士</span></a>
+        <a href="#itinerary" data-plan-link><span class="lang-primary lang-en">Itinerary</span><span class="lang-secondary lang-zh">詳細行程</span><span class="lang-tertiary lang-zh-cn">详细行程</span></a>
+        <a href="#food" data-plan-link><span class="lang-primary lang-en">Food</span><span class="lang-secondary lang-zh">美食品味</span><span class="lang-tertiary lang-zh-cn">美食品味</span></a>
+        <a href="#packing" data-plan-link><span class="lang-primary lang-en">Packing</span><span class="lang-secondary lang-zh">行前清單</span><span class="lang-tertiary lang-zh-cn">行前清单</span></a>
+        <a href="#essentials" data-plan-link><span class="lang-primary lang-en">Essentials</span><span class="lang-secondary lang-zh">緊急與實用</span><span class="lang-tertiary lang-zh-cn">紧急与实用</span></a>
+        <a href="#budget" data-plan-link><span class="lang-primary lang-en">Budget</span><span class="lang-secondary lang-zh">費用預算</span><span class="lang-tertiary lang-zh-cn">费用预算</span></a>
+        <a href="#hotels" data-plan-link><span class="lang-primary lang-en">Hotels</span><span class="lang-secondary lang-zh">精選住宿</span><span class="lang-tertiary lang-zh-cn">精选住宿</span></a>
+        <a href="#transit" data-plan-link><span class="lang-primary lang-en">Transit</span><span class="lang-secondary lang-zh">交通方案</span><span class="lang-tertiary lang-zh-cn">交通方案</span></a>
       </div>
 
       <div class="nav-actions">
@@ -616,6 +657,12 @@
       </div>
     </div>
   </nav>
+  <div class="reading-progress-bar" id="reading-progress"></div>
+
+  <!-- ═══════════════════════════════════════════════════
+       PORTAL LANDING (Hub) — hidden when a custom plan is loaded
+       ═══════════════════════════════════════════════════ -->
+  <div id="portal-landing">
 
   <!-- ═══════════════════════════════════════════════════
        PORTAL HERO SECTION
@@ -1129,9 +1176,9 @@
 
         <div class="footer-links">
           <a href="#navbar"><span class="lang-en">Back to Top ↑</span><span class="lang-zh lang-secondary">返回頂部 ↑</span></a>
-          <a href="#plans"><span class="lang-en">Example Plans</span><span class="lang-zh lang-secondary">精選行程</span></a>
-          <a href="showcase.html"><span class="lang-en">Style Showcase</span><span class="lang-zh lang-secondary">樣式展示</span></a>
-          <a href="https://github.com/IanMaHKG/Trip_Planner/blob/main/prompts/trip-planner-prompt.md" target="_blank" rel="noopener"><span class="lang-en">AI Prompt</span><span class="lang-zh lang-secondary">提示詞範本</span></a>
+          <a href="#plans" data-hub-link><span class="lang-en">Example Plans</span><span class="lang-zh lang-secondary">精選行程</span></a>
+          <a href="showcase.html" data-hub-link><span class="lang-en">Style Showcase</span><span class="lang-zh lang-secondary">樣式展示</span></a>
+          <a href="https://github.com/IanMaHKG/Trip_Planner/blob/main/prompts/trip-planner-prompt.md" target="_blank" rel="noopener" data-hub-link><span class="lang-en">AI Prompt</span><span class="lang-zh lang-secondary">提示詞範本</span></a>
         </div>
       </div>
 
@@ -1140,6 +1187,503 @@
       </div>
     </div>
   </footer>
+
+  </div><!-- /#portal-landing -->
+
+
+  <!-- ═══════════════════════════════════════════════════
+       TRIP ONE-PAGER SHELL
+       Hidden by default. Revealed by script.js when data/config.js
+       has meta.isCustomPlan === true (AI-generated plan detected).
+       ═══════════════════════════════════════════════════ -->
+  <div id="trip-onepager" style="display:none;" aria-hidden="true">
+
+    <!-- 1. HERO -->
+    <header id="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-particles"></div>
+      <div class="hero-content">
+        <div id="hero-eyebrow-container"></div>
+        <div id="hero-title-container"></div>
+        <div id="hero-subtitle-container"></div>
+        <div class="hero-badges" id="hero-badges-container"></div>
+        <a href="#itinerary" class="hero-cta">
+          <span>🧭</span>
+          <span class="lang-primary lang-en">Explore Full Itinerary</span>
+          <span class="lang-secondary lang-zh">探索完整行程</span>
+          <span class="lang-tertiary lang-zh-cn">探索完整行程</span>
+          <span>↓</span>
+        </a>
+        <div id="hero-countdown" class="hero-countdown"></div>
+      </div>
+      <div class="scroll-indicator">
+        <div class="scroll-mouse"><div class="scroll-dot"></div></div>
+      </div>
+    </header>
+
+    <!-- 2. OVERVIEW & ROUTE MILESTONE BOARD -->
+    <section id="overview" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="lang-en">Trip Overview &amp; Essentials</span>
+            <span class="lang-zh lang-secondary">行程概覽與基本資訊</span>
+          </h2>
+          <p class="section-subtitle">
+            <span class="lang-en">Essential travel dynamics, climate expectations, transport infrastructure, and key highlights.</span>
+            <span class="lang-zh lang-secondary">掌握行程節奏、當地氣候、交通出行與地道特色餐飲指南。</span>
+          </p>
+        </div>
+        <div class="overview-grid" id="overview-cards-container"></div>
+        <div id="weather-widget" class="weather-widget-container" style="margin-top: 36px;"></div>
+        <div id="route-board-mount" style="margin-top: 36px;"></div>
+      </div>
+    </section>
+
+    <!-- 2.5 FLIGHTS -->
+    <section id="flights" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="lang-primary lang-en">Confirmed Flights &amp; Airport Transit</span>
+            <span class="lang-secondary lang-zh">已確認航班與機場接駁</span>
+            <span class="lang-tertiary lang-zh-cn">已确认航班与机场接驳</span>
+          </h2>
+          <p class="section-subtitle">
+            <span class="lang-primary lang-en">Flight details, terminal information, baggage allowances, and direct ground connection to city center.</span>
+            <span class="lang-secondary lang-zh">往返航班時間、航站樓、行李額度與前往市區之機場快線接駁安排。</span>
+            <span class="lang-tertiary lang-zh-cn">往返航班时间、航站楼、行李额度与前往市区之机场快线接驳安排。</span>
+          </p>
+        </div>
+        <div id="flights-container"></div>
+      </div>
+    </section>
+
+    <!-- 3. ROUTE MAP -->
+    <section id="map" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="lang-en">Interactive Route &amp; Waypoints</span>
+            <span class="lang-zh lang-secondary">互動式全景路線地圖</span>
+          </h2>
+          <p class="section-subtitle">
+            <span class="lang-en">Explore key stops, airport transfer hubs, scenic vistas, and cultural landmarks across your route.</span>
+            <span class="lang-zh lang-secondary">瀏覽行程中各大交通樞紐、觀景名勝及文化地標位置。</span>
+          </p>
+        </div>
+        <div class="map-container"><div id="route-map"></div></div>
+      </div>
+    </section>
+
+    <!-- 4. PRACTICAL TIPS -->
+    <section id="tips" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="lang-en">Practical Tips &amp; Local Insights</span>
+            <span class="lang-zh lang-secondary">實用貼士與在地下載指南</span>
+          </h2>
+          <p class="section-subtitle">
+            <span class="lang-en">Essential transit rules, ticketing advice, etiquette, emergency hotlines, and travel hacks.</span>
+            <span class="lang-zh lang-secondary">交通票券選購、當地文化禮儀與緊急求助熱線。</span>
+          </p>
+        </div>
+        <div class="tips-grid" id="tips-grid-container"></div>
+        <div id="emergency-banner"></div>
+      </div>
+    </section>
+
+    <!-- 5. ITINERARY -->
+    <section id="itinerary" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="lang-en">Day-by-Day Detailed Itinerary</span>
+            <span class="lang-zh lang-secondary">逐日詳細行程規劃</span>
+          </h2>
+          <p class="section-subtitle">
+            <span class="lang-en">Step-by-step activity cards, transportation badges, scenic highlights, and timeline nodes.</span>
+            <span class="lang-zh lang-secondary">涵蓋每日早午晚時段活動、交通時間、亮點特色與精選景點。</span>
+          </p>
+        </div>
+        <div class="itinerary-toolbar-container" id="itinerary-toolbar-container"></div>
+        <div class="day-filters" id="day-filters-container"></div>
+        <div class="timeline" id="itinerary-timeline-container"></div>
+      </div>
+    </section>
+
+    <!-- 5.5 FOOD & GASTRONOMY -->
+    <section id="food" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="lang-primary lang-en">Local Food, Street Eats &amp; Dining Map</span>
+            <span class="lang-secondary lang-zh">地道特色美食、街頭小吃與餐飲地圖</span>
+            <span class="lang-tertiary lang-zh-cn">地道特色美食、街头小吃与餐饮地图</span>
+          </h2>
+          <p class="section-subtitle">
+            <span class="lang-primary lang-en">Curated local dining spots, must-try specialties, cafes, and waterfront restaurants. Filter by category or explore the interactive map.</span>
+            <span class="lang-secondary lang-zh">精選當地名店、必嚐風味小吃、特色咖啡館與景觀餐廳。支援依美食類別即時篩選或於地圖檢視。</span>
+            <span class="lang-tertiary lang-zh-cn">精选当地名店、必尝风味小吃、特色咖啡馆与景观餐厅。支持依美食类别实时筛选或于地图检视。</span>
+          </p>
+        </div>
+
+        <!-- Food Category Filter Pills -->
+        <div class="food-filter-container" id="food-filter-container">
+          <div class="food-filter-pills" id="food-filter-pills"></div>
+        </div>
+
+        <!-- Interactive Food Map -->
+        <div class="food-map-container">
+          <div class="food-map-header">
+            <div class="food-map-stat">
+              <span class="food-map-icon">🗺️</span>
+              <span class="food-map-title">
+                <span class="lang-primary lang-en">Interactive Food &amp; Restaurant Map</span>
+                <span class="lang-secondary lang-zh">互動式美食與餐廳地圖</span>
+                <span class="lang-tertiary lang-zh-cn">互动式美食与餐厅地图</span>
+              </span>
+            </div>
+            <div class="food-map-hint">
+              <span class="lang-primary lang-en">Click pins or cards to inspect details</span>
+              <span class="lang-secondary lang-zh">點擊地標圖標或卡片以檢視詳情</span>
+              <span class="lang-tertiary lang-zh-cn">点击地标图标或卡片以检视详情</span>
+            </div>
+          </div>
+          <div id="food-map" class="food-map"></div>
+        </div>
+
+        <!-- Food Spots Grid -->
+        <div class="food-cards-grid" id="food-cards-grid"></div>
+      </div>
+    </section>
+
+    <!-- 6. PACKING CHECKLIST -->
+    <section id="packing" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="lang-en">Interactive Packing Checklist</span>
+            <span class="lang-zh lang-secondary">互動式行前裝備清單</span>
+          </h2>
+          <p class="section-subtitle">
+            <span class="lang-en">Categorized checklist with persistent browser storage. Never forget your essential gear!</span>
+            <span class="lang-zh lang-secondary">分類清晰的打包清單，自動保存勾選進度，確保行前準備萬無一失。</span>
+          </p>
+        </div>
+        <div id="packing-progress-mount" class="packing-progress-container"></div>
+        <div class="packing-grid" id="packing-grid-container"></div>
+      </div>
+    </section>
+
+    <!-- 6.5 TRAVEL ESSENTIALS & EMERGENCY CONTACTS -->
+    <section id="essentials" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="lang-primary lang-en">Travel Essentials &amp; Useful Phrases</span>
+            <span class="lang-secondary lang-zh">緊急求助電話與實用外語對照</span>
+            <span class="lang-tertiary lang-zh-cn">紧急求助电话与实用外语对照</span>
+          </h2>
+          <p class="section-subtitle">
+            <span class="lang-primary lang-en">24/7 direct-dial emergency hotlines, consular protection, and essential local phrases with audio pronunciation.</span>
+            <span class="lang-secondary lang-zh">24小時直撥緊急求助熱線、領事保護電話及用餐購物必備實用外語拼音與語音發音對照。</span>
+            <span class="lang-tertiary lang-zh-cn">24小时直拨紧急求助热线、领事保护电话及用餐购物必备实用外语拼音与语音发音对照。</span>
+          </p>
+        </div>
+        <div id="essentials-container"></div>
+      </div>
+    </section>
+
+    <!-- 7. BUDGET -->
+    <section id="budget" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="lang-en">Budget Estimates &amp; Live Currency</span>
+            <span class="lang-zh lang-secondary">預算分佈與即時匯率換算</span>
+          </h2>
+          <p class="section-subtitle">
+            <span class="lang-en">Estimated trip costs with live exchange rates powered by Open Exchange Rates API.</span>
+            <span class="lang-zh lang-secondary">清晰的各項開支預算分佈，支援即時匯率動態轉換。</span>
+          </p>
+        </div>
+        <div style="display:flex;justify-content:flex-end;margin-bottom:16px;">
+          <div class="currency-switcher"></div>
+        </div>
+        <div id="budget-summary-mount" class="budget-summary-container"></div>
+        <div class="budget-table-wrap">
+          <table class="budget-table">
+            <thead>
+              <tr>
+                <th><span class="lang-en">Category</span><span class="lang-zh lang-secondary">項目類別</span></th>
+                <th><span class="lang-en">Local Cost</span><span class="lang-zh lang-secondary">當地幣金額</span></th>
+                <th><span class="lang-en">Target Currency</span><span class="lang-zh lang-secondary">換算金額</span></th>
+                <th><span class="lang-en">Notes &amp; Inclusions</span><span class="lang-zh lang-secondary">說明備註</span></th>
+              </tr>
+            </thead>
+            <tbody id="budget-tbody"></tbody>
+          </table>
+        </div>
+        <div class="budget-attribution">
+          <span class="lang-en">Exchange rates fetched live from open.er-api.com</span>
+          <span class="lang-zh lang-secondary">匯率由 open.er-api.com 即時提供</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 8. HOTELS -->
+    <section id="hotels" class="section">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="lang-en">Hotels &amp; Accommodation Finder</span>
+            <span class="lang-zh lang-secondary">各站精選住宿與即時搜尋</span>
+          </h2>
+          <p class="section-subtitle">
+            <span class="lang-en">Direct quick-links to pre-filtered Booking.com searches for each stop of your journey.</span>
+            <span class="lang-zh lang-secondary">一鍵前往各城市住宿搜尋頁面，已為您預設目的地與人數。</span>
+          </p>
+        </div>
+        <div class="hotel-search-card">
+          <div class="hotel-search-header">
+            <div class="hotel-search-brand">
+              <div class="booking-logo-icon">🏨</div>
+              <div>
+                <h3 style="font-size:1.2rem;font-weight:800;color:var(--text-primary);">Booking.com Live Search</h3>
+                <p style="font-size:0.88rem;color:var(--text-secondary);">Direct access to lowest available rates &amp; reviews</p>
+              </div>
+            </div>
+            <div class="quick-leg-pills" id="hotel-quick-legs-container"></div>
+          </div>
+          <form class="hotel-search-form" id="hotel-search-form">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="hotel-dest"><span class="lang-en">Destination / City</span><span class="lang-zh lang-secondary">目的地 / 城市</span></label>
+                <div class="input-with-icon"><span class="input-icon">📍</span><input type="text" id="hotel-dest" required></div>
+              </div>
+              <div class="form-group">
+                <label for="hotel-checkin"><span class="lang-en">Check-in Date</span><span class="lang-zh lang-secondary">入住日期</span></label>
+                <div class="input-with-icon"><span class="input-icon">📅</span><input type="date" id="hotel-checkin" required></div>
+              </div>
+              <div class="form-group">
+                <label for="hotel-checkout"><span class="lang-en">Check-out Date</span><span class="lang-zh lang-secondary">退房日期</span></label>
+                <div class="input-with-icon"><span class="input-icon">📅</span><input type="date" id="hotel-checkout" required></div>
+              </div>
+              <div class="form-group">
+                <label for="hotel-guests"><span class="lang-en">Guests</span><span class="lang-zh lang-secondary">人數</span></label>
+                <div class="input-with-icon"><span class="input-icon">👥</span>
+                  <select id="hotel-guests">
+                    <option value="1">1 Adult</option>
+                    <option value="2">2 Adults</option>
+                    <option value="3">3 Adults</option>
+                    <option value="4">4 Adults</option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group">
+                <button type="submit" class="hotel-search-btn"><span>🏨 Search Stays ➔</span></button>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="itinerary-hotels-grid" id="itinerary-hotels-grid"></div>
+      </div>
+    </section>
+
+    <!-- 9. TRANSIT -->
+    <section id="transit" class="section section-alt">
+      <div class="container">
+        <div class="section-header">
+          <h2 class="section-title">
+            <span class="lang-en">Transit Passes &amp; Navigation Strategy</span>
+            <span class="lang-zh lang-secondary">交通票券、自駕與乘車指引</span>
+          </h2>
+          <p class="section-subtitle">
+            <span class="lang-en">Master transit networks, rail passes, high-speed rail, and travel logistics.</span>
+            <span class="lang-zh lang-secondary">鐵路通票、高鐵路線、地鐵感應支付與交通安排完整須知。</span>
+          </p>
+        </div>
+        <div class="transit-grid" id="transit-grid-container"></div>
+      </div>
+    </section>
+
+    <!-- ONE-PAGER FOOTER -->
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <h3 id="plan-footer-title">🧭 Trip Planner</h3>
+            <p><span class="lang-en">Modern, modular, multi-lingual travel itinerary template for GitHub Pages.</span><span class="lang-zh lang-secondary">現代化、模組化、多語言 GitHub Pages 旅遊行程範本。</span></p>
+          </div>
+          <div class="footer-links">
+            <a href="#hero"><span class="lang-en">Back to Top ↑</span><span class="lang-zh lang-secondary">返回頂部 ↑</span></a>
+            <a href="showcase.html" data-hub-link><span class="lang-en">Showcase</span><span class="lang-zh lang-secondary">樣式展示</span></a>
+            <a href="https://github.com/IanMaHKG/Trip_Planner" target="_blank" rel="noopener"><span class="lang-en">GitHub</span><span class="lang-zh lang-secondary">GitHub 原始碼</span></a>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <p>© 2026 Trip Planner. MIT Licensed Open Source Project.</p>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Floating Back to Top Button -->
+    <button class="back-to-top-btn" id="back-to-top-btn" aria-label="Back to Top" title="Back to Top">
+      <span>↑</span>
+    </button>
+
+    <!-- Mobile Bottom Navigation Bar (Glassmorphic, 5 thumb targets) -->
+    <nav class="mobile-bottom-nav" id="mobile-bottom-nav" aria-label="Mobile Bottom Navigation">
+      <a href="#itinerary" class="mobile-nav-tab" data-section="itinerary">
+        <span class="mobile-nav-icon">📅</span>
+        <span class="mobile-nav-label">
+          <span class="lang-primary lang-en">Plan</span>
+          <span class="lang-secondary lang-zh">行程</span>
+          <span class="lang-tertiary lang-zh-cn">行程</span>
+        </span>
+      </a>
+      <a href="#map" class="mobile-nav-tab" data-section="map">
+        <span class="mobile-nav-icon">🗺️</span>
+        <span class="mobile-nav-label">
+          <span class="lang-primary lang-en">Map</span>
+          <span class="lang-secondary lang-zh">地圖</span>
+          <span class="lang-tertiary lang-zh-cn">地图</span>
+        </span>
+      </a>
+      <a href="#food" class="mobile-nav-tab" data-section="food">
+        <span class="mobile-nav-icon">🍽️</span>
+        <span class="mobile-nav-label">
+          <span class="lang-primary lang-en">Food</span>
+          <span class="lang-secondary lang-zh">美食</span>
+          <span class="lang-tertiary lang-zh-cn">美食</span>
+        </span>
+      </a>
+      <a href="#flights" class="mobile-nav-tab" data-section="flights">
+        <span class="mobile-nav-icon">✈️</span>
+        <span class="mobile-nav-label">
+          <span class="lang-primary lang-en">Flights</span>
+          <span class="lang-secondary lang-zh">航班</span>
+          <span class="lang-tertiary lang-zh-cn">航班</span>
+        </span>
+      </a>
+      <button type="button" class="mobile-nav-tab mobile-nav-taxi-btn" id="mobile-taxi-trigger" onclick="openTaxiModal()">
+        <span class="mobile-nav-icon">🚕</span>
+        <span class="mobile-nav-label">
+          <span class="lang-primary lang-en">Taxi Card</span>
+          <span class="lang-secondary lang-zh">的士卡</span>
+          <span class="lang-tertiary lang-zh-cn">出租卡</span>
+        </span>
+      </button>
+    </nav>
+
+    <!-- Taxi & Destination Flashcard Modal -->
+    <div class="taxi-modal" id="taxi-modal" role="dialog" aria-modal="true" aria-labelledby="taxi-modal-title" style="display: none;">
+      <div class="taxi-modal-backdrop" onclick="closeTaxiModal()"></div>
+      <div class="taxi-modal-dialog">
+        <button class="taxi-modal-close" onclick="closeTaxiModal()" aria-label="Close modal">✕</button>
+        <div class="taxi-modal-header">
+          <div class="taxi-modal-icon">🚕</div>
+          <div>
+            <h3 class="taxi-modal-title" id="taxi-modal-title">
+              <span class="lang-primary lang-en">Destination &amp; Taxi Card</span>
+              <span class="lang-secondary lang-zh">目的地與的士導航卡</span>
+              <span class="lang-tertiary lang-zh-cn">目的地与出租车导航卡</span>
+            </h3>
+            <p class="taxi-modal-sub">
+              <span class="lang-primary lang-en">Show this directly to a taxi driver or local.</span>
+              <span class="lang-secondary lang-zh">乘搭的士或問路時，可直接出示此卡片。</span>
+              <span class="lang-tertiary lang-zh-cn">乘搭出租车或问路时，可直接出示此卡片。</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="taxi-destination-toggle">
+          <button class="taxi-toggle-btn active" id="taxi-btn-hotel" data-dest="hotel" onclick="switchTaxiDestination('hotel')">
+            🏨 <span class="lang-primary lang-en">Hotel</span><span class="lang-secondary lang-zh">酒店</span><span class="lang-tertiary lang-zh-cn">酒店</span>
+          </button>
+          <button class="taxi-toggle-btn" id="taxi-btn-airport" data-dest="airport" onclick="switchTaxiDestination('airport')">
+            ✈️ <span class="lang-primary lang-en">Airport</span><span class="lang-secondary lang-zh">機場</span><span class="lang-tertiary lang-zh-cn">机场</span>
+          </button>
+        </div>
+
+        <div class="taxi-card-display" id="taxi-display-hotel">
+          <div class="taxi-german-box" id="taxi-box-hotel">
+            <span class="taxi-phrase-label" id="taxi-label-hotel">Please take us to:</span>
+            <div class="taxi-target-name" id="taxi-name-hotel">Accommodation / Hotel</div>
+            <div class="taxi-target-address" id="taxi-addr-hotel">Destination Address</div>
+            <div class="taxi-target-landmark" id="taxi-landmark-hotel">📍 City Center</div>
+          </div>
+          <div class="taxi-card-actions">
+            <button class="taxi-action-btn" type="button" id="taxi-copy-hotel-btn" onclick="copyToClipboard(document.getElementById('taxi-addr-hotel')?.textContent || '')">
+              📋 <span class="lang-primary lang-en">Copy Address</span><span class="lang-secondary lang-zh">複製地址</span><span class="lang-tertiary lang-zh-cn">复制地址</span>
+            </button>
+            <a class="taxi-action-btn primary" id="taxi-map-hotel-link" href="https://maps.google.com" target="_blank" rel="noopener">
+              🗺️ <span class="lang-primary lang-en">Google Maps ↗</span><span class="lang-secondary lang-zh">打開地圖 ↗</span><span class="lang-tertiary lang-zh-cn">打开地图 ↗</span>
+            </a>
+          </div>
+        </div>
+
+        <div class="taxi-card-display" id="taxi-display-airport" style="display: none;">
+          <div class="taxi-german-box" id="taxi-box-airport">
+            <span class="taxi-phrase-label" id="taxi-label-airport">Please take us to:</span>
+            <div class="taxi-target-name" id="taxi-name-airport">International Airport</div>
+            <div class="taxi-target-address" id="taxi-addr-airport">Airport Boulevard / Departures Terminal</div>
+            <div class="taxi-target-landmark" id="taxi-landmark-airport">✈️ Departures Hall</div>
+          </div>
+          <div class="taxi-card-actions">
+            <button class="taxi-action-btn" type="button" id="taxi-copy-airport-btn" onclick="copyToClipboard(document.getElementById('taxi-addr-airport')?.textContent || '')">
+              📋 <span class="lang-primary lang-en">Copy Address</span><span class="lang-secondary lang-zh">複製地址</span><span class="lang-tertiary lang-zh-cn">复制地址</span>
+            </button>
+            <a class="taxi-action-btn primary" id="taxi-map-airport-link" href="https://maps.google.com" target="_blank" rel="noopener">
+              🗺️ <span class="lang-primary lang-en">Google Maps ↗</span><span class="lang-secondary lang-zh">打開地圖 ↗</span><span class="lang-tertiary lang-zh-cn">打开地图 ↗</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    </footer>
+
+  </div><!-- /#trip-onepager -->
+
+
+  <!-- ═══════════════════════════════════════════════════
+       DATA FILES — Loaded for plan mode only.
+       onerror guards prevent crashes if files don't exist.
+       ═══════════════════════════════════════════════════ -->
+  <script src="data/config.js" onerror="window.__PLAN_LOAD_ERROR=true"></script>
+  <script src="data/site-data.js" onerror=""></script>
+  <script src="data/itinerary-data.js" onerror=""></script>
+
+
+  <script>
+    // Conditionally load MapLibre GL JS and engine scripts for plan mode
+    (function() {
+      var hasPlan = window.TRIP_CONFIG && window.TRIP_CONFIG.meta && window.TRIP_CONFIG.meta.isCustomPlan === true;
+      if (!hasPlan) return;
+      var scripts = [
+        'https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js',
+        'js/currency.js',
+        'js/map.js',
+        'js/render.js',
+        'js/ui.js',
+        'js/script.js'
+      ];
+      var idx = 0;
+      function loadNext() {
+        if (idx >= scripts.length) return;
+        var s = document.createElement('script');
+        s.src = scripts[idx++];
+        s.onload = loadNext;
+        s.onerror = loadNext;
+        document.body.appendChild(s);
+      }
+      loadNext();
+    })();
+  </script>
+
 
   <!-- ═══════════════════════════════════════════════════
        PORTAL SCRIPTS
@@ -1167,14 +1711,21 @@
         btn.classList.toggle('active', btn.getAttribute('data-lang') === lang);
       });
 
+      // Clear all existing lang-* classes
+      body.classList.remove('lang-primary', 'lang-secondary', 'lang-tertiary', 'lang-en', 'lang-zh', 'lang-zh-cn');
+
       if (lang === 'zh') {
-        body.classList.remove('lang-en');
-        body.classList.add('lang-zh');
+        body.classList.add('lang-secondary', 'lang-zh');
+        document.documentElement.setAttribute('lang', 'zh-HK');
+      } else if (lang === 'zh-cn') {
+        body.classList.add('lang-tertiary', 'lang-zh-cn');
+        document.documentElement.setAttribute('lang', 'zh-Hans');
       } else {
-        body.classList.remove('lang-zh');
-        body.classList.add('lang-en');
+        body.classList.add('lang-primary', 'lang-en');
+        document.documentElement.setAttribute('lang', 'en');
       }
       localStorage.setItem('trip_planner_lang', lang);
+      localStorage.setItem('user-lang', lang);
     }
 
     // Theme Toggle Handler for Greeting Portal
@@ -1198,10 +1749,8 @@
       if (savedTheme) {
         document.documentElement.setAttribute('data-theme', savedTheme);
       }
-      const savedLang = localStorage.getItem('trip_planner_lang');
-      if (savedLang) {
-        setPortalLanguage(savedLang);
-      }
+      const savedLang = localStorage.getItem('trip_planner_lang') || localStorage.getItem('user-lang') || 'en';
+      setPortalLanguage(savedLang);
     });
 
     /* ════════════════════════════════════════════

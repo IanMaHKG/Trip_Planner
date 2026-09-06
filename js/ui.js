@@ -42,6 +42,7 @@ function initLanguage() {
   const config = window.TRIP_CONFIG;
   const primaryLang   = (config && config.languages && config.languages.primary)   ? config.languages.primary.code   : 'en';
   const secondaryLang = (config && config.languages && config.languages.secondary) ? config.languages.secondary.code : null;
+  const tertiaryLang  = (config && config.languages && config.languages.tertiary)  ? config.languages.tertiary.code  : null;
   const defaultLang   = (config && config.languages && config.languages.default)   ? config.languages.default         : 'en';
 
   const savedLang = localStorage.getItem('user-lang') || defaultLang;
@@ -56,18 +57,28 @@ function initLanguage() {
       return;
     }
 
-    switcher.innerHTML = `
-      <button class="lang-btn${savedLang === primaryLang ? ' active' : ''}" data-lang="${primaryLang}">
+    // Build buttons: always primary + secondary, optionally tertiary
+    let html = `
+      <button class="lang-btn${savedLang === primaryLang ? ' active' : ''}" data-lang="${primaryLang}" title="${config.languages.primary.title || config.languages.primary.name || 'English (UK)'}">
         ${config.languages.primary.label || 'EN'}
       </button>
-      <button class="lang-btn${savedLang === secondaryLang ? ' active' : ''}" data-lang="${secondaryLang}">
+      <button class="lang-btn${savedLang === secondaryLang ? ' active' : ''}" data-lang="${secondaryLang}" title="${config.languages.secondary.title || config.languages.secondary.name || '香港繁體中文'}">
         ${config.languages.secondary.label || '繁中'}
-      </button>
-    `;
+      </button>`;
+
+    if (tertiaryLang) {
+      html += `
+      <button class="lang-btn${savedLang === tertiaryLang ? ' active' : ''}" data-lang="${tertiaryLang}" title="${config.languages.tertiary.title || config.languages.tertiary.name || '马来西亚简体中文'}">
+        ${config.languages.tertiary.label || '简中'}
+      </button>`;
+    }
+
+    switcher.innerHTML = html;
 
     switcher.querySelectorAll('.lang-btn').forEach(btn => {
       btn.addEventListener('click', (e) => {
-        const lang = e.target.dataset.lang;
+        const lang = (e.currentTarget && e.currentTarget.dataset.lang) || btn.dataset.lang;
+        if (!lang) return;
         setLanguage(lang);
         switcher.querySelectorAll('.lang-btn').forEach(b => {
           b.classList.toggle('active', b.dataset.lang === lang);
@@ -96,18 +107,26 @@ function initLanguage() {
  */
 function setLanguage(lang) {
   const config = window.TRIP_CONFIG;
-  const primaryCode = (config && config.languages && config.languages.primary) ? config.languages.primary.code : 'en';
+  const primaryCode   = (config && config.languages && config.languages.primary)   ? config.languages.primary.code   : 'en';
+  const secondaryCode = (config && config.languages && config.languages.secondary) ? config.languages.secondary.code : null;
+  const tertiaryCode  = (config && config.languages && config.languages.tertiary)  ? config.languages.tertiary.code  : null;
 
   localStorage.setItem('user-lang', lang);
+  localStorage.setItem('trip_planner_lang', lang);
 
   // Dynamically remove ALL lang-* classes (handles any language code, not just en/zh)
   const toRemove = Array.from(document.body.classList).filter(cls => cls.startsWith('lang-'));
-  document.body.classList.remove(...toRemove, 'lang-primary', 'lang-secondary');
+  document.body.classList.remove(...toRemove, 'lang-primary', 'lang-secondary', 'lang-tertiary');
 
   if (lang === primaryCode) {
     document.body.classList.add('lang-primary', `lang-${primaryCode}`);
+    document.documentElement.setAttribute('lang', (config && config.languages && config.languages.primary && config.languages.primary.locale) || 'en');
+  } else if (tertiaryCode && lang === tertiaryCode) {
+    document.body.classList.add('lang-tertiary', `lang-${tertiaryCode}`);
+    document.documentElement.setAttribute('lang', (config && config.languages && config.languages.tertiary && config.languages.tertiary.locale) || 'zh-Hans');
   } else {
     document.body.classList.add('lang-secondary', `lang-${lang}`);
+    document.documentElement.setAttribute('lang', (config && config.languages && config.languages.secondary && config.languages.secondary.locale) || 'zh-HK');
   }
 
   window.dispatchEvent(new CustomEvent('langchange', { detail: { lang } }));
@@ -224,53 +243,28 @@ function initDayFilters() {
   if (!filtersContainer || itinerary.length === 0) return;
 
   // ── Region display label dictionary ──
-  // Maps region slug → { en, zh } bilingual label.
-  // Covers all 5 bundled example plans. Unlisted slugs are auto-capitalized.
+  // Maps region slug → { en, zh, 'zh-cn' } trilingual label.
   const regionLabels = {
-    'all': { en: `All Days (${itinerary.length} Days)`, zh: `全部行程（${itinerary.length}天）` },
-    // 01 Switzerland & Italy
-    'zurich-lucerne': { en: 'Zurich & Lucerne', zh: '蘇黎世與琉森' },
-    'interlaken-jungfrau': { en: 'Interlaken & Jungfrau', zh: '因特拉肯與少女峰' },
-    'zermatt-matterhorn': { en: 'Zermatt & Matterhorn', zh: '策馬特與馬特洪峰' },
-    'lake-como-milan': { en: 'Lake Como & Milan', zh: '科莫湖與米蘭' },
-    // 02 Japan Golden Route
-    'tokyo': { en: 'Tokyo Metropolis', zh: '東京都會' },
-    'tokyo-hakone': { en: 'Tokyo & Hakone', zh: '東京與箱根' },
-    'hakone': { en: 'Hakone Hot Springs', zh: '箱根溫泉' },
-    'hakone-kyoto': { en: 'Hakone & Kyoto', zh: '箱根與京都' },
-    'kyoto-osaka': { en: 'Kyoto & Osaka', zh: '京都與大阪' },
-    'osaka-departure': { en: 'Osaka Departure', zh: '大阪離境' },
-    // 03 UK & Scotland
-    'london': { en: 'London & Royal Heritage', zh: '倫敦與皇家歷史' },
-    'windsor': { en: 'Windsor Castle', zh: '溫莎城堡' },
-    'bath-cotswolds': { en: 'Bath & Cotswolds', zh: '巴斯與科茲窩' },
-    'york': { en: 'Medieval York', zh: '中世紀約克' },
-    'edinburgh': { en: 'Edinburgh', zh: '愛丁堡' },
-    'highlands': { en: 'Scottish Highlands', zh: '蘇格蘭高地' },
-    'edinburgh-departure': { en: 'Edinburgh Departure', zh: '愛丁堡離境' },
-    // 04 Hong Kong
-    'kowloon-harbour': { en: 'Kowloon & Victoria Harbour', zh: '九龍與維港' },
-    'central-peak': { en: 'Central & Victoria Peak', zh: '中環與太平山頂' },
-    'lantau': { en: 'Lantau Island & Big Buddha', zh: '大嶼山與天壇大佛' },
-    'hong-kong-island': { en: 'Hong Kong Island', zh: '香港島精華' },
-    'kowloon-local': { en: 'Kowloon Street Food', zh: '九龍地道美食' },
-    'sai-kung': { en: 'Sai Kung Geopark', zh: '西貢地質公園' },
-    'central-departure': { en: 'Central Departure', zh: '中環機場快綫離境' },
-    // 05 US New England
-    'boston': { en: 'Boston Freedom Trail', zh: '波士頓自由之路' },
-    'boston-cambridge': { en: 'Boston & Cambridge', zh: '波士頓與劍橋' },
-    'new-hampshire': { en: 'White Mountains NH', zh: '新罕布夏白山' },
-    'kancamagus': { en: 'Kancamagus Highway', zh: '康卡馬格斯楓葉公路' },
-    'vermont': { en: 'Stowe Vermont', zh: '佛蒙特與斯托' },
-    'vermont-woodstock': { en: 'Vermont & Woodstock', zh: '佛蒙特與伍德斯托克' },
-    'maine-acadia': { en: 'Maine & Acadia', zh: '緬因海岸與阿卡迪亞' },
-    'acadia-national-park': { en: 'Acadia National Park', zh: '阿卡迪亞國家公園' },
-    'acadia-jordan-pond': { en: 'Jordan Pond & Cliffs', zh: '阿卡迪亞喬丹池' },
-    'maine-portland': { en: 'Portland Head Light', zh: '緬因波特蘭海岸' },
-    'newport-rhode-island': { en: 'Newport Mansions', zh: '羅德島紐波特古堡' },
-    'nyc-manhattan': { en: 'NYC Manhattan', zh: '紐約曼哈頓中城' },
-    'nyc-central-park': { en: 'NYC Central Park', zh: '紐約中央公園' },
-    'nyc-departure': { en: 'NYC Departure', zh: '紐約市離境' }
+    'all': {
+      en: `All Days (${itinerary.length} Days)`,
+      zh: `全部行程（${itinerary.length}天）`,
+      'zh-cn': `全部行程（${itinerary.length}天）`
+    },
+    'hafencity': {
+      en: 'HafenCity & Speicherstadt',
+      zh: '港城與倉庫城',
+      'zh-cn': '港城与仓库城'
+    },
+    'city-centre': {
+      en: 'City Centre & Christmas Markets',
+      zh: '市中心與聖誕市集',
+      'zh-cn': '市中心与圣诞市集'
+    },
+    'harbour': {
+      en: 'Harbour & Landungsbrücken',
+      zh: '港口與輪船碼頭',
+      'zh-cn': '港口与轮船码头'
+    }
   };
 
   const regionsMap = new Map();
@@ -299,10 +293,23 @@ function initDayFilters() {
       document.querySelectorAll('.day-card').forEach(card => {
         if (filter === 'all' || card.dataset.region === filter) {
           card.style.display = 'block';
+          if (filter !== 'all') {
+            card.classList.add('open');
+            if (typeof initDayMiniMap === 'function') {
+              setTimeout(() => { initDayMiniMap(card.id); }, 150);
+            }
+          }
         } else {
           card.style.display = 'none';
         }
       });
+
+      if (filter !== 'all') {
+        const target = document.querySelector(`.day-card[data-region="${filter}"]`);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
     });
   });
 }
@@ -318,23 +325,55 @@ function initNavigation() {
   const navbar = document.querySelector('.nav-bar');
   const toggle = document.querySelector('.nav-toggle') || document.getElementById('nav-toggle-btn');
   const links = document.querySelector('.nav-links');
+  const progressBar = document.getElementById('reading-progress');
+  const backToTopBtn = document.getElementById('back-to-top-btn');
 
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 40) {
+    const scrollY = window.scrollY;
+
+    // Sticky nav shadow
+    if (scrollY > 40) {
       navbar?.classList.add('scrolled');
     } else {
       navbar?.classList.remove('scrolled');
     }
+
+    // Top Reading Progress Bar
+    if (progressBar) {
+      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = totalScroll > 0 ? (scrollY / totalScroll) * 100 : 0;
+      progressBar.style.width = `${Math.min(100, Math.max(0, progress))}%`;
+    }
+
+    // Floating Back to Top Button
+    if (backToTopBtn) {
+      if (scrollY > 350) {
+        backToTopBtn.classList.add('show');
+      } else {
+        backToTopBtn.classList.remove('show');
+      }
+    }
   }, { passive: true });
 
+  if (backToTopBtn) {
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  }
+
+  // Mobile Drawer Toggle
   if (toggle && links) {
     toggle.addEventListener('click', () => {
-      links.classList.toggle('open');
+      const isOpen = links.classList.toggle('open');
+      toggle.classList.toggle('open', isOpen);
+      toggle.setAttribute('aria-expanded', String(isOpen));
     });
 
     links.querySelectorAll('a').forEach(a => {
       a.addEventListener('click', () => {
         links.classList.remove('open');
+        toggle.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
       });
     });
   }
@@ -349,34 +388,285 @@ function initNavigation() {
   }, { threshold: 0.1 });
 
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Scroll Spy for Top Nav Links & Mobile Bottom Nav
+  const sections = document.querySelectorAll('section[id], header[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  const mobileTabs = document.querySelectorAll('.mobile-bottom-nav .mobile-nav-tab[href]');
+
+  const spyObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const id = entry.target.getAttribute('id');
+        // Desktop nav highlighting
+        navLinks.forEach(link => {
+          const href = link.getAttribute('href');
+          link.classList.toggle('active', href === `#${id}`);
+        });
+        // Mobile bottom nav tab highlighting
+        mobileTabs.forEach(tab => {
+          const sec = tab.getAttribute('data-section') || tab.getAttribute('href')?.replace('#', '');
+          tab.classList.toggle('active', sec === id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -55% 0px' });
+
+  sections.forEach(sec => spyObserver.observe(sec));
 }
 
 /* ═══════════════════════════════════════════════════
-   5. HERO PARTICLES GENERATOR
+   5. HERO PARTICLES GENERATOR — Winter Snowflakes
    ======================================================= */
 /**
- * Generates 24 floating particle elements inside .hero-particles and appends
- * them to the DOM. Each particle gets a random size, horizontal start position,
- * animation duration, and delay for a natural floating effect.
- * The animation itself is defined in sections.css (@keyframes floatUp).
+ * Generates animated snowflake elements inside .hero-particles for the
+ * Hamburg winter / Christmas market theme. Uses CSS @keyframes snowfall
+ * defined in sections.css. Respects prefers-reduced-motion by checking
+ * window.matchMedia before spawning anything.
+ *
+ * Characters cycle through Unicode snowflake glyphs for visual variety.
+ * Each flake gets a random: horizontal start %, size (0.8–1.8em),
+ * animation duration (9–20s), delay (0–12s), and opacity (0.4–0.85).
  */
 function initHeroParticles() {
   const container = document.querySelector('.hero-particles');
   if (!container) return;
 
-  const count = 24;
+  // Respect reduced-motion preference — skip particles entirely
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  const flakeChars = ['❄', '❅', '❆', '·', '❄', '❅'];
+  const count = 40;
+
   for (let i = 0; i < count; i++) {
-    const particle = document.createElement('div');
-    particle.className = 'hero-particle';
-    const size = Math.random() * 4 + 2;
-    particle.style.width = `${size}px`;
-    particle.style.height = `${size}px`;
-    particle.style.left = `${Math.random() * 100}%`;
-    particle.style.animationDuration = `${Math.random() * 8 + 6}s`;
-    particle.style.animationDelay = `${Math.random() * 5}s`;
-    container.appendChild(particle);
+    const flake = document.createElement('span');
+    flake.className = 'snowflake';
+    flake.textContent = flakeChars[i % flakeChars.length];
+    flake.style.left = `${Math.random() * 100}%`;
+    flake.style.fontSize = `${(Math.random() * 1.0 + 0.8).toFixed(2)}em`;
+    flake.style.animationDuration = `${(Math.random() * 11 + 9).toFixed(1)}s`;
+    flake.style.animationDelay = `${(Math.random() * 12).toFixed(1)}s`;
+    flake.style.opacity = (Math.random() * 0.45 + 0.40).toFixed(2);
+    // Slight horizontal drift variation via CSS custom property
+    flake.style.setProperty('--drift', `${(Math.random() * 40 - 20).toFixed(0)}px`);
+    container.appendChild(flake);
   }
 }
+
+/* ═══════════════════════════════════════════════════
+   5B. STICKY "TODAY" PILL — Auto-jump on trip dates
+   ======================================================= */
+/**
+ * On the actual trip dates (Nov 26–28, 2026) a sticky pill appears at the
+ * top of the itinerary section reading e.g. "Today: Day 1 — HafenCity".
+ * Clicking it opens the matching day accordion and smooth-scrolls to it.
+ * Outside the trip window the pill is not rendered.
+ *
+ * Fully data-driven: reads trip start/end from TRIP_CONFIG.trip.dates and
+ * day titles from window.ITINERARY_DATA.
+ */
+function initTodayPill() {
+  const config = window.TRIP_CONFIG;
+  if (!config || !config.trip || !config.trip.dates) return;
+
+  const startStr = config.trip.dates.start; // 'YYYY-MM-DD'
+  const endStr   = config.trip.dates.end;
+  if (!startStr || !endStr) return;
+
+  const now   = new Date();
+  const start = new Date(startStr + 'T00:00:00');
+  const end   = new Date(endStr   + 'T23:59:59');
+
+  if (now < start || now > end) return; // Not during the trip
+
+  // Determine which day number it is
+  const msPerDay = 86400000;
+  const dayIndex = Math.floor((now - start) / msPerDay); // 0-based
+  const itinerary = window.ITINERARY_DATA || [];
+  const dayData   = itinerary[dayIndex];
+  if (!dayData) return;
+
+  // Determine active language
+  const lang = localStorage.getItem('user-lang') || 'en';
+  const getLang = (obj) => {
+    if (!obj) return '';
+    return obj[lang] || obj.en || '';
+  };
+
+  const dayTitle = getLang(dayData.title);
+  const dayLabel = getLang(dayData.region ? { en: 'Day ' + dayData.dayNum, zh: '第' + dayData.dayNum + '天', 'zh-cn': '第' + dayData.dayNum + '天' } : { en: 'Day ' + dayData.dayNum });
+
+  // Labels per language
+  const todayLabel = { en: 'Today', zh: '今日', 'zh-cn': '今日' };
+  const jumpLabel  = { en: 'Jump to today →', zh: '跳至今日行程 →', 'zh-cn': '跳至今日行程 →' };
+
+  const pill = document.createElement('div');
+  pill.className = 'today-pill reveal';
+  pill.id = 'today-pill';
+  pill.innerHTML =
+    '<span class="today-pill-dot"></span>' +
+    '<span class="today-pill-label">' +
+      '<span class="lang-primary lang-en">' + todayLabel.en + ': Day ' + dayData.dayNum + (dayTitle ? ' — ' + dayTitle : '') + '</span>' +
+      '<span class="lang-secondary lang-zh">' + todayLabel.zh + '：第' + dayData.dayNum + '天' + (dayTitle ? ' — ' + dayTitle : '') + '</span>' +
+      '<span class="lang-tertiary lang-zh-cn">' + todayLabel['zh-cn'] + '：第' + dayData.dayNum + '天' + (dayTitle ? ' — ' + dayTitle : '') + '</span>' +
+    '</span>' +
+    '<span class="today-pill-action">' +
+      '<span class="lang-primary lang-en">' + jumpLabel.en + '</span>' +
+      '<span class="lang-secondary lang-zh">' + jumpLabel.zh + '</span>' +
+      '<span class="lang-tertiary lang-zh-cn">' + jumpLabel['zh-cn'] + '</span>' +
+    '</span>';
+
+  // Insert above the timeline
+  const timeline = document.getElementById('itinerary-timeline-container');
+  if (timeline && timeline.parentNode) {
+    timeline.parentNode.insertBefore(pill, timeline);
+  }
+
+  pill.addEventListener('click', () => {
+    const dayCard = document.getElementById(dayData.id || ('day-' + dayData.dayNum));
+    if (dayCard) {
+      if (!dayCard.classList.contains('open')) {
+        dayCard.classList.add('open');
+        if (typeof initDayMiniMap === 'function') {
+          setTimeout(() => initDayMiniMap(dayCard.id), 150);
+        }
+      }
+      setTimeout(() => dayCard.scrollIntoView({ behavior: 'smooth', block: 'start' }), 80);
+    }
+  });
+}
+window.initTodayPill = initTodayPill;
+
+/* ═══════════════════════════════════════════════════
+   5C. SWIPE GESTURES — Left/Right between day accordions
+   ======================================================= */
+/**
+ * Attaches touchstart/touchend listeners to #itinerary-timeline-container.
+ * A horizontal swipe of ≥50px (and < 2× the vertical movement) opens the
+ * next/previous day card and closes the current one.
+ * A brief toast confirms the navigation gesture.
+ */
+function initItinerarySwipe() {
+  const timeline = document.getElementById('itinerary-timeline-container');
+  if (!timeline) return;
+
+  let touchStartX = 0;
+  let touchStartY = 0;
+
+  timeline.addEventListener('touchstart', (e) => {
+    touchStartX = e.changedTouches[0].clientX;
+    touchStartY = e.changedTouches[0].clientY;
+  }, { passive: true });
+
+  timeline.addEventListener('touchend', (e) => {
+    const dx = e.changedTouches[0].clientX - touchStartX;
+    const dy = e.changedTouches[0].clientY - touchStartY;
+    const absDx = Math.abs(dx);
+    const absDy = Math.abs(dy);
+
+    // Only trigger on a clearly horizontal swipe
+    if (absDx < 50 || absDy > absDx * 0.8) return;
+
+    const cards = Array.from(document.querySelectorAll('.day-card'));
+    const visibleCards = cards.filter(c => c.style.display !== 'none');
+    const openIdx = visibleCards.findIndex(c => c.classList.contains('open'));
+
+    let targetIdx = openIdx;
+    if (dx < 0) {
+      // Swipe left → next day
+      targetIdx = Math.min(openIdx + 1, visibleCards.length - 1);
+    } else {
+      // Swipe right → prev day
+      targetIdx = Math.max(openIdx - 1, 0);
+    }
+
+    if (targetIdx === openIdx) return;
+
+    // Close current, open target
+    if (openIdx >= 0) visibleCards[openIdx].classList.remove('open');
+    const target = visibleCards[targetIdx];
+    target.classList.add('open');
+    if (typeof initDayMiniMap === 'function') {
+      setTimeout(() => initDayMiniMap(target.id), 150);
+    }
+    setTimeout(() => target.scrollIntoView({ behavior: 'smooth', block: 'start' }), 60);
+
+    // Toast
+    const dayNum = targetIdx + 1;
+    showToast({
+      en:      (dx < 0 ? '→ ' : '← ') + 'Day ' + dayNum,
+      zh:      (dx < 0 ? '→ ' : '← ') + '第' + dayNum + '天',
+      'zh-cn': (dx < 0 ? '→ ' : '← ') + '第' + dayNum + '天'
+    });
+  }, { passive: true });
+}
+window.initItinerarySwipe = initItinerarySwipe;
+
+/* ═══════════════════════════════════════════════════
+   5D. ITINERARY PROGRESS TRACKER
+   ======================================================= */
+/**
+ * Injects a mini status bar into #itinerary-toolbar-container showing
+ * "Day X of Y · Z activities remaining" only during the trip window.
+ * Outside the trip window it shows a compact day count badge instead.
+ * Trilingual — reads language from localStorage.
+ */
+function initProgressTracker() {
+  const config    = window.TRIP_CONFIG;
+  const itinerary = window.ITINERARY_DATA || [];
+  const toolbar   = document.getElementById('itinerary-toolbar-container');
+  if (!toolbar || itinerary.length === 0) return;
+
+  const startStr = config && config.trip && config.trip.dates && config.trip.dates.start;
+  const endStr   = config && config.trip && config.trip.dates && config.trip.dates.end;
+
+  let trackerHTML = '';
+
+  if (startStr && endStr) {
+    const now   = new Date();
+    const start = new Date(startStr + 'T00:00:00');
+    const end   = new Date(endStr   + 'T23:59:59');
+
+    if (now >= start && now <= end) {
+      const dayIndex = Math.floor((now - start) / 86400000);
+      const dayData  = itinerary[dayIndex];
+      const totalDays = itinerary.length;
+
+      if (dayData) {
+        // Count remaining blocks based on rough time-of-day
+        const hour = now.getHours();
+        const blocks = dayData.blocks || [];
+        const remaining = blocks.filter((_, i) => {
+          if (i === 0 && hour < 12) return true;
+          if (i === 1 && hour < 16) return true;
+          if (i === 2 && hour < 22) return true;
+          return false;
+        }).length;
+
+        const pct = Math.round(((dayIndex + (1 - remaining / Math.max(blocks.length, 1))) / totalDays) * 100);
+
+        trackerHTML =
+          '<div class="progress-tracker">' +
+            '<div class="progress-tracker-text">' +
+              '<span class="lang-primary lang-en">Day ' + (dayIndex+1) + ' of ' + totalDays + ' · ' + remaining + ' activit' + (remaining === 1 ? 'y' : 'ies') + ' remaining</span>' +
+              '<span class="lang-secondary lang-zh">第' + (dayIndex+1) + '天（共' + totalDays + '天）· 剩餘 ' + remaining + ' 個活動</span>' +
+              '<span class="lang-tertiary lang-zh-cn">第' + (dayIndex+1) + '天（共' + totalDays + '天）· 剩余 ' + remaining + ' 个活动</span>' +
+            '</div>' +
+            '<div class="progress-tracker-bar">' +
+              '<div class="progress-tracker-fill" style="width:' + pct + '%"></div>' +
+            '</div>' +
+          '</div>';
+      }
+    }
+  }
+
+  if (trackerHTML) {
+    const trackerWrap = document.createElement('div');
+    trackerWrap.innerHTML = trackerHTML;
+    toolbar.parentNode && toolbar.parentNode.insertBefore(trackerWrap.firstChild, toolbar);
+  }
+}
+window.initProgressTracker = initProgressTracker;
 
 /* ═══════════════════════════════════════════════════
    6. HOTEL SEARCH FORM HANDLER (Booking.com Direct)
@@ -423,3 +713,247 @@ function initHotelSearch() {
     });
   }
 }
+
+/* ═══════════════════════════════════════════════════
+   7. ITINERARY ACTIONS: EXPAND ALL & .ICS CALENDAR
+   ═══════════════════════════════════════════════════ */
+
+/**
+ * Toggles all day accordions open or closed simultaneously.
+ */
+function toggleAllAccordions() {
+  const cards = document.querySelectorAll('.day-card');
+  const isAnyClosed = Array.from(cards).some(c => !c.classList.contains('open'));
+  const btnIcon = document.getElementById('itinerary-toggle-all-icon');
+  const btnLabel = document.getElementById('itinerary-toggle-all-label');
+
+  cards.forEach(card => {
+    card.classList.toggle('open', isAnyClosed);
+    if (isAnyClosed && typeof initDayMiniMap === 'function') {
+      setTimeout(() => { initDayMiniMap(card.id); }, 150);
+    }
+  });
+
+  if (btnIcon && btnLabel) {
+    if (isAnyClosed) {
+      btnIcon.innerText = '📁';
+      btnLabel.innerHTML = renderBilingualText({ en: 'Collapse All', zh: '全部收起', 'zh-cn': '全部收起' });
+    } else {
+      btnIcon.innerText = '📂';
+      btnLabel.innerHTML = renderBilingualText({ en: 'Expand All', zh: '全部展開', 'zh-cn': '全部展开' });
+    }
+  }
+}
+window.toggleAllAccordions = toggleAllAccordions;
+
+/**
+ * Generates and triggers client-side download of a complete RFC 5545 iCalendar (.ics) file.
+ */
+function downloadItineraryICS() {
+  const config = window.TRIP_CONFIG || {};
+  const siteData = window.SITE_DATA || {};
+  const itinerary = window.ITINERARY_DATA || [];
+
+  const tripTitle = (config.trip && config.trip.title && config.trip.title.en) || 'Trip Itinerary';
+  const calName = (config.trip && config.trip.title && config.trip.title.en) || 'Trip Itinerary 2026';
+  const prodId = '-//Trip Planner//EN';
+
+  const icsLines = [
+    'BEGIN:VCALENDAR',
+    'VERSION:2.0',
+    `PRODID:${prodId}`,
+    'CALSCALE:GREGORIAN',
+    'METHOD:PUBLISH',
+    `X-WR-CALNAME:${calName}`,
+    'X-WR-TIMEZONE:Europe/Berlin'
+  ];
+
+  function escapeIcs(str) {
+    if (!str) return '';
+    return String(str).replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
+  }
+
+  // 1. Confirmed Flights
+  if (siteData.flights && Array.isArray(siteData.flights.legs)) {
+    siteData.flights.legs.forEach((f, idx) => {
+      const flightCode = f.flightNo || `Flight-${idx + 1}`;
+      const depDate = (f.date || '2026-11-26').replace(/-/g, '');
+      const depTime = (f.depTime || '08:00').replace(':', '') + '00';
+      const arrTime = (f.arrTime || '10:00').replace(':', '') + '00';
+      const origin = f.depAirport || f.origin || 'Origin';
+      const dest = f.arrAirport || f.dest || 'Destination';
+      const desc = (f.notes && f.notes.en) || `Flight ${flightCode} ${origin} -> ${dest}`;
+
+      icsLines.push(
+        'BEGIN:VEVENT',
+        `UID:flight-${idx}-${depDate}@tripplanner`,
+        'DTSTAMP:20261101T000000Z',
+        `DTSTART:${depDate}T${depTime}Z`,
+        `DTEND:${depDate}T${arrTime}Z`,
+        `SUMMARY:✈️ ${flightCode}: ${origin} -> ${dest}`,
+        `DESCRIPTION:${escapeIcs(desc)}`,
+        `LOCATION:${escapeIcs(origin)}`,
+        'STATUS:CONFIRMED',
+        'END:VEVENT'
+      );
+    });
+  }
+
+  // 2. Confirmed Accommodation Check-In
+  if (siteData.hotels && Array.isArray(siteData.hotels.legs)) {
+    siteData.hotels.legs.forEach((h, idx) => {
+      const checkinDate = (h.checkin || (config.trip && config.trip.dates && config.trip.dates.start) || '2026-11-26').replace(/-/g, '');
+      const hTitle = (h.title && h.title.en) || 'Hotel Stay';
+      const hDesc = (h.desc && h.desc.en) || `Check-in at ${hTitle}. Address: ${h.address || ''}`;
+      icsLines.push(
+        'BEGIN:VEVENT',
+        `UID:hotel-${idx}-${checkinDate}@tripplanner`,
+        'DTSTAMP:20261101T000000Z',
+        `DTSTART:${checkinDate}T140000Z`,
+        `DTEND:${checkinDate}T153000Z`,
+        `SUMMARY:🏨 Hotel Check-In: ${escapeIcs(hTitle)}`,
+        `DESCRIPTION:${escapeIcs(hDesc)}`,
+        `LOCATION:${escapeIcs(h.address || (config.trip && config.trip.destination && config.trip.destination.en) || '')}`,
+        'STATUS:CONFIRMED',
+        'END:VEVENT'
+      );
+    });
+  }
+
+  // 3. Day-by-Day Schedule
+  if (Array.isArray(itinerary)) {
+    itinerary.forEach(day => {
+      const dayDate = day.date && day.date.includes('2026')
+        ? day.date.replace(/-/g, '')
+        : (day.id === 'day-1' ? '20261126' : day.id === 'day-2' ? '20261127' : '20261128');
+
+      if (Array.isArray(day.blocks)) {
+        day.blocks.forEach((block, bIdx) => {
+          const act = block.activity || {};
+          const actTitle = (act.title && act.title.en) || `Day ${day.dayNum} Activity`;
+          const actDesc = (act.desc && act.desc.en) || '';
+          const loc = (act.locations && act.locations[0] && act.locations[0].label && act.locations[0].label.en) || '';
+          const startHours = [10, 14, 18];
+          const startHour = startHours[bIdx % startHours.length];
+          const startTime = String(startHour).padStart(2, '0') + '0000';
+          const endTime = String(startHour + 2).padStart(2, '0') + '0000';
+
+          icsLines.push(
+            'BEGIN:VEVENT',
+            `UID:act-${day.id || day.dayNum}-${bIdx}@tripplanner`,
+            'DTSTAMP:20261101T000000Z',
+            `DTSTART:${dayDate}T${startTime}Z`,
+            `DTEND:${dayDate}T${endTime}Z`,
+            `SUMMARY:📍 ${escapeIcs(actTitle)}`,
+            `DESCRIPTION:${escapeIcs(actDesc)}`,
+            `LOCATION:${escapeIcs(loc)}`,
+            'STATUS:CONFIRMED',
+            'END:VEVENT'
+          );
+        });
+      }
+    });
+  }
+
+  icsLines.push('END:VCALENDAR');
+
+  const filename = (tripTitle.replace(/[^a-zA-Z0-9_-]/g, '_')) + '.ics';
+  const blob = new Blob([icsLines.join('\r\n')], { type: 'text/calendar;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+
+  showToast({
+    en: `✓ Calendar downloaded: ${filename}`,
+    zh: `✓ 日曆檔案已下載：${filename}`,
+    'zh-cn': `✓ 日历文件已下载：${filename}`
+  });
+}
+window.downloadItineraryICS = downloadItineraryICS;
+
+/* ═══════════════════════════════════════════════════
+   8. WEB SPEECH API: GERMAN AUDIO PRONUNCIATION
+   ═══════════════════════════════════════════════════ */
+
+/**
+ * Speaks a German phrase using the Web Speech API with de-DE voice.
+ */
+function playDestinationPhrase(phrase, btnEl, langCode) {
+  if (!('speechSynthesis' in window)) {
+    showToast({ en: 'Speech synthesis not supported by your browser.', zh: '您的瀏覽器不支援語音朗讀功能。', 'zh-cn': '您的浏览器不支持语音朗读功能。' });
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+
+  const targetLang = langCode || (window.TRIP_CONFIG && window.TRIP_CONFIG.destinationLang) || 'de-DE';
+  const utterance = new SpeechSynthesisUtterance(phrase);
+  utterance.lang = targetLang;
+  utterance.rate = 0.88;
+
+  const voices = window.speechSynthesis.getVoices();
+  const voice = voices.find(v => v.lang && (v.lang === targetLang || v.lang.startsWith(targetLang.split('-')[0])));
+  if (voice) utterance.voice = voice;
+
+  if (btnEl) btnEl.classList.add('speaking');
+
+  utterance.onend = () => { if (btnEl) btnEl.classList.remove('speaking'); };
+  utterance.onerror = () => { if (btnEl) btnEl.classList.remove('speaking'); };
+
+  window.speechSynthesis.speak(utterance);
+}
+window.playDestinationPhrase = playDestinationPhrase;
+window.playGermanPhrase = function(phrase, btnEl) { playDestinationPhrase(phrase, btnEl, 'de-DE'); };
+
+/* ═══════════════════════════════════════════════════
+   9. GERMAN TAXI FLASHCARD MODAL CONTROLS
+   ═══════════════════════════════════════════════════ */
+
+function openTaxiModal(dest = 'hotel') {
+  const modal = document.getElementById('taxi-modal');
+  if (modal) {
+    modal.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+    switchTaxiDestination(dest);
+  }
+}
+window.openTaxiModal = openTaxiModal;
+
+function closeTaxiModal() {
+  const modal = document.getElementById('taxi-modal');
+  if (modal) {
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+}
+window.closeTaxiModal = closeTaxiModal;
+
+function switchTaxiDestination(dest) {
+  const hotelBtn = document.getElementById('taxi-btn-hotel');
+  const airportBtn = document.getElementById('taxi-btn-airport');
+  const hotelDisplay = document.getElementById('taxi-display-hotel');
+  const airportDisplay = document.getElementById('taxi-display-airport');
+
+  if (dest === 'airport') {
+    airportBtn?.classList.add('active');
+    hotelBtn?.classList.remove('active');
+    if (airportDisplay) airportDisplay.style.display = 'block';
+    if (hotelDisplay) hotelDisplay.style.display = 'none';
+  } else {
+    hotelBtn?.classList.add('active');
+    airportBtn?.classList.remove('active');
+    if (hotelDisplay) hotelDisplay.style.display = 'block';
+    if (airportDisplay) airportDisplay.style.display = 'none';
+  }
+}
+window.switchTaxiDestination = switchTaxiDestination;
+
+// ESC key to close modal
+window.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') closeTaxiModal();
+});

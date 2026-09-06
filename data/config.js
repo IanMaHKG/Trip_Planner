@@ -40,6 +40,15 @@
 
 const TRIP_CONFIG = {
   /* ══════════════════════════════════════════════════
+     0. PLAN MODE SENTINEL
+     Set isCustomPlan: true when this file is AI-generated for a real trip.
+     When false (template default), index.html stays on the hub landing page.
+     ══════════════════════════════════════════════════ */
+  meta: {
+    isCustomPlan: false  // ← AI: set this to true when generating a real plan
+  },
+
+  /* ══════════════════════════════════════════════════
      1. LANGUAGE SETTINGS (i18n)
      ══════════════════════════════════════════════════ */
   languages: {

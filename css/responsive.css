@@ -578,3 +578,180 @@
 }
 
 
+
+
+
+
+/* ── Mobile Food, Weather & Essentials Overrides ── */
+@media (max-width: 768px) {
+  /* Food Section Responsive Overrides */
+  #food-map {
+    height: 360px !important;
+  }
+
+  .food-cards-grid {
+    grid-template-columns: 1fr !important;
+    gap: 16px !important;
+  }
+
+  .food-filter-container {
+    max-width: 100% !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    overflow: hidden !important;
+    box-sizing: border-box !important;
+  }
+
+  .food-filter-pills {
+    justify-content: flex-start !important;
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 8px !important;
+    scrollbar-width: none !important;
+  }
+
+  .food-filter-pills::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  .food-pill {
+    flex-shrink: 0 !important;
+    font-size: 0.82rem !important;
+    padding: 7px 14px !important;
+  }
+
+  .food-card {
+    padding: 18px !important;
+  }
+
+  .food-card-footer {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 12px !important;
+  }
+
+  .food-address-bar {
+    max-width: 100% !important;
+    width: 100% !important;
+    justify-content: space-between !important;
+  }
+
+  .food-card-btn-group {
+    width: 100% !important;
+    justify-content: space-between !important;
+  }
+
+  .countdown-card {
+    padding: 14px 18px !important;
+  }
+
+  .countdown-item {
+    min-width: 44px !important;
+  }
+
+  .countdown-num {
+    font-size: 1.45rem !important;
+  }
+
+  .weather-widget-card {
+    padding: 20px !important;
+  }
+
+  .weather-days-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .contacts-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .phrase-tabs-row {
+    flex-wrap: nowrap !important;
+    overflow-x: auto !important;
+    max-width: 100% !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    -webkit-overflow-scrolling: touch;
+    padding-bottom: 6px !important;
+    scrollbar-width: none !important;
+  }
+
+  .phrase-tabs-row::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+  }
+
+  .phrase-tab-btn {
+    flex-shrink: 0 !important;
+    font-size: 0.82rem !important;
+    padding: 8px 14px !important;
+  }
+
+  .phrases-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ── Compact Screen Refinements (< 400px: iPhone 16 Pro, SE, etc.) ── */
+@media (max-width: 400px) {
+  .container {
+    padding: 0 14px;
+  }
+
+  .section {
+    padding: 36px 0;
+  }
+
+  .overview-icon {
+    padding: 8px;
+    font-size: 1.6rem;
+  }
+
+  .flight-card {
+    padding: 16px 12px;
+  }
+
+  .flight-route-visual {
+    padding: 10px 6px;
+  }
+
+  .hotel-search-card {
+    padding: 16px 12px;
+  }
+
+  .tip-card,
+  .packing-category-card,
+  .transit-card {
+    padding: 20px 14px;
+  }
+
+  .budget-stat-card {
+    padding: 16px 14px;
+  }
+
+  .budget-breakdown-card {
+    padding: 16px 14px;
+  }
+}
+
+/* ── Accessibility: Reduced Motion ── */
+@media (prefers-reduced-motion: reduce) {
+  .snowflake {
+    display: none !important;
+  }
+
+  .today-pill-dot {
+    animation: none !important;
+  }
+
+  .progress-tracker-fill {
+    transition: none !important;
+  }
+}
