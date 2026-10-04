@@ -131,6 +131,9 @@ function tripPlannerInit() {
     // 4. Initialize Multi-Currency Converter & Live API
     if (typeof initCurrencySelector === 'function') initCurrencySelector();
 
+    // 4b. Wire up Budget Notes tap-to-expand on mobile (≤700px)
+    if (typeof initBudgetNotes === 'function') initBudgetNotes();
+
     // 5. Initialize Itinerary Day Region Filters
     if (typeof initDayFilters === 'function') initDayFilters();
 

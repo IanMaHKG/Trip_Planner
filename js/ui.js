@@ -957,3 +957,33 @@ window.switchTaxiDestination = switchTaxiDestination;
 window.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') closeTaxiModal();
 });
+
+/* ═══════════════════════════════════════════════════
+   BUDGET NOTES TOGGLE — Mobile tap-to-expand
+   ═══════════════════════════════════════════════════
+ * Two-layer approach for reliable Android Chrome support.
+ * Layer 1: document-level delegation (self-executes).
+ * Layer 2: initBudgetNotes() — called from script.js after renderAll().
+ * AGENTS: Do NOT revert to inline onclick strings.
+ */
+(function () {
+  function _budgetToggleHandler(e) {
+    const btn = e.target.closest ? e.target.closest('[data-budget-toggle]') : null;
+    if (!btn) return;
+    const row = btn.closest ? btn.closest('tr') : btn.parentNode && btn.parentNode.parentNode;
+    if (row) row.classList.toggle('notes-open');
+  }
+  document.addEventListener('click', _budgetToggleHandler);
+  window._budgetToggleHandler = _budgetToggleHandler;
+}());
+
+function initBudgetNotes() {
+  const buttons = document.querySelectorAll('#budget-tbody [data-budget-toggle]');
+  buttons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const row = this.closest ? this.closest('tr') : this.parentNode && this.parentNode.parentNode;
+      if (row) row.classList.toggle('notes-open');
+    });
+  });
+}
+window.initBudgetNotes = initBudgetNotes;

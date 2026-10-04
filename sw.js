@@ -14,12 +14,13 @@
  * @see AGENTS.md — Service Worker & PWA Rules section.
  */
 
-const CACHE_NAME = 'trip-planner-v2';
+const CACHE_NAME = 'trip-planner-v3';
 const STATIC_ASSETS = [
   './',
   './index.html',
   './manifest.json',
   './assets/favicon.svg',
+  './assets/apple-touch-icon.png',
   './css/palette.css',
   './css/base.css',
   './css/components.css',

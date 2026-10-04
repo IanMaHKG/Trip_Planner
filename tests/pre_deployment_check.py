@@ -63,10 +63,10 @@ if not os.path.exists(sw_path):
 with open(sw_path, 'r', encoding='utf-8') as f:
     sw_code = f.read()
 
-if "trip-planner-v2" in sw_code:
-    print("  ✓ CACHE_NAME version: trip-planner-v2")
+if "trip-planner-v3" in sw_code:
+    print("  ✓ CACHE_NAME version: trip-planner-v3")
 else:
-    print("  ✗ Expected CACHE_NAME 'trip-planner-v2' in sw.js")
+    print("  ✗ Expected CACHE_NAME 'trip-planner-v3' in sw.js")
     sys.exit(1)
 
 if "fetch(event.request)" in sw_code and "caches.match" in sw_code:
